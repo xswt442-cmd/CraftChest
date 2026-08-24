@@ -1,0 +1,4 @@
+{
+  "extends": "@craftchest/config/tsconfig.base.json",
+  "include": ["src"]
+}
