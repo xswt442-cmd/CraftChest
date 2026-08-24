@@ -40,8 +40,6 @@ Desktop.ini
 # PWA 生成的临时产物
 dev-dist/
 
-# 私有规格书：仅本地保留，不入库
-SPEC.md
-
-# 本地测试杂物：中间文档、草稿、实验性脚本等，只留在本地不入库
+# 本地测试杂物
 testplace/
+SPEC.md
