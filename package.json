@@ -1,0 +1,33 @@
+{
+  "name": "craftchest",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "packageManager": "pnpm@11.12.0",
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @craftchest/toolbox dev",
+    "build": "pnpm --filter @craftchest/toolbox build",
+    "preview": "pnpm --filter @craftchest/toolbox preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "check": "pnpm -r check"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9",
+    "@vue/eslint-config-prettier": "^10",
+    "@vue/test-utils": "^2.4",
+    "eslint": "^9",
+    "eslint-plugin-vue": "^10",
+    "globals": "^16",
+    "happy-dom": "^18",
+    "prettier": "^3",
+    "typescript": "~5.8",
+    "typescript-eslint": "^8",
+    "vitest": "^3"
+  }
+}

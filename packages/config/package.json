@@ -1,0 +1,7 @@
+{
+  "name": "@craftchest/config",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "description": "共享工程预设：tsconfig / eslint / prettier"
+}
