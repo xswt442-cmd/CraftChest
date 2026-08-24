@@ -1,0 +1,9 @@
+{
+  "extends": "@craftchest/config/tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ES2022"],
+    "types": ["node"],
+    "module": "ESNext"
+  },
+  "include": ["vite.config.ts"]
+}

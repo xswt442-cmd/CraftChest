@@ -1,0 +1,36 @@
+{
+  "name": "@craftchest/toolbox",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "vue-tsc --noEmit -p tsconfig.json && vue-tsc --noEmit -p tsconfig.node.json"
+  },
+  "dependencies": {
+    "@craftchest/toolkit-core": "workspace:*",
+    "@craftchest/tools-fe": "workspace:*",
+    "@craftchest/tools-zh": "workspace:*",
+    "@craftchest/ui": "workspace:*",
+    "pinia": "^3",
+    "vue": "^3.5",
+    "vue-i18n": "^11",
+    "vue-router": "^4.5",
+    "workbox-window": "^7"
+  },
+  "devDependencies": {
+    "@craftchest/config": "workspace:*",
+    "@iconify-json/lucide": "^1",
+    "@tailwindcss/vite": "^4",
+    "@types/node": "^24",
+    "@vitejs/plugin-vue": "^6",
+    "tailwindcss": "^4",
+    "typescript": "~5.8",
+    "unplugin-icons": "^22",
+    "vite": "^7",
+    "vite-plugin-pwa": "^1",
+    "vue-tsc": "^3"
+  }
+}

@@ -1,0 +1,11 @@
+@import 'tailwindcss';
+
+/* Tailwind v4 自动内容探测以本包为根，扫不到 workspace 兄弟包——显式声明来源。
+   新增含模板类名的包时必须同步补一行。 */
+@source '../../../../packages/ui/src';
+@source '../../../../packages/tools-zh/src';
+@source '../../../../packages/tools-fe/src';
+
+html {
+  -webkit-tap-highlight-color: transparent;
+}
