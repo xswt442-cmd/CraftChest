@@ -18,7 +18,7 @@ pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# 环境变量（本项目无后端无密钥，保持如此）
+# 环境变量
 .env
 .env.*
 !.env.example
@@ -42,5 +42,7 @@ Desktop.ini
 dev-dist/
 
 # 本地测试杂物
+.codex/
+.claude/
 testplace/
 SPEC.md
