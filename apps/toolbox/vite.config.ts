@@ -33,8 +33,8 @@ export default defineConfig({
         start_url: '/',
         scope: '/',
         display: 'standalone',
-        background_color: '#ffffff',
-        theme_color: '#f59e0b',
+        background_color: '#f7f2e9',
+        theme_color: '#f7f2e9',
         icons: [
           { src: 'pwa-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
           { src: 'pwa-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
@@ -44,6 +44,8 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
+        // QA 矩阵与应用同源；避免已安装的 SW 将 /__qa 导航回退到应用首页。
+        navigateFallbackDenylist: [/^\/__qa(?:\/|\?|$)/],
         // 词典块约 1.2MB：避免每次安装 PWA 都下载；访问简繁转换后再长期缓存。
         globIgnores: ['**/opencc-*.js'],
         runtimeCaching: [

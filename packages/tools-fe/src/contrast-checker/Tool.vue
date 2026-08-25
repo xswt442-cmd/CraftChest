@@ -79,14 +79,10 @@ function swap(): void {
           <span class="grid grid-cols-[1fr_auto] gap-2">
             <input
               v-model="foreground"
-              class="rounded-md border border-neutral-300 bg-white px-3 py-2 font-mono dark:border-neutral-700 dark:bg-neutral-950"
+              class="ui-native-field font-mono"
               :aria-invalid="!normalizeHex(foreground)"
             />
-            <input
-              v-model="foreground"
-              type="color"
-              class="size-10 cursor-pointer rounded border-0 bg-transparent"
-            />
+            <input v-model="foreground" type="color" class="ui-color-input" />
           </span>
         </label>
         <label class="grid gap-1.5 text-sm font-medium">
@@ -94,17 +90,13 @@ function swap(): void {
           <span class="grid grid-cols-[1fr_auto] gap-2">
             <input
               v-model="background"
-              class="rounded-md border border-neutral-300 bg-white px-3 py-2 font-mono dark:border-neutral-700 dark:bg-neutral-950"
+              class="ui-native-field font-mono"
               :aria-invalid="!normalizeHex(background)"
             />
-            <input
-              v-model="background"
-              type="color"
-              class="size-10 cursor-pointer rounded border-0 bg-transparent"
-            />
+            <input v-model="background" type="color" class="ui-color-input" />
           </span>
         </label>
-        <p v-if="!valid" class="text-sm text-red-600 dark:text-red-400">{{ t('invalid') }}</p>
+        <p v-if="!valid" class="text-sm text-danger">{{ t('invalid') }}</p>
         <UiButton @click="swap">{{ t('swap') }}</UiButton>
       </div>
     </UiCard>
@@ -124,26 +116,24 @@ function swap(): void {
 
       <div v-if="rating" class="grid gap-4 md:grid-cols-[12rem_1fr]">
         <UiCard :title="t('ratio')">
-          <strong
-            class="font-mono text-4xl text-neutral-900 dark:text-neutral-50"
-            data-testid="contrast-ratio"
+          <strong class="font-mono text-4xl text-foreground" data-testid="contrast-ratio"
             >{{ rating.ratio.toFixed(2) }}:1</strong
           >
         </UiCard>
         <UiCard>
           <div class="grid grid-cols-[1fr_auto_auto] gap-x-5 gap-y-3 text-sm">
             <b></b><b>AA</b><b>AAA</b> <span>{{ t('normal') }}</span
-            ><span :class="rating.normalAA ? 'text-emerald-600' : 'text-red-600'">{{
+            ><span :class="rating.normalAA ? 'text-success' : 'text-danger'">{{
               t(rating.normalAA ? 'pass' : 'fail')
             }}</span
-            ><span :class="rating.normalAAA ? 'text-emerald-600' : 'text-red-600'">{{
+            ><span :class="rating.normalAAA ? 'text-success' : 'text-danger'">{{
               t(rating.normalAAA ? 'pass' : 'fail')
             }}</span>
             <span>{{ t('large') }}</span
-            ><span :class="rating.largeAA ? 'text-emerald-600' : 'text-red-600'">{{
+            ><span :class="rating.largeAA ? 'text-success' : 'text-danger'">{{
               t(rating.largeAA ? 'pass' : 'fail')
             }}</span
-            ><span :class="rating.largeAAA ? 'text-emerald-600' : 'text-red-600'">{{
+            ><span :class="rating.largeAAA ? 'text-success' : 'text-danger'">{{
               t(rating.largeAAA ? 'pass' : 'fail')
             }}</span>
           </div>
@@ -151,7 +141,7 @@ function swap(): void {
       </div>
 
       <UiCard v-if="rating" :title="t('suggestions')">
-        <p v-if="rating.normalAA" class="text-sm text-emerald-700 dark:text-emerald-400">
+        <p v-if="rating.normalAA" class="text-sm text-success">
           {{ t('already') }}
         </p>
         <div v-else class="grid gap-3 sm:grid-cols-2">
@@ -161,11 +151,11 @@ function swap(): void {
               { label: 'changeBackground', value: backgroundSuggestion, target: 'background' },
             ]"
             :key="suggestion.target"
-            class="flex items-center justify-between rounded-md border border-neutral-200 p-3 dark:border-neutral-700"
+            class="flex items-center justify-between rounded-md border border-workshop-border p-3"
           >
             <span
               ><b class="block text-sm">{{ t(suggestion.label) }}</b
-              ><code class="text-xs text-neutral-500">{{ suggestion.value }}</code></span
+              ><code class="text-xs text-muted-foreground">{{ suggestion.value }}</code></span
             >
             <UiButton
               @click="

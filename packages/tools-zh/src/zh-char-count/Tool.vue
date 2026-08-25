@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { UiButton, UiCard, UiTextField } from '@craftchest/ui'
+import { UiButton, UiCard, UiTextarea } from '@craftchest/ui'
 import { countChars } from './service'
 
 // 视图层只做交互编排；算法在 service.ts（SPEC §4）
@@ -83,22 +83,22 @@ async function copySummary(): Promise<void> {
 
 <template>
   <div class="flex flex-col gap-4">
-    <UiTextField v-model="model" :label="t('inputLabel')" :placeholder="t('inputPlaceholder')" />
+    <UiTextarea v-model="model" :label="t('inputLabel')" :placeholder="t('inputPlaceholder')" />
 
     <UiCard :title="t('statsTitle')">
-      <p v-if="stats === null" class="text-sm text-neutral-400">{{ t('emptyHint') }}</p>
+      <p v-if="stats === null" class="text-sm text-muted-foreground">{{ t('emptyHint') }}</p>
       <template v-else>
         <dl class="grid grid-cols-2 gap-3 lg:grid-cols-4">
           <div
             v-for="{ key, value } in stats"
             :key="key"
-            class="rounded-md bg-neutral-50 p-3 dark:bg-neutral-800"
+            class="rounded-md bg-surface-muted p-3"
             :data-testid="`count-${key}`"
           >
-            <dt class="text-xs leading-snug text-neutral-500 dark:text-neutral-400">
+            <dt class="text-xs leading-snug text-muted-foreground">
               {{ t(`metrics.${key}`) }}
             </dt>
-            <dd class="mt-1 text-xl font-semibold text-neutral-900 tabular-nums dark:text-neutral-100">
+            <dd class="mt-1 text-xl font-semibold text-foreground tabular-nums">
               {{ value }}
             </dd>
           </div>
@@ -107,13 +107,13 @@ async function copySummary(): Promise<void> {
           <UiButton variant="primary" @click="copySummary">
             {{ copyState === 'copied' ? t('copied') : t('copy') }}
           </UiButton>
-          <span v-if="copyState === 'failed'" class="text-xs text-red-600 dark:text-red-400">
+          <span v-if="copyState === 'failed'" class="text-xs text-danger">
             {{ t('copyFailed') }}
           </span>
         </div>
       </template>
     </UiCard>
 
-    <p class="text-xs leading-relaxed text-neutral-400">{{ t('note') }}</p>
+    <p class="text-xs leading-relaxed text-muted-foreground">{{ t('note') }}</p>
   </div>
 </template>

@@ -5,39 +5,132 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CraftChest · QA Matrix</title>
     <style>
-      :root { color-scheme: light dark; font-family: ui-sans-serif, system-ui, sans-serif; }
-      * { box-sizing: border-box; }
-      body { margin: 0; background: #111827; color: #e5e7eb; }
-      header { position: sticky; top: 0; z-index: 2; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 14px 18px; background: rgb(17 24 39 / .94); border-bottom: 1px solid #374151; backdrop-filter: blur(10px); }
-      h1 { margin: 0 auto 0 0; font-size: 16px; }
-      button, select { border: 1px solid #4b5563; border-radius: 6px; background: #1f2937; color: inherit; padding: 7px 10px; }
-      #summary { font: 12px ui-monospace, monospace; }
-      main { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--frame-width)), 1fr)); gap: 16px; padding: 16px; }
-      article { min-width: 0; overflow: hidden; border: 1px solid #374151; border-radius: 8px; background: #1f2937; }
-      article > div { display: flex; align-items: center; gap: 8px; padding: 8px 10px; font-size: 12px; }
-      article b { margin-right: auto; }
-      iframe { display: block; width: var(--frame-width); max-width: 100%; height: 650px; border: 0; background: white; }
-      .pass { color: #34d399; } .fail { color: #fb7185; } .wait { color: #fbbf24; }
+      :root {
+        color-scheme: light dark;
+        font-family: ui-sans-serif, system-ui, sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #111827;
+        color: #e5e7eb;
+      }
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 18px;
+        background: rgb(17 24 39 / 0.94);
+        border-bottom: 1px solid #374151;
+        backdrop-filter: blur(10px);
+      }
+      h1 {
+        margin: 0 auto 0 0;
+        font-size: 16px;
+      }
+      button,
+      select {
+        border: 1px solid #4b5563;
+        border-radius: 6px;
+        background: #1f2937;
+        color: inherit;
+        padding: 7px 10px;
+      }
+      #summary {
+        font:
+          12px ui-monospace,
+          monospace;
+      }
+      main {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--frame-width)), 1fr));
+        gap: 16px;
+        padding: 16px;
+      }
+      article {
+        min-width: 0;
+        overflow: hidden;
+        border: 1px solid #374151;
+        border-radius: 8px;
+        background: #1f2937;
+      }
+      article > div {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 10px;
+        font-size: 12px;
+      }
+      article b {
+        margin-right: auto;
+      }
+      iframe {
+        display: block;
+        width: var(--frame-width);
+        max-width: 100%;
+        height: 650px;
+        border: 0;
+        background: white;
+      }
+      .pass {
+        color: #34d399;
+      }
+      .fail {
+        color: #fb7185;
+      }
+      .wait {
+        color: #fbbf24;
+      }
     </style>
   </head>
   <body style="--frame-width: 375px">
     <header>
       <h1>CraftChest · 同源页面矩阵</h1>
-      <label>视口 <select id="width"><option value="375">375</option><option value="768">768</option><option value="1440">1440</option></select></label>
+      <label
+        >主题
+        <select id="theme">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select></label
+      >
+      <label
+        >视口
+        <select id="width">
+          <option value="375">375</option>
+          <option value="768">768</option>
+          <option value="1440">1440</option>
+        </select></label
+      >
       <button id="reload" type="button">全部重载</button>
       <output id="summary">等待加载…</output>
     </header>
     <main id="matrix"></main>
     <script>
       const routes = [
-        ['首页', '/'], ['人民币大写', '/zh/rmb-uppercase'], ['拼音标注', '/zh/pinyin'],
-        ['简繁转换', '/zh/opencc'], ['农历公历互查', '/zh/lunar-calendar'],
-        ['盘古之白', '/zh/pangu-spacing'], ['中文字数统计', '/zh/zh-char-count'],
-        ['渐变生成器', '/fe/gradient-gen'], ['Flex / Grid', '/fe/flex-grid-play'],
-        ['缓动曲线', '/fe/easing-curves'], ['对比度检查', '/fe/contrast-checker'],
+        ['首页', '/'],
+        ['人民币大写', '/zh/rmb-uppercase'],
+        ['拼音标注', '/zh/pinyin'],
+        ['简繁转换', '/zh/opencc'],
+        ['农历公历互查', '/zh/lunar-calendar'],
+        ['盘古之白', '/zh/pangu-spacing'],
+        ['中文字数统计', '/zh/zh-char-count'],
+        ['渐变生成器', '/fe/gradient-gen'],
+        ['Flex / Grid', '/fe/flex-grid-play'],
+        ['缓动曲线', '/fe/easing-curves'],
+        ['对比度检查', '/fe/contrast-checker'],
       ]
       const matrix = document.querySelector('#matrix')
       const summary = document.querySelector('#summary')
+      const theme = document.querySelector('#theme')
+      const savedTheme = localStorage.getItem('craftchest.theme')
+      theme.value = savedTheme === 'dark' ? 'dark' : 'light'
+      localStorage.setItem('craftchest.theme', theme.value)
 
       function updateSummary() {
         const statuses = [...document.querySelectorAll('[data-status]')]
@@ -59,7 +152,9 @@
           const ok = Boolean(page.title && heading) && !overflow
           status.dataset.status = ok ? 'pass' : 'fail'
           status.className = ok ? 'pass' : 'fail'
-          status.textContent = ok ? `PASS · ${heading}` : `FAIL · title=${Boolean(page.title)} h1=${Boolean(heading)} overflow=${overflow}`
+          status.textContent = ok
+            ? `PASS · ${heading}`
+            : `FAIL · title=${Boolean(page.title)} h1=${Boolean(heading)} overflow=${overflow}`
         } catch (error) {
           status.dataset.status = 'fail'
           status.className = 'fail'
@@ -88,10 +183,20 @@
 
       document.querySelector('#width').addEventListener('change', (event) => {
         document.body.style.setProperty('--frame-width', `${event.target.value}px`)
-        document.querySelectorAll('iframe').forEach((frame) => frame.dispatchEvent(new Event('load')))
+        document
+          .querySelectorAll('iframe')
+          .forEach((frame) => frame.dispatchEvent(new Event('load')))
+      })
+      theme.addEventListener('change', (event) => {
+        localStorage.setItem('craftchest.theme', event.target.value)
+        document
+          .querySelectorAll('iframe')
+          .forEach((frame) => frame.contentWindow.location.reload())
       })
       document.querySelector('#reload').addEventListener('click', () => {
-        document.querySelectorAll('iframe').forEach((frame) => frame.contentWindow.location.reload())
+        document
+          .querySelectorAll('iframe')
+          .forEach((frame) => frame.contentWindow.location.reload())
       })
     </script>
   </body>

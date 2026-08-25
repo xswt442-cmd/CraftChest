@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { UiButton, UiCard, UiTextField } from '@craftchest/ui'
+import { UiButton, UiCard, UiCheckbox, UiTextarea } from '@craftchest/ui'
 import type { PinyinFormat } from './service'
 import { toPinyin } from './service'
 
@@ -41,6 +41,11 @@ const { t } = useI18n({
 const model = ref('')
 const format = ref<PinyinFormat>('symbol')
 const multiple = ref(false)
+const formatOptions = computed<Array<{ value: PinyinFormat; label: string }>>(() => [
+  { value: 'symbol', label: t('formats.symbol') },
+  { value: 'num', label: t('formats.num') },
+  { value: 'none', label: t('formats.none') },
+])
 
 const output = computed(() => {
   const text = model.value
@@ -66,57 +71,47 @@ async function copyResult(): Promise<void> {
 
 <template>
   <div class="flex flex-col gap-4">
-    <UiTextField v-model="model" :label="t('inputLabel')" :placeholder="t('inputPlaceholder')" />
+    <UiTextarea v-model="model" :label="t('inputLabel')" :placeholder="t('inputPlaceholder')" />
 
     <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-6">
       <fieldset class="flex flex-wrap items-center gap-x-4 gap-y-1">
         <legend class="sr-only">{{ t('formatLabel') }}</legend>
         <label
-          v-for="(label, value) in t('formats')"
-          :key="value"
-          class="flex cursor-pointer items-center gap-1.5 text-sm text-neutral-700 dark:text-neutral-300"
+          v-for="option in formatOptions"
+          :key="option.value"
+          class="flex cursor-pointer items-center gap-1.5 text-sm text-foreground"
         >
           <input
             v-model="format"
             type="radio"
             name="pinyin-format"
-            :value="value"
-            class="accent-amber-500"
+            :value="option.value"
+            class="ui-choice-input"
           />
-          {{ label }}
+          {{ option.label }}
         </label>
       </fieldset>
 
-      <label class="flex cursor-pointer items-center gap-1.5 text-sm text-neutral-700 dark:text-neutral-300">
-        <input v-model="multiple" type="checkbox" class="accent-amber-500" />
-        {{ t('multipleLabel') }}
-      </label>
+      <UiCheckbox v-model="multiple" :label="t('multipleLabel')" />
     </div>
 
     <UiCard :title="t('resultTitle')">
-      <p
-        v-if="output === ''"
-        class="text-sm text-neutral-400"
-      >
+      <p v-if="output === ''" class="text-sm text-muted-foreground">
         {{ t('emptyHint') }}
       </p>
-      <p
-        v-else
-        class="text-lg leading-loose break-all text-neutral-900 dark:text-neutral-100"
-        data-testid="pinyin-result"
-      >
+      <p v-else class="text-lg leading-loose break-all text-foreground" data-testid="pinyin-result">
         {{ output }}
       </p>
       <div v-if="output !== ''" class="mt-3 flex items-center gap-3">
         <UiButton variant="primary" @click="copyResult">
           {{ copyState === 'copied' ? t('copied') : t('copy') }}
         </UiButton>
-        <span v-if="copyState === 'failed'" class="text-xs text-red-600 dark:text-red-400">
+        <span v-if="copyState === 'failed'" class="text-xs text-danger">
           {{ t('copyFailed') }}
         </span>
       </div>
     </UiCard>
 
-    <p class="text-xs leading-relaxed text-neutral-400">{{ t('note') }}</p>
+    <p class="text-xs leading-relaxed text-muted-foreground">{{ t('note') }}</p>
   </div>
 </template>

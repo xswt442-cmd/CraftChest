@@ -71,43 +71,30 @@ async function copyResult(): Promise<void> {
     <UiTextField v-model="amount" :label="t('amountLabel')" :placeholder="t('placeholder')" />
 
     <UiCard :title="t('resultTitle')">
-      <p
-        v-if="result === null"
-        class="text-sm text-neutral-400"
-      >
+      <p v-if="result === null" class="text-sm text-muted-foreground">
         {{ t('emptyHint') }}
       </p>
-      <p
-        v-else-if="!result.ok"
-        class="text-sm text-red-600 dark:text-red-400"
-        role="alert"
-      >
+      <p v-else-if="!result.ok" class="text-sm text-danger" role="alert">
         {{ result.text }}
       </p>
       <p
         v-else
-        class="font-serif text-2xl leading-relaxed break-all text-neutral-900 tabular-nums select-all dark:text-neutral-100"
+        class="font-serif text-2xl leading-relaxed break-all text-foreground tabular-nums select-all"
         data-testid="rmb-result"
       >
         {{ result.text }}
       </p>
 
-      <div
-        v-if="result !== null && result.ok"
-        class="mt-4 flex items-center gap-3"
-      >
+      <div v-if="result !== null && result.ok" class="mt-4 flex items-center gap-3">
         <UiButton variant="primary" @click="copyResult">
           {{ copyState === 'copied' ? t('copied') : t('copy') }}
         </UiButton>
-        <span
-          v-if="copyState === 'failed'"
-          class="text-xs text-red-600 dark:text-red-400"
-        >
+        <span v-if="copyState === 'failed'" class="text-xs text-danger">
           {{ t('copyFailed') }}
         </span>
       </div>
     </UiCard>
 
-    <p class="text-xs leading-relaxed text-neutral-400">{{ t('note') }}</p>
+    <p class="text-xs leading-relaxed text-muted-foreground">{{ t('note') }}</p>
   </div>
 </template>

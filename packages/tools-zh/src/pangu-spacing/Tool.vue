@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { UiButton, UiCard, UiTextField } from '@craftchest/ui'
+import { UiButton, UiCard, UiTextarea } from '@craftchest/ui'
 import { addSpacing } from './service'
 
 // 视图层只做交互编排；算法在 service.ts（SPEC §4）
@@ -55,18 +55,20 @@ async function copyResult(): Promise<void> {
 
 <template>
   <div class="flex flex-col gap-4">
-    <UiTextField v-model="model" :label="t('inputLabel')" :placeholder="t('inputPlaceholder')" />
+    <UiTextarea v-model="model" :label="t('inputLabel')" :placeholder="t('inputPlaceholder')" />
 
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
       <UiCard :title="t('beforeTitle')">
-        <p class="min-h-16 text-sm leading-relaxed break-all whitespace-pre-wrap text-neutral-500 dark:text-neutral-400">
+        <p
+          class="min-h-16 text-sm leading-relaxed break-all whitespace-pre-wrap text-muted-foreground"
+        >
           {{ model || t('emptyHint') }}
         </p>
       </UiCard>
 
       <UiCard :title="t('afterTitle')">
         <p
-          class="min-h-16 text-sm leading-relaxed break-all whitespace-pre-wrap text-neutral-900 dark:text-neutral-100"
+          class="min-h-16 text-sm leading-relaxed break-all whitespace-pre-wrap text-foreground"
           data-testid="pangu-result"
         >
           {{ output || t('emptyHint') }}
@@ -75,13 +77,13 @@ async function copyResult(): Promise<void> {
           <UiButton variant="primary" @click="copyResult">
             {{ copyState === 'copied' ? t('copied') : t('copy') }}
           </UiButton>
-          <span v-if="copyState === 'failed'" class="text-xs text-red-600 dark:text-red-400">
+          <span v-if="copyState === 'failed'" class="text-xs text-danger">
             {{ t('copyFailed') }}
           </span>
         </div>
       </UiCard>
     </div>
 
-    <p class="text-xs leading-relaxed text-neutral-400">{{ t('note') }}</p>
+    <p class="text-xs leading-relaxed text-muted-foreground">{{ t('note') }}</p>
   </div>
 </template>

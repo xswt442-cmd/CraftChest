@@ -2,7 +2,7 @@
 import { computed, onMounted, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { buildHashStateUrl, decodeHashState, hasHashState } from '@craftchest/toolkit-core'
-import { UiButton, UiCard } from '@craftchest/ui'
+import { UiButton, UiCard, UiSelect, type UiSelectOption } from '@craftchest/ui'
 import { isGradientShareState, toGradientShareState } from './share-state'
 import { buildGradient, toBackgroundDeclaration, type GradientKind } from './service'
 
@@ -67,6 +67,17 @@ const shareLabel = computed(() => {
   if (shareState.value === 'failed') return t('shareFailed')
   return t('share')
 })
+const kindOptions = computed<UiSelectOption[]>(() => [
+  { value: 'linear', label: t('linear') },
+  { value: 'radial', label: t('radial') },
+  { value: 'conic', label: t('conic') },
+])
+const kindModel = computed({
+  get: () => state.kind,
+  set: (value: string) => {
+    if (value === 'linear' || value === 'radial' || value === 'conic') state.kind = value
+  },
+})
 
 onMounted(() => {
   if (!hasHashState(window.location.hash)) return
@@ -117,17 +128,7 @@ async function shareGradient(): Promise<void> {
   <div class="grid gap-4 xl:grid-cols-[minmax(18rem,24rem)_1fr]">
     <UiCard>
       <div class="grid gap-4">
-        <label class="grid gap-1.5 text-sm font-medium text-neutral-700 dark:text-neutral-300">
-          {{ t('type') }}
-          <select
-            v-model="state.kind"
-            class="rounded-md border border-neutral-300 bg-white px-3 py-2 dark:border-neutral-700 dark:bg-neutral-950"
-          >
-            <option value="linear">{{ t('linear') }}</option>
-            <option value="radial">{{ t('radial') }}</option>
-            <option value="conic">{{ t('conic') }}</option>
-          </select>
-        </label>
+        <UiSelect v-model="kindModel" :label="t('type')" :options="kindOptions" />
 
         <label v-if="state.kind !== 'radial'" class="grid gap-1 text-sm">
           <span class="flex justify-between"
@@ -139,7 +140,7 @@ async function shareGradient(): Promise<void> {
             type="range"
             min="0"
             max="359"
-            class="accent-amber-500"
+            class="ui-range-input"
           />
         </label>
 
@@ -158,7 +159,7 @@ async function shareGradient(): Promise<void> {
               type="range"
               min="0"
               max="100"
-              class="accent-amber-500"
+              class="ui-range-input"
             />
           </label>
         </template>
@@ -170,16 +171,9 @@ async function shareGradient(): Promise<void> {
         >
           <span class="grid gap-1.5">
             {{ t(index === 0 ? 'start' : 'end') }}
-            <input
-              v-model="stop.color"
-              class="rounded-md border border-neutral-300 bg-white px-3 py-2 font-mono dark:border-neutral-700 dark:bg-neutral-950"
-            />
+            <input v-model="stop.color" class="ui-native-field font-mono" />
           </span>
-          <input
-            v-model="stop.color"
-            type="color"
-            class="size-10 cursor-pointer rounded border-0 bg-transparent"
-          />
+          <input v-model="stop.color" type="color" class="ui-color-input" />
         </label>
       </div>
     </UiCard>
@@ -194,7 +188,7 @@ async function shareGradient(): Promise<void> {
       </UiCard>
       <UiCard :title="t('css')">
         <code
-          class="block break-all rounded-md bg-neutral-950 p-3 text-sm text-amber-300"
+          class="block break-all rounded-md bg-code-surface p-3 text-sm text-code-accent"
           data-testid="gradient-css"
           >{{ declaration }}</code
         >
@@ -203,11 +197,11 @@ async function shareGradient(): Promise<void> {
             copyState === 'copied' ? t('copied') : t('copy')
           }}</UiButton>
           <UiButton @click="shareGradient">{{ shareLabel }}</UiButton>
-          <span v-if="copyState === 'failed'" class="text-xs text-red-600">{{
+          <span v-if="copyState === 'failed'" class="text-xs text-danger">{{
             t('copyFailed')
           }}</span>
         </div>
-        <p v-if="shareState === 'invalid'" class="mt-2 text-xs text-red-600 dark:text-red-400">
+        <p v-if="shareState === 'invalid'" class="mt-2 text-xs text-danger">
           {{ t('invalidShare') }}
         </p>
       </UiCard>

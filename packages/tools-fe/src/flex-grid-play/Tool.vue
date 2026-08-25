@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { UiCard } from '@craftchest/ui'
+import { UiCard, UiCheckbox, UiSelect, type UiSelectOption } from '@craftchest/ui'
 import { buildContainerStyle, buildItemStyle, stylesToCss, type LayoutOptions } from './service'
 
 const { t } = useI18n({
@@ -57,68 +57,78 @@ const containerStyle = computed(() => buildContainerStyle(state))
 const itemStyle = computed(() => buildItemStyle(state))
 const containerCss = computed(() => stylesToCss('.container', containerStyle.value))
 const itemCss = computed(() => stylesToCss('.item:first-child', itemStyle.value))
+
+const modeOptions: UiSelectOption[] = [
+  { value: 'flex', label: 'Flex' },
+  { value: 'grid', label: 'Grid' },
+]
+const directionOptions: UiSelectOption[] = [
+  { value: 'row', label: 'row' },
+  { value: 'column', label: 'column' },
+]
+const justifyOptions: UiSelectOption[] = [
+  'flex-start',
+  'center',
+  'space-between',
+  'space-around',
+].map((value) => ({ value, label: value }))
+const alignOptions: UiSelectOption[] = ['stretch', 'flex-start', 'center', 'flex-end'].map(
+  (value) => ({ value, label: value }),
+)
+
+const modeModel = computed({
+  get: () => state.mode,
+  set: (value: string) => {
+    if (value === 'flex' || value === 'grid') state.mode = value
+  },
+})
+const directionModel = computed({
+  get: () => state.direction,
+  set: (value: string) => {
+    if (value === 'row' || value === 'column') state.direction = value
+  },
+})
+const justifyModel = computed({
+  get: () => state.justify,
+  set: (value: string) => {
+    if (
+      value === 'flex-start' ||
+      value === 'center' ||
+      value === 'space-between' ||
+      value === 'space-around'
+    )
+      state.justify = value
+  },
+})
+const alignModel = computed({
+  get: () => state.align,
+  set: (value: string) => {
+    if (value === 'stretch' || value === 'flex-start' || value === 'center' || value === 'flex-end')
+      state.align = value
+  },
+})
 </script>
 
 <template>
   <div class="grid gap-4 xl:grid-cols-[20rem_1fr]">
     <UiCard :title="t('controls')">
       <div class="grid gap-4 text-sm">
-        <label class="grid gap-1"
-          ><b>{{ t('mode') }}</b
-          ><select
-            v-model="state.mode"
-            class="rounded-md border border-neutral-300 bg-white px-3 py-2 dark:border-neutral-700 dark:bg-neutral-950"
-          >
-            <option value="flex">Flex</option>
-            <option value="grid">Grid</option>
-          </select></label
-        >
-        <label v-if="state.mode === 'flex'" class="grid gap-1"
-          ><b>{{ t('direction') }}</b
-          ><select
-            v-model="state.direction"
-            class="rounded-md border border-neutral-300 bg-white px-3 py-2 dark:border-neutral-700 dark:bg-neutral-950"
-          >
-            <option value="row">row</option>
-            <option value="column">column</option>
-          </select></label
-        >
-        <label class="grid gap-1"
-          ><b>{{ t('justify') }}</b
-          ><select
-            v-model="state.justify"
-            class="rounded-md border border-neutral-300 bg-white px-3 py-2 dark:border-neutral-700 dark:bg-neutral-950"
-          >
-            <option
-              v-for="value in ['flex-start', 'center', 'space-between', 'space-around']"
-              :key="value"
-            >
-              {{ value }}
-            </option>
-          </select></label
-        >
-        <label class="grid gap-1"
-          ><b>{{ t('align') }}</b
-          ><select
-            v-model="state.align"
-            class="rounded-md border border-neutral-300 bg-white px-3 py-2 dark:border-neutral-700 dark:bg-neutral-950"
-          >
-            <option v-for="value in ['stretch', 'flex-start', 'center', 'flex-end']" :key="value">
-              {{ value }}
-            </option>
-          </select></label
-        >
+        <UiSelect v-model="modeModel" :label="t('mode')" :options="modeOptions" />
+        <UiSelect
+          v-if="state.mode === 'flex'"
+          v-model="directionModel"
+          :label="t('direction')"
+          :options="directionOptions"
+        />
+        <UiSelect v-model="justifyModel" :label="t('justify')" :options="justifyOptions" />
+        <UiSelect v-model="alignModel" :label="t('align')" :options="alignOptions" />
         <label class="grid gap-1"
           ><span class="flex justify-between"
             ><b>{{ t('gap') }}</b
             ><output>{{ state.gap }}px</output></span
-          ><input v-model.number="state.gap" type="range" min="0" max="40" class="accent-amber-500"
+          ><input v-model.number="state.gap" type="range" min="0" max="40" class="ui-range-input"
         /></label>
-        <label v-if="state.mode === 'flex'" class="flex items-center gap-2"
-          ><input v-model="state.wrap" type="checkbox" class="accent-amber-500" />{{
-            t('wrap')
-          }}</label
-        >
+        <UiCheckbox v-if="state.mode === 'flex'" v-model="state.wrap" :label="t('wrap')" />
         <label v-if="state.mode === 'grid'" class="grid gap-1"
           ><span class="flex justify-between"
             ><b>{{ t('columns') }}</b
@@ -128,7 +138,7 @@ const itemCss = computed(() => stylesToCss('.item:first-child', itemStyle.value)
             type="range"
             min="1"
             max="6"
-            class="accent-amber-500"
+            class="ui-range-input"
         /></label>
         <label class="grid gap-1"
           ><span class="flex justify-between"
@@ -140,13 +150,13 @@ const itemCss = computed(() => stylesToCss('.item:first-child', itemStyle.value)
             type="range"
             min="0"
             max="5"
-            class="accent-amber-500" /><input
+            class="ui-range-input" /><input
             v-else
             v-model.number="state.itemSpan"
             type="range"
             min="1"
             :max="state.columns"
-            class="accent-amber-500"
+            class="ui-range-input"
         /></label>
       </div>
     </UiCard>
@@ -154,14 +164,14 @@ const itemCss = computed(() => stylesToCss('.item:first-child', itemStyle.value)
     <div class="grid gap-4">
       <UiCard :title="t('stage')">
         <div
-          class="min-h-80 rounded-lg border-2 border-dashed border-neutral-300 bg-neutral-50 p-3 dark:border-neutral-700 dark:bg-neutral-950"
+          class="min-h-80 rounded-lg border-2 border-dashed border-workshop-border bg-surface-muted p-3"
           :style="containerStyle"
           data-testid="layout-stage"
         >
           <div
             v-for="number in 6"
             :key="number"
-            class="flex min-h-14 min-w-14 items-center justify-center rounded-md border border-amber-300 bg-amber-100 font-mono font-bold text-amber-800 shadow-sm dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200"
+            class="flex min-h-14 min-w-14 items-center justify-center rounded-md border border-primary bg-primary-soft font-mono font-bold text-foreground shadow-sm"
             :style="number === 1 ? itemStyle : undefined"
           >
             {{ number }}
@@ -171,16 +181,16 @@ const itemCss = computed(() => stylesToCss('.item:first-child', itemStyle.value)
       <UiCard :title="t('css')">
         <div class="grid gap-3 lg:grid-cols-2">
           <div>
-            <b class="mb-1 block text-xs text-neutral-500">{{ t('container') }}</b>
-            <pre class="overflow-x-auto rounded-md bg-neutral-950 p-3 text-xs text-amber-300">{{
+            <b class="mb-1 block text-xs text-muted-foreground">{{ t('container') }}</b>
+            <pre class="overflow-x-auto rounded-md bg-code-surface p-3 text-xs text-code-accent">{{
               containerCss
             }}</pre>
           </div>
           <div>
-            <b class="mb-1 block text-xs text-neutral-500">{{ t('firstItem') }}</b>
-            <pre class="overflow-x-auto rounded-md bg-neutral-950 p-3 text-xs text-sky-300">{{
-              itemCss
-            }}</pre>
+            <b class="mb-1 block text-xs text-muted-foreground">{{ t('firstItem') }}</b>
+            <pre
+              class="overflow-x-auto rounded-md bg-code-surface p-3 text-xs text-code-foreground"
+              >{{ itemCss }}</pre>
           </div>
         </div>
       </UiCard>

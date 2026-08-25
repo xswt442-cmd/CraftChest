@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { UiButton, UiCard, UiTextField } from '@craftchest/ui'
+import { UiButton, UiCard, UiTextarea } from '@craftchest/ui'
 import type { OpenccPreset } from './service'
 import { convertChinese } from './service'
 
@@ -48,10 +48,14 @@ const { t } = useI18n({
 
 const model = ref('')
 const preset = ref<OpenccPreset>('cn2t')
+const presetOptions = computed<Array<{ value: OpenccPreset; label: string }>>(() => [
+  { value: 'cn2t', label: t('presets.cn2t') },
+  { value: 'cn2tw', label: t('presets.cn2tw') },
+  { value: 'cn2hk', label: t('presets.cn2hk') },
+  { value: 't2cn', label: t('presets.t2cn') },
+])
 
-const output = computed(() =>
-  model.value === '' ? '' : convertChinese(model.value, preset.value),
-)
+const output = computed(() => (model.value === '' ? '' : convertChinese(model.value, preset.value)))
 
 const copyState = ref<'idle' | 'copied' | 'failed'>('idle')
 let copyTimer: ReturnType<typeof setTimeout> | undefined
@@ -71,24 +75,24 @@ async function copyResult(): Promise<void> {
 
 <template>
   <div class="flex flex-col gap-4">
-    <UiTextField v-model="model" :label="t('inputLabel')" :placeholder="t('inputPlaceholder')" />
+    <UiTextarea v-model="model" :label="t('inputLabel')" :placeholder="t('inputPlaceholder')" />
 
     <div class="flex flex-col gap-2">
-      <span class="text-sm font-medium text-neutral-700 dark:text-neutral-300">{{ t('presetLabel') }}</span>
+      <span class="text-sm font-medium text-foreground">{{ t('presetLabel') }}</span>
       <div class="flex flex-wrap gap-x-5 gap-y-2">
         <label
-          v-for="(label, value) in t('presets')"
-          :key="value"
-          class="flex cursor-pointer items-center gap-1.5 text-sm text-neutral-700 dark:text-neutral-300"
+          v-for="option in presetOptions"
+          :key="option.value"
+          class="flex cursor-pointer items-center gap-1.5 text-sm text-foreground"
         >
           <input
             v-model="preset"
             type="radio"
             name="opencc-preset"
-            :value="value"
-            class="accent-amber-500"
+            :value="option.value"
+            class="ui-choice-input"
           />
-          {{ label }}
+          {{ option.label }}
         </label>
       </div>
     </div>
@@ -96,13 +100,13 @@ async function copyResult(): Promise<void> {
     <UiCard :title="t('resultTitle')">
       <p
         v-if="output === ''"
-        class="min-h-16 text-sm leading-relaxed break-all whitespace-pre-wrap text-neutral-400"
+        class="min-h-16 text-sm leading-relaxed break-all whitespace-pre-wrap text-muted-foreground"
       >
         {{ t('emptyHint') }}
       </p>
       <p
         v-else
-        class="min-h-16 text-base leading-relaxed break-all whitespace-pre-wrap text-neutral-900 dark:text-neutral-100"
+        class="min-h-16 text-base leading-relaxed break-all whitespace-pre-wrap text-foreground"
         data-testid="opencc-result"
       >
         {{ output }}
@@ -111,12 +115,12 @@ async function copyResult(): Promise<void> {
         <UiButton variant="primary" @click="copyResult">
           {{ copyState === 'copied' ? t('copied') : t('copy') }}
         </UiButton>
-        <span v-if="copyState === 'failed'" class="text-xs text-red-600 dark:text-red-400">
+        <span v-if="copyState === 'failed'" class="text-xs text-danger">
           {{ t('copyFailed') }}
         </span>
       </div>
     </UiCard>
 
-    <p class="text-xs leading-relaxed text-neutral-400">{{ t('note') }}</p>
+    <p class="text-xs leading-relaxed text-muted-foreground">{{ t('note') }}</p>
   </div>
 </template>

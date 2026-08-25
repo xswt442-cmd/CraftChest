@@ -60,7 +60,7 @@ async function copyCss(): Promise<void> {
   <div class="grid gap-4 xl:grid-cols-[20rem_1fr]">
     <UiCard>
       <section>
-        <h2 class="mb-2 text-xs font-semibold tracking-wide text-neutral-500 uppercase">
+        <h2 class="mb-2 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
           {{ t('presets') }}
         </h2>
         <div class="flex flex-wrap gap-2">
@@ -71,7 +71,7 @@ async function copyCss(): Promise<void> {
       </section>
 
       <section class="mt-5 grid gap-4">
-        <h2 class="text-xs font-semibold tracking-wide text-neutral-500 uppercase">
+        <h2 class="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
           {{ t('controls') }}
         </h2>
         <label
@@ -89,7 +89,7 @@ async function copyCss(): Promise<void> {
             :min="key.startsWith('x') ? 0 : -0.5"
             :max="key.startsWith('x') ? 1 : 1.5"
             step="0.01"
-            class="accent-amber-500"
+            class="ui-range-input"
           />
         </label>
         <label class="grid gap-1 text-sm"
@@ -102,7 +102,7 @@ async function copyCss(): Promise<void> {
             min="300"
             max="3000"
             step="100"
-            class="accent-amber-500"
+            class="ui-range-input"
         /></label>
       </section>
     </UiCard>
@@ -118,26 +118,26 @@ async function copyCss(): Promise<void> {
           <path
             d="M 0 200 L 200 0"
             stroke="currentColor"
-            class="text-neutral-200 dark:text-neutral-800"
+            class="text-workshop-border"
             stroke-dasharray="5"
           />
           <path
             :d="path"
             fill="none"
             stroke="currentColor"
-            class="text-amber-500"
+            class="text-primary"
             stroke-width="5"
             stroke-linecap="round"
           />
-          <circle cx="0" cy="200" r="6" class="fill-neutral-800 dark:fill-neutral-100" />
-          <circle cx="200" cy="0" r="6" class="fill-neutral-800 dark:fill-neutral-100" />
+          <circle cx="0" cy="200" r="6" class="fill-foreground" />
+          <circle cx="200" cy="0" r="6" class="fill-foreground" />
         </svg>
       </UiCard>
 
       <UiCard :title="t('preview')">
-        <div class="relative mt-8 h-8 rounded-full bg-neutral-100 shadow-inner dark:bg-neutral-800">
+        <div class="relative mt-8 h-8 rounded-full bg-surface-muted shadow-inner">
           <div
-            class="absolute top-0 size-8 rounded-full bg-amber-500 shadow-md"
+            class="absolute top-0 size-8 rounded-full bg-primary shadow-md"
             :style="{
               left: running ? 'calc(100% - 2rem)' : '0',
               transitionProperty: 'left',
@@ -152,7 +152,7 @@ async function copyCss(): Promise<void> {
 
       <UiCard :title="t('output')" class="lg:col-span-2">
         <code
-          class="block break-all rounded-md bg-neutral-950 p-3 text-sm text-amber-300"
+          class="block break-all rounded-md bg-code-surface p-3 text-sm text-code-accent"
           data-testid="easing-css"
           >transition-timing-function: {{ cssValue }};</code
         >

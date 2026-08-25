@@ -4,6 +4,10 @@
  */
 export { default as UiButton } from './components/UiButton.vue'
 export { default as UiCard } from './components/UiCard.vue'
+export { default as UiCheckbox } from './components/UiCheckbox.vue'
 export { default as UiCmdPalette } from './components/UiCmdPalette.vue'
+export { default as UiSelect } from './components/UiSelect.vue'
 export { default as UiTextField } from './components/UiTextField.vue'
+export { default as UiTextarea } from './components/UiTextarea.vue'
 export type { CmdPaletteGroup, CmdPaletteItem } from './components/cmd-palette'
+export type { UiSelectOption } from './components/UiSelect.vue'

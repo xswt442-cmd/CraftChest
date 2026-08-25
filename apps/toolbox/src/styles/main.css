@@ -33,6 +33,12 @@
   --primary-soft: oklch(0.935 0.055 78);
   --ring: oklch(0.62 0.16 64);
   --danger: oklch(0.56 0.2 28);
+  --danger-soft: oklch(0.95 0.035 28);
+  --success: oklch(0.48 0.13 150);
+  --success-soft: oklch(0.95 0.035 150);
+  --code-surface: oklch(0.2 0.018 252);
+  --code-foreground: oklch(0.91 0.018 80);
+  --code-accent: oklch(0.82 0.12 78);
   --section-zh: oklch(0.48 0.17 34);
   --section-zh-soft: oklch(0.95 0.035 35);
   --section-fe: oklch(0.46 0.13 235);
@@ -57,6 +63,12 @@
   --primary-soft: oklch(0.3 0.055 68);
   --ring: oklch(0.78 0.14 73);
   --danger: oklch(0.72 0.16 25);
+  --danger-soft: oklch(0.285 0.055 25);
+  --success: oklch(0.72 0.12 150);
+  --success-soft: oklch(0.285 0.045 150);
+  --code-surface: oklch(0.12 0.014 252);
+  --code-foreground: oklch(0.91 0.018 80);
+  --code-accent: oklch(0.82 0.12 78);
   --section-zh: oklch(0.72 0.14 35);
   --section-zh-soft: oklch(0.29 0.055 32);
   --section-fe: oklch(0.73 0.105 230);
@@ -83,6 +95,12 @@
   --color-primary-soft: var(--primary-soft);
   --color-ring: var(--ring);
   --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-code-surface: var(--code-surface);
+  --color-code-foreground: var(--code-foreground);
+  --color-code-accent: var(--code-accent);
   --color-section-zh: var(--section-zh);
   --color-section-zh-soft: var(--section-zh-soft);
   --color-section-fe: var(--section-fe);
@@ -132,6 +150,42 @@ select {
   box-shadow:
     0 1px 2px var(--shadow-color),
     0 10px 32px color-mix(in oklch, var(--shadow-color), transparent 42%);
+}
+
+.ui-native-field {
+  min-height: 2.75rem;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-raised);
+  padding: 0.5rem 0.875rem;
+  color: var(--foreground);
+  box-shadow: 0 1px 2px var(--shadow-color);
+  outline: none;
+}
+
+.ui-native-field:focus-visible {
+  border-color: var(--ring);
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring), transparent 78%);
+}
+
+.ui-range-input {
+  width: 100%;
+  accent-color: var(--primary);
+}
+
+.ui-choice-input {
+  accent-color: var(--primary);
+}
+
+.ui-color-input {
+  width: 2.75rem;
+  height: 2.75rem;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-raised);
+  padding: 0.2rem;
 }
 
 .section-rail-zh::before,
