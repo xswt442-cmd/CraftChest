@@ -1,4 +1,5 @@
 import type { Component } from 'vue'
+import IconActivity from '~icons/lucide/activity'
 import IconAlignLeft from '~icons/lucide/align-left'
 import IconArrowLeftRight from '~icons/lucide/arrow-left-right'
 import IconBanknote from '~icons/lucide/banknote'
@@ -20,6 +21,7 @@ import IconX from '~icons/lucide/x'
  * 新工具引入新图标时在此登记，未登记的名字回退为拼图占位。
  */
 export const toolIcons: Record<string, Component> = {
+  'lucide:activity': IconActivity,
   'lucide:align-left': IconAlignLeft,
   'lucide:arrow-left-right': IconArrowLeftRight,
   'lucide:banknote': IconBanknote,
