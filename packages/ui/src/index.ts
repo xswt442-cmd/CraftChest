@@ -4,4 +4,6 @@
  */
 export { default as UiButton } from './components/UiButton.vue'
 export { default as UiCard } from './components/UiCard.vue'
+export { default as UiCmdPalette } from './components/UiCmdPalette.vue'
 export { default as UiTextField } from './components/UiTextField.vue'
+export type { CmdPaletteGroup, CmdPaletteItem } from './components/cmd-palette'

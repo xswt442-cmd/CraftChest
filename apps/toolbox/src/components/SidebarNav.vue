@@ -7,6 +7,7 @@ import { sections } from '../registry'
 
 // 移动端抽屉开关；桌面端常驻（md: 起静态布局）
 const open = defineModel<boolean>('open', { default: false })
+const emit = defineEmits<{ command: [] }>()
 
 const { t, locale } = useI18n()
 const lang = computed(() => (locale.value === 'en' ? 'en' : 'zh') as 'zh' | 'en')
@@ -19,20 +20,21 @@ const groups = [
 
 <template>
   <!-- 移动端遮罩 -->
-  <div
-    v-if="open"
-    class="fixed inset-0 z-40 bg-black/40 md:hidden"
-    @click="open = false"
-  />
+  <div v-if="open" class="fixed inset-0 z-40 bg-black/40 md:hidden" @click="open = false" />
 
   <aside
     class="fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-neutral-200 bg-white transition-transform duration-200 md:static md:translate-x-0 dark:border-neutral-800 dark:bg-neutral-900"
     :class="open ? 'translate-x-0' : '-translate-x-full'"
     :aria-hidden="!open && undefined"
   >
-    <div class="flex h-12 items-center gap-2 border-b border-neutral-200 px-4 dark:border-neutral-800">
+    <div
+      class="flex h-12 items-center gap-2 border-b border-neutral-200 px-4 dark:border-neutral-800"
+    >
       <span class="text-xl" aria-hidden="true">📦</span>
-      <RouterLink to="/" class="font-semibold tracking-tight text-neutral-900 dark:text-neutral-100">
+      <RouterLink
+        to="/"
+        class="font-semibold tracking-tight text-neutral-900 dark:text-neutral-100"
+      >
         CraftChest
       </RouterLink>
       <button
@@ -46,6 +48,16 @@ const groups = [
     </div>
 
     <nav class="flex-1 space-y-4 overflow-y-auto px-3 py-4">
+      <button
+        type="button"
+        class="flex w-full cursor-pointer items-center gap-2.5 rounded-md border border-neutral-200 bg-neutral-50 px-2.5 py-2 text-sm text-neutral-500 transition-colors hover:border-amber-300 hover:bg-amber-50 hover:text-amber-800 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:border-amber-700 dark:hover:bg-amber-500/10"
+        @click="emit('command')"
+      >
+        <AppIcon name="lucide:search" class="size-4" />
+        <span>{{ t('command.shortcut') }}</span>
+        <kbd class="ml-auto text-[10px] text-neutral-400">Ctrl K</kbd>
+      </button>
+
       <RouterLink
         to="/"
         class="flex items-center gap-2.5 rounded-md px-2.5 py-2 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-100 dark:text-neutral-200 dark:hover:bg-neutral-800"
@@ -68,14 +80,19 @@ const groups = [
               <span class="truncate">{{ tool.title[lang] }}</span>
             </RouterLink>
           </li>
-          <li v-if="sections[group.section].length === 0" class="px-2.5 py-1.5 text-xs text-neutral-300 dark:text-neutral-600">
+          <li
+            v-if="sections[group.section].length === 0"
+            class="px-2.5 py-1.5 text-xs text-neutral-300 dark:text-neutral-600"
+          >
             ···
           </li>
         </ul>
       </div>
     </nav>
 
-    <div class="flex items-center justify-between border-t border-neutral-200 px-4 py-3 dark:border-neutral-800">
+    <div
+      class="flex items-center justify-between border-t border-neutral-200 px-4 py-3 dark:border-neutral-800"
+    >
       <LocaleToggle />
       <span class="text-xs text-neutral-300 dark:text-neutral-600">MIT</span>
     </div>
