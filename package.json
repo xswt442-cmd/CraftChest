@@ -11,6 +11,7 @@
     "dev": "pnpm --filter @craftchest/toolbox dev",
     "build": "pnpm --filter @craftchest/toolbox build",
     "preview": "pnpm --filter @craftchest/toolbox preview",
+    "qa": "node tests/qa/server.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint .",

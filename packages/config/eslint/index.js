@@ -39,6 +39,13 @@ export default [
     },
   },
   {
+    // tests/ 下是 Node 环境脚本（QA 静态服务器等）
+    files: ['tests/**/*.mjs'],
+    languageOptions: {
+      globals: { ...globals.node },
+    },
+  },
+  {
     rules: {
       // 测试文件里的未挂起断言等由 vitest 管理，放宽部分规则
       '@typescript-eslint/no-unused-vars': [

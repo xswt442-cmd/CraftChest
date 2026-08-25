@@ -29,6 +29,7 @@ pnpm install
 pnpm dev          # local dev server
 pnpm build        # production build
 pnpm lint && pnpm check && pnpm test   # lint / type-check / unit tests
+pnpm qa           # QA matrix over the built output (run after pnpm build)
 ```
 
 ## Deployment

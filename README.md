@@ -29,6 +29,7 @@ pnpm install
 pnpm dev          # 本地开发
 pnpm build        # 生产构建
 pnpm lint && pnpm check && pnpm test   # 代码检查 / 类型检查 / 单元测试
+pnpm qa           # 构建产物的 QA 矩阵（需先 pnpm build）
 ```
 
 ## 部署
