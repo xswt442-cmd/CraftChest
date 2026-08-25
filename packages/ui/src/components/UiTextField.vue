@@ -12,11 +12,7 @@ const inputId = useId()
 
 <template>
   <div class="flex flex-col gap-1.5">
-    <Label
-      v-if="label"
-      :for="inputId"
-      class="text-sm font-medium text-neutral-700 dark:text-neutral-300"
-    >
+    <Label v-if="label" :for="inputId" class="text-sm font-semibold text-foreground">
       {{ label }}
     </Label>
     <input
@@ -24,7 +20,7 @@ const inputId = useId()
       v-model="model"
       type="text"
       :placeholder="placeholder"
-      class="w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-base text-neutral-900 placeholder:text-neutral-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30 focus:outline-none dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
+      class="min-h-11 w-full rounded-md border border-workshop-border bg-surface-raised px-3.5 py-2 text-base text-foreground shadow-sm placeholder:text-muted-foreground/65 focus:border-ring focus:ring-2 focus:ring-ring/20 focus:outline-none"
     />
   </div>
 </template>

@@ -9,6 +9,11 @@ export default {
       fe: 'Front-end Tools',
     },
   },
+  theme: {
+    system: 'Theme: system',
+    light: 'Theme: light',
+    dark: 'Theme: dark',
+  },
   home: {
     heroTitle: 'CraftChest',
     heroSub:

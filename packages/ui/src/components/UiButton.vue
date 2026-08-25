@@ -14,9 +14,9 @@ withDefaults(
 
 const variantClasses: Record<Variant, string> = {
   primary:
-    'bg-amber-500 text-white hover:bg-amber-600 active:bg-amber-700 disabled:bg-neutral-300 dark:disabled:bg-neutral-700',
+    'border border-primary bg-primary text-primary-foreground shadow-sm hover:border-primary-hover hover:bg-primary-hover active:translate-y-px disabled:border-workshop-border disabled:bg-surface-muted disabled:text-muted-foreground',
   secondary:
-    'border border-neutral-300 bg-white text-neutral-800 hover:bg-neutral-100 active:bg-neutral-200 disabled:text-neutral-400 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:hover:bg-neutral-800',
+    'border border-workshop-border bg-surface-raised text-foreground shadow-sm hover:border-workshop-border-strong hover:bg-surface-muted active:translate-y-px disabled:text-muted-foreground',
 }
 </script>
 
@@ -25,7 +25,7 @@ const variantClasses: Record<Variant, string> = {
     as="button"
     :type="type"
     :disabled="disabled"
-    class="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500 disabled:cursor-not-allowed"
+    class="inline-flex min-h-10 cursor-pointer items-center justify-center gap-1.5 rounded-md px-3.5 py-2 text-sm font-semibold transition-[background-color,border-color,color,transform] select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:shadow-none"
     :class="variantClasses[variant]"
   >
     <slot />

@@ -86,17 +86,19 @@ function selectTool(value: string): void {
   >
     <template #item="{ item }">
       <span
-        class="flex size-8 shrink-0 items-center justify-center rounded-md bg-neutral-100 text-neutral-500 group-data-[highlighted]:bg-amber-100 group-data-[highlighted]:text-amber-700 dark:bg-neutral-800 dark:group-data-[highlighted]:bg-amber-500/20 dark:group-data-[highlighted]:text-amber-300"
+        class="flex size-8 shrink-0 items-center justify-center rounded-md bg-surface-muted text-muted-foreground group-data-[highlighted]:bg-primary group-data-[highlighted]:text-primary-foreground"
       >
         <AppIcon :name="item.icon ?? 'lucide:puzzle'" class="size-4" />
       </span>
       <span class="min-w-0 flex-1">
         <b class="block truncate font-medium">{{ item.label }}</b>
-        <span class="mt-0.5 block truncate text-xs text-neutral-400">{{ item.description }}</span>
+        <span class="mt-0.5 block truncate text-xs text-muted-foreground">{{
+          item.description
+        }}</span>
       </span>
       <span
         aria-hidden="true"
-        class="text-neutral-300 opacity-0 group-data-[highlighted]:opacity-100 dark:text-neutral-600"
+        class="text-muted-foreground opacity-0 group-data-[highlighted]:opacity-100"
         >↵</span
       >
     </template>

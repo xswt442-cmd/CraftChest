@@ -6,6 +6,158 @@
 @source '../../../../packages/tools-zh/src';
 @source '../../../../packages/tools-fe/src';
 
+/* 主题由根元素的 data-theme 控制，避免系统主题和用户选择互相覆盖。 */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+@font-face {
+  font-family: 'Mona Sans';
+  src: url('/fonts/mona-sans-variable.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+  --canvas: oklch(0.974 0.009 78);
+  --surface: oklch(0.992 0.004 78);
+  --surface-raised: oklch(1 0 0);
+  --surface-muted: oklch(0.952 0.012 76);
+  --foreground: oklch(0.245 0.018 62);
+  --muted-foreground: oklch(0.52 0.025 65);
+  --border: oklch(0.865 0.02 72);
+  --border-strong: oklch(0.73 0.035 68);
+  --primary: oklch(0.72 0.14 70);
+  --primary-hover: oklch(0.665 0.145 66);
+  --primary-foreground: oklch(0.205 0.025 59);
+  --primary-soft: oklch(0.935 0.055 78);
+  --ring: oklch(0.62 0.16 64);
+  --danger: oklch(0.56 0.2 28);
+  --section-zh: oklch(0.48 0.17 34);
+  --section-zh-soft: oklch(0.95 0.035 35);
+  --section-fe: oklch(0.46 0.13 235);
+  --section-fe-soft: oklch(0.94 0.035 235);
+  --grid-line: oklch(0.48 0.025 70 / 0.035);
+  --shadow-color: oklch(0.28 0.035 60 / 0.08);
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  --canvas: oklch(0.17 0.016 252);
+  --surface: oklch(0.205 0.018 252);
+  --surface-raised: oklch(0.235 0.019 250);
+  --surface-muted: oklch(0.265 0.018 250);
+  --foreground: oklch(0.925 0.012 76);
+  --muted-foreground: oklch(0.71 0.025 77);
+  --border: oklch(0.34 0.025 250);
+  --border-strong: oklch(0.46 0.035 246);
+  --primary: oklch(0.77 0.135 75);
+  --primary-hover: oklch(0.82 0.12 78);
+  --primary-foreground: oklch(0.19 0.025 58);
+  --primary-soft: oklch(0.3 0.055 68);
+  --ring: oklch(0.78 0.14 73);
+  --danger: oklch(0.72 0.16 25);
+  --section-zh: oklch(0.72 0.14 35);
+  --section-zh-soft: oklch(0.29 0.055 32);
+  --section-fe: oklch(0.73 0.105 230);
+  --section-fe-soft: oklch(0.285 0.045 235);
+  --grid-line: oklch(0.8 0.02 250 / 0.04);
+  --shadow-color: oklch(0.04 0.01 250 / 0.28);
+}
+
+@theme inline {
+  --font-sans:
+    'Mona Sans', 'PingFang SC', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Noto Sans CJK SC',
+    system-ui, sans-serif;
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-muted: var(--surface-muted);
+  --color-foreground: var(--foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-workshop-border: var(--border);
+  --color-workshop-border-strong: var(--border-strong);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-ring: var(--ring);
+  --color-danger: var(--danger);
+  --color-section-zh: var(--section-zh);
+  --color-section-zh-soft: var(--section-zh-soft);
+  --color-section-fe: var(--section-fe);
+  --color-section-fe-soft: var(--section-fe-soft);
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.875rem;
+}
+
 html {
   -webkit-tap-highlight-color: transparent;
+  background: var(--canvas);
+}
+
+body {
+  min-width: 320px;
+  background: var(--canvas);
+  color: var(--foreground);
+  font-family:
+    'Mona Sans', 'PingFang SC', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Noto Sans CJK SC',
+    system-ui, sans-serif;
+  font-optical-sizing: auto;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+::selection {
+  background: var(--primary-soft);
+  color: var(--foreground);
+}
+
+.app-canvas {
+  background-color: var(--canvas);
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+
+.workshop-shadow {
+  box-shadow:
+    0 1px 2px var(--shadow-color),
+    0 10px 32px color-mix(in oklch, var(--shadow-color), transparent 42%);
+}
+
+.section-rail-zh::before,
+.section-rail-fe::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  border-radius: inherit;
+  content: '';
+}
+
+.section-rail-zh::before {
+  background: var(--section-zh);
+}
+
+.section-rail-fe::before {
+  background: var(--section-fe);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

@@ -5,12 +5,10 @@ defineProps<{
 </script>
 
 <template>
-  <section
-    class="rounded-lg border border-neutral-200 bg-white p-4 shadow-sm dark:border-neutral-800 dark:bg-neutral-900"
-  >
+  <section class="rounded-lg border border-workshop-border bg-surface-raised p-5 shadow-sm">
     <h2
       v-if="title"
-      class="mb-3 text-sm font-semibold tracking-wide text-neutral-500 uppercase dark:text-neutral-400"
+      class="mb-4 text-[11px] font-bold tracking-[0.14em] text-muted-foreground uppercase"
     >
       {{ title }}
     </h2>

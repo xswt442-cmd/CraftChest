@@ -13,7 +13,7 @@ function toggle(): void {
 <template>
   <button
     type="button"
-    class="inline-flex cursor-pointer items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium text-neutral-600 transition-colors hover:bg-neutral-200/60 dark:text-neutral-300 dark:hover:bg-neutral-800"
+    class="inline-flex min-h-9 cursor-pointer items-center gap-1.5 rounded-md px-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-surface-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
     :aria-label="locale === 'zh' ? 'Switch to English' : '切换到中文'"
     @click="toggle"
   >

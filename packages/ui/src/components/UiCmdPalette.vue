@@ -44,10 +44,10 @@ function selectValue(value: unknown): void {
   <DialogRoot v-model:open="open">
     <DialogPortal>
       <DialogOverlay
-        class="fixed inset-0 z-70 bg-neutral-950/55 backdrop-blur-[2px] data-[state=open]:animate-in"
+        class="fixed inset-0 z-70 bg-black/55 backdrop-blur-[2px] data-[state=open]:animate-in"
       />
       <DialogContent
-        class="fixed top-[12vh] left-1/2 z-80 flex max-h-[76vh] w-[calc(100%-2rem)] max-w-2xl -translate-x-1/2 flex-col overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-2xl outline-none dark:border-neutral-700 dark:bg-neutral-900"
+        class="workshop-shadow fixed top-[12vh] left-1/2 z-80 flex max-h-[76vh] w-[calc(100%-2rem)] max-w-2xl -translate-x-1/2 flex-col overflow-hidden rounded-lg border border-workshop-border bg-surface-raised outline-none"
         @open-auto-focus.prevent
       >
         <DialogTitle class="sr-only">{{ title }}</DialogTitle>
@@ -59,29 +59,27 @@ function selectValue(value: unknown): void {
           open-on-focus
           @update:model-value="selectValue"
         >
-          <div
-            class="flex items-center gap-3 border-b border-neutral-200 px-4 dark:border-neutral-700"
-          >
-            <span aria-hidden="true" class="text-lg text-neutral-400">⌕</span>
+          <div class="flex items-center gap-3 border-b border-workshop-border px-4">
+            <span aria-hidden="true" class="text-lg text-muted-foreground">⌕</span>
             <ComboboxInput
               :auto-focus="true"
               :placeholder="placeholder"
-              class="h-14 min-w-0 flex-1 bg-transparent text-base text-neutral-900 outline-none placeholder:text-neutral-400 dark:text-neutral-100"
+              class="h-14 min-w-0 flex-1 bg-transparent text-base text-foreground outline-none placeholder:text-muted-foreground/65"
             />
             <kbd
-              class="rounded border border-neutral-200 bg-neutral-50 px-1.5 py-0.5 text-[10px] text-neutral-400 dark:border-neutral-700 dark:bg-neutral-800"
+              class="rounded border border-workshop-border bg-surface-muted px-1.5 py-0.5 text-[10px] text-muted-foreground"
               >Esc</kbd
             >
           </div>
 
           <ComboboxContent force-mount class="min-h-0 flex-1">
             <ComboboxViewport class="max-h-[56vh] p-2">
-              <ComboboxEmpty class="px-4 py-12 text-center text-sm text-neutral-400">{{
+              <ComboboxEmpty class="px-4 py-12 text-center text-sm text-muted-foreground">{{
                 emptyText
               }}</ComboboxEmpty>
               <ComboboxGroup v-for="group in groups" :key="group.id">
                 <ComboboxLabel
-                  class="px-2 pt-3 pb-1.5 text-[11px] font-semibold tracking-wider text-neutral-400 uppercase"
+                  class="px-2 pt-3 pb-1.5 text-[10px] font-bold tracking-[0.14em] text-muted-foreground uppercase"
                   >{{ group.label }}</ComboboxLabel
                 >
                 <ComboboxItem
@@ -89,20 +87,20 @@ function selectValue(value: unknown): void {
                   :key="item.value"
                   :value="item.value"
                   :text-value="item.searchText"
-                  class="group flex cursor-default items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-neutral-700 outline-none data-[highlighted]:bg-amber-50 data-[highlighted]:text-amber-950 dark:text-neutral-200 dark:data-[highlighted]:bg-amber-500/15 dark:data-[highlighted]:text-amber-100"
+                  class="group flex cursor-default items-center gap-3 rounded-md px-3 py-2.5 text-sm text-foreground outline-none data-[highlighted]:bg-primary-soft data-[highlighted]:text-foreground"
                 >
                   <slot name="item" :item="item">
                     <span class="min-w-0 flex-1">
                       <b class="block truncate font-medium">{{ item.label }}</b>
                       <span
                         v-if="item.description"
-                        class="mt-0.5 block truncate text-xs text-neutral-400 group-data-[highlighted]:text-amber-700/70 dark:group-data-[highlighted]:text-amber-300/70"
+                        class="mt-0.5 block truncate text-xs text-muted-foreground"
                         >{{ item.description }}</span
                       >
                     </span>
                     <span
                       aria-hidden="true"
-                      class="text-neutral-300 opacity-0 group-data-[highlighted]:opacity-100 dark:text-neutral-600"
+                      class="text-muted-foreground opacity-0 group-data-[highlighted]:opacity-100"
                       >↵</span
                     >
                   </slot>
@@ -113,7 +111,7 @@ function selectValue(value: unknown): void {
         </ComboboxRoot>
 
         <footer
-          class="flex items-center gap-4 border-t border-neutral-200 px-4 py-2 text-[11px] text-neutral-400 dark:border-neutral-700"
+          class="flex items-center gap-4 border-t border-workshop-border px-4 py-2 text-[11px] text-muted-foreground"
         >
           <span><kbd>↑↓</kbd> {{ selectHint }}</span>
           <span><kbd>Esc</kbd> {{ closeHint }}</span>

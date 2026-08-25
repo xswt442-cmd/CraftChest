@@ -9,6 +9,11 @@ export default {
       fe: '前端工具',
     },
   },
+  theme: {
+    system: '主题：跟随系统',
+    light: '主题：浅色',
+    dark: '主题：深色',
+  },
   home: {
     heroTitle: 'CraftChest · 合成箱',
     heroSub: '纯前端工具箱：所有计算在浏览器完成，零后端、零外部 API，数据只存本地。',

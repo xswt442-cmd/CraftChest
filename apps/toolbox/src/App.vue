@@ -6,6 +6,7 @@ import AppIcon from './components/AppIcon.vue'
 import CommandPalette from './components/CommandPalette.vue'
 import LocaleToggle from './components/LocaleToggle.vue'
 import SidebarNav from './components/SidebarNav.vue'
+import ThemeToggle from './components/ThemeToggle.vue'
 import { findTool } from './registry'
 
 const route = useRoute()
@@ -53,36 +54,44 @@ onBeforeUnmount(() => window.removeEventListener('keydown', handleCommandShortcu
 </script>
 
 <template>
-  <div class="min-h-dvh bg-neutral-50 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100">
+  <div class="app-canvas min-h-dvh bg-canvas text-foreground">
     <SidebarNav v-model="navOpen" @command="commandOpen = true" />
     <CommandPalette v-model:open="commandOpen" />
 
     <div class="flex min-h-dvh flex-col md:pl-64">
       <!-- 移动端顶栏 -->
       <header
-        class="sticky top-0 z-30 flex h-12 items-center gap-3 border-b border-neutral-200 bg-white/90 px-4 backdrop-blur md:hidden dark:border-neutral-800 dark:bg-neutral-900/90"
+        class="sticky top-0 z-30 flex h-13 items-center gap-3 border-b border-workshop-border bg-surface/92 px-4 backdrop-blur-md md:hidden"
       >
         <button
           type="button"
-          class="cursor-pointer rounded p-1.5 text-neutral-600 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800"
+          class="cursor-pointer rounded-md p-2 text-muted-foreground hover:bg-surface-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           aria-label="Menu"
           @click="navOpen = true"
         >
           <AppIcon name="lucide:menu" class="size-5" />
         </button>
-        <span class="text-base font-semibold tracking-tight">📦 CraftChest</span>
+        <span class="flex items-center gap-2 text-base font-semibold tracking-tight">
+          <span
+            class="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground"
+          >
+            <AppIcon name="lucide:package-open" class="size-4" />
+          </span>
+          CraftChest
+        </span>
         <button
           type="button"
-          class="ml-auto cursor-pointer rounded p-1.5 text-neutral-500 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800"
+          class="ml-auto cursor-pointer rounded-md p-2 text-muted-foreground hover:bg-surface-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           :aria-label="t('command.title')"
           @click="commandOpen = true"
         >
           <AppIcon name="lucide:search" class="size-5" />
         </button>
+        <ThemeToggle />
         <LocaleToggle />
       </header>
 
-      <main class="mx-auto w-full max-w-5xl flex-1 px-4 py-6 md:px-8 md:py-10">
+      <main class="mx-auto w-full max-w-6xl flex-1 px-4 py-6 md:px-8 md:py-10 lg:px-10">
         <RouterView />
       </main>
     </div>
