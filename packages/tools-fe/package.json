@@ -9,13 +9,21 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "check": "tsc --noEmit"
+    "check": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "@craftchest/toolkit-core": "workspace:*"
+    "@craftchest/toolkit-core": "workspace:*",
+    "@craftchest/ui": "workspace:*"
+  },
+  "peerDependencies": {
+    "vue": "^3.5",
+    "vue-i18n": "^11"
   },
   "devDependencies": {
     "@craftchest/config": "workspace:*",
-    "typescript": "~5.8"
+    "typescript": "~5.8",
+    "vue": "^3.5",
+    "vue-i18n": "^11",
+    "vue-tsc": "^3"
   }
 }

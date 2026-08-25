@@ -7,6 +7,7 @@ import IconHouse from '~icons/lucide/house'
 import IconLanguages from '~icons/lucide/languages'
 import IconMenu from '~icons/lucide/menu'
 import IconMoonStar from '~icons/lucide/moon-star'
+import IconPalette from '~icons/lucide/palette'
 import IconPuzzle from '~icons/lucide/puzzle'
 import IconSearch from '~icons/lucide/search'
 import IconSpeech from '~icons/lucide/speech'
@@ -26,6 +27,7 @@ export const toolIcons: Record<string, Component> = {
   'lucide:languages': IconLanguages,
   'lucide:menu': IconMenu,
   'lucide:moon-star': IconMoonStar,
+  'lucide:palette': IconPalette,
   'lucide:puzzle': IconPuzzle,
   'lucide:speech': IconSpeech,
   'lucide:search': IconSearch,
