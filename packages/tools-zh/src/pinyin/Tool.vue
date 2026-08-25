@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useHashShareState } from '@craftchest/toolkit-core'
 import { UiButton, UiCard, UiCheckbox, UiTextarea } from '@craftchest/ui'
+import { isPinyinShareState } from './share-state'
 import type { PinyinFormat } from './service'
 import { toPinyin } from './service'
 
@@ -21,6 +23,10 @@ const { t } = useI18n({
       copied: '已复制',
       copyFailed: '复制失败，请手动选择复制',
       note: '非中文字符原样保留；默认按上下文选取读音，勾选后列出多音字全部读音。',
+      share: '复制选项链接',
+      shared: '选项链接已复制',
+      shareFailed: '状态或剪贴板不可用',
+      invalidShare: '分享链接选项无效，已使用默认值',
     },
     en: {
       inputLabel: 'Text',
@@ -34,6 +40,10 @@ const { t } = useI18n({
       copied: 'Copied',
       copyFailed: 'Copy failed — please select and copy manually',
       note: 'Non-Chinese text is kept as-is; readings follow context unless “all readings” is checked.',
+      share: 'Copy options link',
+      shared: 'Options link copied',
+      shareFailed: 'State or clipboard unavailable',
+      invalidShare: 'Invalid shared options — defaults restored',
     },
   },
 })
@@ -46,6 +56,19 @@ const formatOptions = computed<Array<{ value: PinyinFormat; label: string }>>(()
   { value: 'num', label: t('formats.num') },
   { value: 'none', label: t('formats.none') },
 ])
+const { status: shareState, copyUrl: shareOptions } = useHashShareState({
+  validate: isPinyinShareState,
+  read: () => ({ format: format.value, multiple: multiple.value }),
+  apply: (shared) => {
+    format.value = shared.format
+    multiple.value = shared.multiple
+  },
+})
+const shareLabel = computed(() => {
+  if (shareState.value === 'copied') return t('shared')
+  if (shareState.value === 'failed') return t('shareFailed')
+  return t('share')
+})
 
 const output = computed(() => {
   const text = model.value
@@ -93,7 +116,11 @@ async function copyResult(): Promise<void> {
       </fieldset>
 
       <UiCheckbox v-model="multiple" :label="t('multipleLabel')" />
+      <UiButton @click="shareOptions">{{ shareLabel }}</UiButton>
     </div>
+    <p v-if="shareState === 'invalid'" class="text-xs text-danger">
+      {{ t('invalidShare') }}
+    </p>
 
     <UiCard :title="t('resultTitle')">
       <p v-if="output === ''" class="text-sm text-muted-foreground">

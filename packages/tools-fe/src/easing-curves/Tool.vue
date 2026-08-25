@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useHashShareState } from '@craftchest/toolkit-core'
 import { UiButton, UiCard } from '@craftchest/ui'
+import { isEasingShareState, toEasingShareState } from './share-state'
 import { EASING_PRESETS, toCubicBezier, toSvgPath, type BezierCurve } from './service'
 
 const { t } = useI18n({
@@ -17,6 +19,10 @@ const { t } = useI18n({
       output: 'CSS 输出',
       copy: '复制',
       copied: '已复制',
+      share: '复制分享链接',
+      shared: '分享链接已复制',
+      shareFailed: '状态或剪贴板不可用',
+      invalidShare: '分享链接状态无效，已使用默认值',
     },
     en: {
       presets: 'Presets',
@@ -28,6 +34,10 @@ const { t } = useI18n({
       output: 'CSS output',
       copy: 'Copy',
       copied: 'Copied',
+      share: 'Copy share link',
+      shared: 'Share link copied',
+      shareFailed: 'State or clipboard unavailable',
+      invalidShare: 'Invalid shared state — defaults restored',
     },
   },
 })
@@ -38,6 +48,22 @@ const running = ref(false)
 const copied = ref(false)
 const cssValue = computed(() => toCubicBezier(curve))
 const path = computed(() => toSvgPath(curve))
+const { status: shareState, copyUrl: shareEasing } = useHashShareState({
+  validate: isEasingShareState,
+  read: () => toEasingShareState(curve, duration.value),
+  apply: (shared) => {
+    curve.x1 = shared.curve.x1
+    curve.y1 = shared.curve.y1
+    curve.x2 = shared.curve.x2
+    curve.y2 = shared.curve.y2
+    duration.value = shared.duration
+  },
+})
+const shareLabel = computed(() => {
+  if (shareState.value === 'copied') return t('shared')
+  if (shareState.value === 'failed') return t('shareFailed')
+  return t('share')
+})
 
 function applyPreset(name: keyof typeof EASING_PRESETS): void {
   Object.assign(curve, EASING_PRESETS[name])
@@ -156,7 +182,13 @@ async function copyCss(): Promise<void> {
           data-testid="easing-css"
           >transition-timing-function: {{ cssValue }};</code
         >
-        <UiButton class="mt-3" @click="copyCss">{{ copied ? t('copied') : t('copy') }}</UiButton>
+        <div class="mt-3 flex flex-wrap items-center gap-3">
+          <UiButton @click="copyCss">{{ copied ? t('copied') : t('copy') }}</UiButton>
+          <UiButton @click="shareEasing">{{ shareLabel }}</UiButton>
+        </div>
+        <p v-if="shareState === 'invalid'" class="mt-2 text-xs text-danger">
+          {{ t('invalidShare') }}
+        </p>
       </UiCard>
     </div>
   </div>

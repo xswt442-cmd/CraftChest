@@ -1,8 +1,26 @@
 import tailwindcss from '@tailwindcss/vite'
 import vue from '@vitejs/plugin-vue'
-import { defineConfig } from 'vite'
+import { defineConfig, type Plugin } from 'vite'
 import Icons from 'unplugin-icons/vite'
 import { VitePWA } from 'vite-plugin-pwa'
+import { buildRobots, buildSitemap, parseSiteUrl, PUBLIC_TOOL_ROUTES } from './src/seo-assets'
+
+function staticSeoAssets(): Plugin {
+  const siteUrl = parseSiteUrl(process.env.CRAFTCHEST_SITE_URL ?? process.env.CF_PAGES_URL)
+  return {
+    name: 'craftchest-static-seo',
+    generateBundle() {
+      this.emitFile({ type: 'asset', fileName: 'robots.txt', source: buildRobots(siteUrl) })
+      if (siteUrl) {
+        this.emitFile({
+          type: 'asset',
+          fileName: 'sitemap.xml',
+          source: buildSitemap(siteUrl, PUBLIC_TOOL_ROUTES),
+        })
+      }
+    },
+  }
+}
 
 export default defineConfig({
   build: {
@@ -17,6 +35,7 @@ export default defineConfig({
     },
   },
   plugins: [
+    staticSeoAssets(),
     vue(),
     tailwindcss(),
     // 图标构建期内联（@iconify-json/lucide），运行时零外部请求

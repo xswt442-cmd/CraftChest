@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { buildHashStateUrl, decodeHashState, hasHashState } from '@craftchest/toolkit-core'
+import { useHashShareState } from '@craftchest/toolkit-core'
 import { UiButton, UiCard, UiSelect, type UiSelectOption } from '@craftchest/ui'
 import { isGradientShareState, toGradientShareState } from './share-state'
 import { buildGradient, toBackgroundDeclaration, type GradientKind } from './service'
@@ -61,7 +61,6 @@ const options = computed(() => ({ ...state, stops: colors }))
 const gradient = computed(() => buildGradient(options.value))
 const declaration = computed(() => toBackgroundDeclaration(options.value))
 const copyState = ref<'idle' | 'copied' | 'failed'>('idle')
-const shareState = ref<'idle' | 'copied' | 'failed' | 'invalid'>('idle')
 const shareLabel = computed(() => {
   if (shareState.value === 'copied') return t('shared')
   if (shareState.value === 'failed') return t('shareFailed')
@@ -78,22 +77,19 @@ const kindModel = computed({
     if (value === 'linear' || value === 'radial' || value === 'conic') state.kind = value
   },
 })
-
-onMounted(() => {
-  if (!hasHashState(window.location.hash)) return
-  const shared = decodeHashState(window.location.hash, isGradientShareState)
-  if (!shared) {
-    shareState.value = 'invalid'
-    return
-  }
-  Object.assign(state, {
-    kind: shared.kind,
-    angle: shared.angle,
-    centerX: shared.centerX,
-    centerY: shared.centerY,
-  })
-  colors[0]!.color = shared.colors[0]
-  colors[1]!.color = shared.colors[1]
+const { status: shareState, copyUrl: shareGradient } = useHashShareState({
+  validate: isGradientShareState,
+  read: () => toGradientShareState(options.value),
+  apply: (shared) => {
+    Object.assign(state, {
+      kind: shared.kind,
+      angle: shared.angle,
+      centerX: shared.centerX,
+      centerY: shared.centerY,
+    })
+    colors[0]!.color = shared.colors[0]
+    colors[1]!.color = shared.colors[1]
+  },
 })
 
 async function copyCss(): Promise<void> {
@@ -104,23 +100,6 @@ async function copyCss(): Promise<void> {
     copyState.value = 'failed'
   }
   setTimeout(() => (copyState.value = 'idle'), 1500)
-}
-
-async function shareGradient(): Promise<void> {
-  const shared = toGradientShareState(options.value)
-  if (!isGradientShareState(shared)) {
-    shareState.value = 'failed'
-    return
-  }
-  const url = buildHashStateUrl(window.location.href, shared)
-  window.history.replaceState(window.history.state, '', url)
-  try {
-    await navigator.clipboard.writeText(url)
-    shareState.value = 'copied'
-  } catch {
-    shareState.value = 'failed'
-  }
-  setTimeout(() => (shareState.value = 'idle'), 1800)
 }
 </script>
 

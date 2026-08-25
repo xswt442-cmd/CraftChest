@@ -28,6 +28,10 @@ describe('hash state', () => {
     expect(decodeHashState('#s=broken', isExampleState)).toBeNull()
   })
 
+  it('拒绝超长 hash，避免无界解压输入', () => {
+    expect(decodeHashState(`#s=${'a'.repeat(8192)}`, isExampleState)).toBeNull()
+  })
+
   it('调用方校验失败时拒绝状态', () => {
     expect(decodeHashState(encodeHashState({ angle: 'bad' }), isExampleState)).toBeNull()
   })

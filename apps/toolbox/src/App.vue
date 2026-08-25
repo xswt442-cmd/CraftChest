@@ -7,7 +7,7 @@ import CommandPalette from './components/CommandPalette.vue'
 import LocaleToggle from './components/LocaleToggle.vue'
 import SidebarNav from './components/SidebarNav.vue'
 import ThemeToggle from './components/ThemeToggle.vue'
-import { findTool } from './registry'
+import { applyDocumentMetadata, resolveDocumentMetadata } from './document-meta'
 
 const route = useRoute()
 const { locale, t } = useI18n()
@@ -19,25 +19,17 @@ watch(
   () => (navOpen.value = false),
 )
 
-// 文档标题随路由与语言更新
+// 文档元信息随路由与语言更新；工具标题和描述只取注册表这一份事实来源。
 watch(
-  [() => route.name, () => locale.value],
+  [() => route.name, () => route.params.id, () => locale.value],
   () => {
-    const base = 'CraftChest'
-    if (route.name === 'home') {
-      document.title = `${t('app.tagline')} · ${base}`
-      return
-    }
-    const section = route.name === 'tool-zh' ? 'zh' : route.name === 'tool-fe' ? 'fe' : undefined
-    if (section && typeof route.params.id === 'string') {
-      const tool = findTool(section, route.params.id)
-      if (tool) {
-        const title = tool.title[locale.value === 'en' ? 'en' : 'zh']
-        document.title = `${title} · ${base}`
-        return
-      }
-    }
-    document.title = base
+    applyDocumentMetadata(
+      resolveDocumentMetadata(route.name, route.params.id, locale.value === 'en' ? 'en' : 'zh', {
+        homeTitle: t('app.tagline'),
+        homeDescription: t('home.heroSub'),
+        fallbackDescription: t('app.description'),
+      }),
+    )
   },
   { immediate: true },
 )
@@ -94,6 +86,13 @@ onBeforeUnmount(() => window.removeEventListener('keydown', handleCommandShortcu
       <main class="mx-auto w-full max-w-6xl flex-1 px-4 py-6 md:px-8 md:py-10 lg:px-10">
         <RouterView />
       </main>
+      <footer
+        class="mx-4 border-t border-workshop-border px-2 py-5 text-center text-xs leading-relaxed text-muted-foreground md:mx-8 lg:mx-10"
+      >
+        <strong class="font-semibold text-foreground">{{ t('privacy.title') }}</strong>
+        <span class="mx-1.5" aria-hidden="true">·</span>
+        {{ t('privacy.promise') }}
+      </footer>
     </div>
   </div>
 </template>

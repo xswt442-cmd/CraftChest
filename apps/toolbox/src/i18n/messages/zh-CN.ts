@@ -1,6 +1,7 @@
 export default {
   app: {
     tagline: '合成你的小工具箱',
+    description: '纯前端中文文本与前端交互工具箱，无后端、无外部 API。',
   },
   nav: {
     home: '首页',
@@ -31,6 +32,10 @@ export default {
     recent: '最近使用',
     navigateHint: '选择并打开',
     closeHint: '关闭',
+  },
+  privacy: {
+    title: '数据不出浏览器',
+    promise: '所有计算均在本地完成；无账号、无遥测、无追踪，也不会上传你的输入。',
   },
   notFound: {
     title: '404 · 走进了空箱子',

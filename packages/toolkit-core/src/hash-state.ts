@@ -2,6 +2,8 @@ import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from
 
 const HASH_PREFIX = '#s='
 const STATE_VERSION = 1
+const MAX_HASH_LENGTH = 8192
+const MAX_JSON_LENGTH = 65_536
 
 interface StateEnvelope {
   v: number
@@ -19,10 +21,10 @@ export function decodeHashState<T>(
   hash: string,
   validate: (value: unknown) => value is T,
 ): T | null {
-  if (!hash.startsWith(HASH_PREFIX)) return null
+  if (!hash.startsWith(HASH_PREFIX) || hash.length > MAX_HASH_LENGTH) return null
   try {
     const json = decompressFromEncodedURIComponent(hash.slice(HASH_PREFIX.length))
-    if (!json) return null
+    if (!json || json.length > MAX_JSON_LENGTH) return null
     const envelope: unknown = JSON.parse(json)
     if (typeof envelope !== 'object' || envelope === null) return null
     const { v, data } = envelope as Partial<StateEnvelope>

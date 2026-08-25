@@ -1,6 +1,7 @@
 export default {
   app: {
     tagline: 'Compose your little toolbox',
+    description: 'An all-in-browser toolbox for Chinese text and front-end interactions.',
   },
   nav: {
     home: 'Home',
@@ -32,6 +33,10 @@ export default {
     recent: 'Recently used',
     navigateHint: 'Select and open',
     closeHint: 'Close',
+  },
+  privacy: {
+    title: 'Your data stays in your browser',
+    promise: 'All processing is local: no accounts, telemetry, tracking, or uploaded input.',
   },
   notFound: {
     title: '404 · Empty chest',

@@ -35,6 +35,8 @@ pnpm qa           # 构建产物的 QA 矩阵（需先 pnpm build）
 ## 部署
 
 静态产物托管于 Cloudflare Pages，推送 `main` 分支自动构建部署。
+构建会读取 Cloudflare 注入的 `CF_PAGES_URL` 生成 `sitemap.xml`；绑定正式域名后，
+请将 `CRAFTCHEST_SITE_URL` 设为站点根 URL（优先级更高），避免 sitemap 指向 Pages 临时域名。
 
 ## License
 

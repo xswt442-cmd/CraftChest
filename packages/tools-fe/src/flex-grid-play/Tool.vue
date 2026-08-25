@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { UiCard, UiCheckbox, UiSelect, type UiSelectOption } from '@craftchest/ui'
+import { useHashShareState } from '@craftchest/toolkit-core'
+import { UiButton, UiCard, UiCheckbox, UiSelect, type UiSelectOption } from '@craftchest/ui'
+import { isFlexGridShareState, toFlexGridShareState } from './share-state'
 import { buildContainerStyle, buildItemStyle, stylesToCss, type LayoutOptions } from './service'
 
 const { t } = useI18n({
@@ -22,6 +24,10 @@ const { t } = useI18n({
       css: 'CSS 速查',
       container: '容器',
       firstItem: '第一个子项',
+      share: '复制分享链接',
+      shared: '分享链接已复制',
+      shareFailed: '状态或剪贴板不可用',
+      invalidShare: '分享链接状态无效，已使用默认值',
     },
     en: {
       controls: 'Layout controls',
@@ -38,6 +44,10 @@ const { t } = useI18n({
       css: 'CSS reference',
       container: 'Container',
       firstItem: 'First item',
+      share: 'Copy share link',
+      shared: 'Share link copied',
+      shareFailed: 'State or clipboard unavailable',
+      invalidShare: 'Invalid shared state — defaults restored',
     },
   },
 })
@@ -106,6 +116,26 @@ const alignModel = computed({
     if (value === 'stretch' || value === 'flex-start' || value === 'center' || value === 'flex-end')
       state.align = value
   },
+})
+const { status: shareState, copyUrl: shareLayout } = useHashShareState({
+  validate: isFlexGridShareState,
+  read: () => toFlexGridShareState(state),
+  apply: (shared) => {
+    state.mode = shared.mode
+    state.gap = shared.gap
+    state.direction = shared.direction
+    state.justify = shared.justify
+    state.align = shared.align
+    state.wrap = shared.wrap
+    state.columns = shared.columns
+    state.itemGrow = shared.itemGrow
+    state.itemSpan = shared.itemSpan
+  },
+})
+const shareLabel = computed(() => {
+  if (shareState.value === 'copied') return t('shared')
+  if (shareState.value === 'failed') return t('shareFailed')
+  return t('share')
 })
 </script>
 
@@ -193,6 +223,10 @@ const alignModel = computed({
               >{{ itemCss }}</pre>
           </div>
         </div>
+        <UiButton class="mt-3" @click="shareLayout">{{ shareLabel }}</UiButton>
+        <p v-if="shareState === 'invalid'" class="mt-2 text-xs text-danger">
+          {{ t('invalidShare') }}
+        </p>
       </UiCard>
     </div>
   </div>

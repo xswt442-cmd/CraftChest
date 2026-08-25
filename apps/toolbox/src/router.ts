@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteLocationNormalized } from 'vue-router'
-import type { ToolSection } from '@craftchest/toolkit-core'
+import { hasHashState, type ToolSection } from '@craftchest/toolkit-core'
 
 /**
  * 路由表由注册表派生：/zh/:id 与 /fe/:id 两条动态路由承载全部工具页，
@@ -40,7 +40,8 @@ export const router = createRouter({
   ],
   scrollBehavior(_to, _from, savedPosition) {
     if (savedPosition) return savedPosition
-    if (_to.hash) return { el: _to.hash }
+    // #s= 是工具状态协议，不是页面锚点；交给工具组件解码，避免当 CSS selector 滚动。
+    if (_to.hash && !hasHashState(_to.hash)) return { el: _to.hash }
     return { top: 0 }
   },
 })

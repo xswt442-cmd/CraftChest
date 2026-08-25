@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useHashShareState } from '@craftchest/toolkit-core'
 import { UiButton, UiCard } from '@craftchest/ui'
+import { isContrastShareState } from './share-state'
 import { normalizeHex, rateContrast, suggestColor } from './service'
 
 const { t } = useI18n({
@@ -25,6 +27,10 @@ const { t } = useI18n({
       changeBackground: '调整背景',
       apply: '应用',
       already: '当前配色已满足普通文本 AA。',
+      share: '复制分享链接',
+      shared: '分享链接已复制',
+      shareFailed: '状态或剪贴板不可用',
+      invalidShare: '分享链接状态无效，已使用默认值',
     },
     en: {
       foreground: 'Foreground',
@@ -44,6 +50,10 @@ const { t } = useI18n({
       changeBackground: 'Change background',
       apply: 'Apply',
       already: 'This pair already passes AA for normal text.',
+      share: 'Copy share link',
+      shared: 'Share link copied',
+      shareFailed: 'State or clipboard unavailable',
+      invalidShare: 'Invalid shared state — defaults restored',
     },
   },
 })
@@ -62,6 +72,19 @@ const foregroundSuggestion = computed(() =>
 const backgroundSuggestion = computed(() =>
   valid.value ? suggestColor(background.value, foreground.value) : '',
 )
+const { status: shareState, copyUrl: shareContrast } = useHashShareState({
+  validate: isContrastShareState,
+  read: () => ({ foreground: foreground.value, background: background.value }),
+  apply: (shared) => {
+    foreground.value = shared.foreground
+    background.value = shared.background
+  },
+})
+const shareLabel = computed(() => {
+  if (shareState.value === 'copied') return t('shared')
+  if (shareState.value === 'failed') return t('shareFailed')
+  return t('share')
+})
 
 function swap(): void {
   const previous = foreground.value
@@ -97,7 +120,13 @@ function swap(): void {
           </span>
         </label>
         <p v-if="!valid" class="text-sm text-danger">{{ t('invalid') }}</p>
-        <UiButton @click="swap">{{ t('swap') }}</UiButton>
+        <div class="flex flex-wrap gap-2">
+          <UiButton @click="swap">{{ t('swap') }}</UiButton>
+          <UiButton :disabled="!valid" @click="shareContrast">{{ shareLabel }}</UiButton>
+        </div>
+        <p v-if="shareState === 'invalid'" class="text-xs text-danger">
+          {{ t('invalidShare') }}
+        </p>
       </div>
     </UiCard>
 

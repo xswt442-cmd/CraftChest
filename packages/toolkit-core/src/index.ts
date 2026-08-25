@@ -1,6 +1,8 @@
 import type { Component } from 'vue'
 
 export { buildHashStateUrl, decodeHashState, encodeHashState, hasHashState } from './hash-state'
+export { useHashShareState } from './use-hash-share-state'
+export type { HashShareController, HashShareOptions, HashShareStatus } from './use-hash-share-state'
 
 /** 工具分区标识 */
 export type ToolSection = 'zh' | 'fe'
