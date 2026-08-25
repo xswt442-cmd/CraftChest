@@ -5,6 +5,17 @@ import Icons from 'unplugin-icons/vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  build: {
+    // OpenCC 的本地词典是不可拆细的静态数据；独立命名后可从 PWA 预缓存中精确排除。
+    chunkSizeWarningLimit: 1300,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('/opencc-js/')) return 'opencc'
+        },
+      },
+    },
+  },
   plugins: [
     vue(),
     tailwindcss(),
@@ -33,6 +44,22 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
+        // 词典块约 1.2MB：避免每次安装 PWA 都下载；访问简繁转换后再长期缓存。
+        globIgnores: ['**/opencc-*.js'],
+        runtimeCaching: [
+          {
+            urlPattern: /\/assets\/opencc-[\w-]+\.js$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'opencc-dictionaries-v1',
+              cacheableResponse: { statuses: [0, 200] },
+              expiration: {
+                maxEntries: 2,
+                maxAgeSeconds: 60 * 60 * 24 * 365,
+              },
+            },
+          },
+        ],
       },
     }),
   ],
