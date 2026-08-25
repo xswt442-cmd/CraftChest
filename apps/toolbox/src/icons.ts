@@ -3,6 +3,7 @@ import IconActivity from '~icons/lucide/activity'
 import IconAlignLeft from '~icons/lucide/align-left'
 import IconArrowLeftRight from '~icons/lucide/arrow-left-right'
 import IconBanknote from '~icons/lucide/banknote'
+import IconContrast from '~icons/lucide/contrast'
 import IconHash from '~icons/lucide/hash'
 import IconHouse from '~icons/lucide/house'
 import IconLanguages from '~icons/lucide/languages'
@@ -25,6 +26,7 @@ export const toolIcons: Record<string, Component> = {
   'lucide:align-left': IconAlignLeft,
   'lucide:arrow-left-right': IconArrowLeftRight,
   'lucide:banknote': IconBanknote,
+  'lucide:contrast': IconContrast,
   'lucide:hash': IconHash,
   'lucide:house': IconHouse,
   'lucide:languages': IconLanguages,
