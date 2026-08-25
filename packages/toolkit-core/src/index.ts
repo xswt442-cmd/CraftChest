@@ -1,5 +1,7 @@
 import type { Component } from 'vue'
 
+export { buildHashStateUrl, decodeHashState, encodeHashState, hasHashState } from './hash-state'
+
 /** 工具分区标识 */
 export type ToolSection = 'zh' | 'fe'
 

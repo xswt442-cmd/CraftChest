@@ -18,5 +18,8 @@
     "@craftchest/config": "workspace:*",
     "typescript": "~5.8",
     "vue": "^3.5"
+  },
+  "dependencies": {
+    "lz-string": "^1.5.0"
   }
 }

@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { buildHashStateUrl, decodeHashState, hasHashState } from '@craftchest/toolkit-core'
 import { UiButton, UiCard } from '@craftchest/ui'
+import { isGradientShareState, toGradientShareState } from './share-state'
 import { buildGradient, toBackgroundDeclaration, type GradientKind } from './service'
 
 const { t } = useI18n({
@@ -22,6 +24,10 @@ const { t } = useI18n({
       copy: '复制 CSS',
       copied: '已复制',
       copyFailed: '复制失败，请手动选择',
+      share: '复制分享链接',
+      shared: '分享链接已复制',
+      shareFailed: '状态或剪贴板不可用',
+      invalidShare: '分享链接状态无效，已使用默认值',
     },
     en: {
       preview: 'Live preview',
@@ -38,6 +44,10 @@ const { t } = useI18n({
       copy: 'Copy CSS',
       copied: 'Copied',
       copyFailed: 'Copy failed — select manually',
+      share: 'Copy share link',
+      shared: 'Share link copied',
+      shareFailed: 'State or clipboard unavailable',
+      invalidShare: 'Invalid shared state — defaults restored',
     },
   },
 })
@@ -51,6 +61,29 @@ const options = computed(() => ({ ...state, stops: colors }))
 const gradient = computed(() => buildGradient(options.value))
 const declaration = computed(() => toBackgroundDeclaration(options.value))
 const copyState = ref<'idle' | 'copied' | 'failed'>('idle')
+const shareState = ref<'idle' | 'copied' | 'failed' | 'invalid'>('idle')
+const shareLabel = computed(() => {
+  if (shareState.value === 'copied') return t('shared')
+  if (shareState.value === 'failed') return t('shareFailed')
+  return t('share')
+})
+
+onMounted(() => {
+  if (!hasHashState(window.location.hash)) return
+  const shared = decodeHashState(window.location.hash, isGradientShareState)
+  if (!shared) {
+    shareState.value = 'invalid'
+    return
+  }
+  Object.assign(state, {
+    kind: shared.kind,
+    angle: shared.angle,
+    centerX: shared.centerX,
+    centerY: shared.centerY,
+  })
+  colors[0]!.color = shared.colors[0]
+  colors[1]!.color = shared.colors[1]
+})
 
 async function copyCss(): Promise<void> {
   try {
@@ -60,6 +93,23 @@ async function copyCss(): Promise<void> {
     copyState.value = 'failed'
   }
   setTimeout(() => (copyState.value = 'idle'), 1500)
+}
+
+async function shareGradient(): Promise<void> {
+  const shared = toGradientShareState(options.value)
+  if (!isGradientShareState(shared)) {
+    shareState.value = 'failed'
+    return
+  }
+  const url = buildHashStateUrl(window.location.href, shared)
+  window.history.replaceState(window.history.state, '', url)
+  try {
+    await navigator.clipboard.writeText(url)
+    shareState.value = 'copied'
+  } catch {
+    shareState.value = 'failed'
+  }
+  setTimeout(() => (shareState.value = 'idle'), 1800)
 }
 </script>
 
@@ -152,10 +202,14 @@ async function copyCss(): Promise<void> {
           <UiButton variant="primary" @click="copyCss">{{
             copyState === 'copied' ? t('copied') : t('copy')
           }}</UiButton>
+          <UiButton @click="shareGradient">{{ shareLabel }}</UiButton>
           <span v-if="copyState === 'failed'" class="text-xs text-red-600">{{
             t('copyFailed')
           }}</span>
         </div>
+        <p v-if="shareState === 'invalid'" class="mt-2 text-xs text-red-600 dark:text-red-400">
+          {{ t('invalidShare') }}
+        </p>
       </UiCard>
     </div>
   </div>
