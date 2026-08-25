@@ -4,15 +4,15 @@
 
 A fully client-side online toolbox with two sections:
 
-- **zh · Chinese text tools**: pinyin annotation, Simplified/Traditional conversion, lunar calendar, RMB amount in words, etc.
-- **fe · Front-end utilities**: gradient generator, flex/grid playground, and other visual debugging toys
+- **zh · Chinese text tools**: pinyin annotation, Simplified/Traditional conversion, lunar calendar lookup, RMB amount in words, CJK-Latin spacing, character counting
+- **fe · Front-end utilities**: gradient generator, flex/grid playground, and more (in development)
 
 ## Features
 
-- All computation runs in the browser — zero backend, zero external APIs
-- Data stays on your device (localStorage / IndexedDB); no accounts
-- Bilingual UI (Chinese / English), Chinese by default; installable PWA, works offline
-- Restrained scope, personal use first
+- All computations run in the browser — no backend services, no external API calls
+- User data stays in browser storage (localStorage / IndexedDB); no accounts
+- Bilingual UI (Chinese / English), Chinese by default
+- Installable PWA, works offline
 
 ## Tech Stack
 
@@ -22,11 +22,18 @@ pnpm monorepo: `apps/toolbox` + `packages/{toolkit-core, tools-zh, tools-fe, ui,
 
 ## Development
 
+Requires Node.js ≥ 20.19 and pnpm ≥ 9.
+
 ```sh
 pnpm install
 pnpm dev          # local dev server
-pnpm lint && pnpm check && pnpm test   # full verification
+pnpm build        # production build
+pnpm lint && pnpm check && pnpm test   # lint / type-check / unit tests
 ```
+
+## Deployment
+
+Static assets are hosted on Cloudflare Pages; pushing to `main` triggers an automatic build and deploy.
 
 ## License
 
