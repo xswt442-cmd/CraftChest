@@ -6,7 +6,7 @@ export default {
     home: '首页',
     sections: {
       zh: '中文工具',
-      fe: '前端玩具',
+      fe: '前端工具',
     },
   },
   home: {

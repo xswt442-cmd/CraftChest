@@ -4,7 +4,7 @@
 
 A fully client-side online toolbox with two sections:
 
-- **zh · Chinese text tools**: pinyin annotation, Simplified/Traditional conversion, lunar calendar lookup, RMB amount in words, CJK-Latin spacing, character counting
+- **zh · Chinese text tools**: pinyin annotation, Simplified/Traditional conversion, lunar calendar lookup, RMB amount in words, CJK-Latin spacing, character counting and more ((in development))
 - **fe · Front-end utilities**: gradient generator, flex/grid playground, and more (in development)
 
 ## Features

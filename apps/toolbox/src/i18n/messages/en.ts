@@ -6,7 +6,7 @@ export default {
     home: 'Home',
     sections: {
       zh: 'Chinese Tools',
-      fe: 'Front-end Toys',
+      fe: 'Front-end Tools',
     },
   },
   home: {
