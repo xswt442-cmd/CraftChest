@@ -29,7 +29,7 @@
     "tailwindcss": "^4",
     "typescript": "~5.8",
     "unplugin-icons": "^22",
-    "vite": "^7",
+    "vite": "^8",
     "vite-plugin-pwa": "^1",
     "vue-tsc": "^3"
   }

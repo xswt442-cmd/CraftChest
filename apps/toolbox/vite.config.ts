@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import { defineConfig, type Plugin } from 'vite'
 import Icons from 'unplugin-icons/vite'
 import { VitePWA } from 'vite-plugin-pwa'
-import { buildRobots, buildSitemap, parseSiteUrl, PUBLIC_TOOL_ROUTES } from './src/seo-assets'
+import { buildRobots, buildSitemap, parseSiteUrl, PUBLIC_TOOL_ROUTES } from './src/seo-assets.ts'
 
 function staticSeoAssets(): Plugin {
   const siteUrl = parseSiteUrl(process.env.CRAFTCHEST_SITE_URL ?? process.env.CF_PAGES_URL)
@@ -26,7 +26,7 @@ export default defineConfig({
   build: {
     // OpenCC 的本地词典是不可拆细的静态数据；独立命名后可从 PWA 预缓存中精确排除。
     chunkSizeWarningLimit: 1300,
-    rollupOptions: {
+    rolldownOptions: {
       output: {
         manualChunks(id) {
           if (id.includes('/opencc-js/')) return 'opencc'
