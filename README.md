@@ -34,9 +34,32 @@ pnpm qa           # 构建产物的 QA 矩阵（需先 pnpm build）
 
 ## 部署
 
-静态产物托管于 Cloudflare Pages，推送 `main` 分支自动构建部署。
-构建会读取 Cloudflare 注入的 `CF_PAGES_URL` 生成 `sitemap.xml`；绑定正式域名后，
-请将 `CRAFTCHEST_SITE_URL` 设为站点根 URL（优先级更高），避免 sitemap 指向 Pages 临时域名。
+仓库部署目标已切换为 Cloudflare Workers Static Assets；`wrangler.jsonc` 仅声明 assets，
+不包含 Worker 脚本。SPA 未命中的路径会回退到 `index.html`；线上切换仍需完成下述 Git 集成
+与独立域名发布步骤。
+
+开发与部署使用 Node `>=22.12`；Node 20 已结束官方维护，且当前 Wrangler / workerd
+工具链已要求 Node 22。
+
+本地预览与配置校验：
+
+```sh
+pnpm workers:dev
+pnpm workers:dry-run
+```
+
+Cloudflare Workers Builds 的 Git 集成建议配置为：
+
+- Production branch：`main`
+- Build command：`pnpm build`
+- Deploy command：`pnpm exec wrangler deploy`
+- Root directory：仓库根目录
+
+非生产分支由 Workers Builds 生成预览部署。正式域名切换保持为独立发布步骤：先确认
+Workers 预览 URL、SPA 深链与 PWA 更新均正常，再把现有自定义域名从 Pages 切到 Worker。
+
+正式环境请设置 `CRAFTCHEST_SITE_URL` 为站点根 URL，用于生成 `sitemap.xml`；迁移期间仍保留
+`CF_PAGES_URL` 作为 Pages 兼容回退。
 
 ## License
 

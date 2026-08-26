@@ -5,13 +5,16 @@
   "version": "0.1.0",
   "packageManager": "pnpm@11.12.0",
   "engines": {
-    "node": ">=20.19"
+    "node": ">=22.12"
   },
   "scripts": {
     "dev": "pnpm --filter @craftchest/toolbox dev",
     "build": "pnpm --filter @craftchest/toolbox build",
     "preview": "pnpm --filter @craftchest/toolbox preview",
     "qa": "node tests/qa/server.mjs",
+    "workers:dev": "pnpm build && wrangler dev",
+    "workers:dry-run": "pnpm build && wrangler deploy --dry-run",
+    "workers:deploy": "pnpm build && wrangler deploy",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint .",
@@ -29,6 +32,7 @@
     "prettier": "^3",
     "typescript": "~5.8",
     "typescript-eslint": "^8",
-    "vitest": "^4"
+    "vitest": "^4",
+    "wrangler": "4.125.0"
   }
 }

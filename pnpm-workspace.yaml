@@ -5,7 +5,9 @@ packages:
 # 允许运行构建脚本的依赖（pnpm 11 机制：allowBuilds）
 allowBuilds:
   esbuild: true
+  sharp: true
   vue-demi: true
+  workerd: true
 
 # 多环境（nvm4w / nodejs_global）切换时避免交互式确认阻塞
 confirmModulesPurge: false

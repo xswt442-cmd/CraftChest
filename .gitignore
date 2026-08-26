@@ -40,6 +40,7 @@ Desktop.ini
 
 # PWA 生成的临时产物
 dev-dist/
+.wrangler/
 
 # 本地测试杂物
 .codex/

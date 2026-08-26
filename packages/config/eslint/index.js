@@ -13,6 +13,7 @@ export default [
     ignores: [
       '**/dist/**',
       '**/dev-dist/**',
+      '**/.wrangler/**',
       '**/coverage/**',
       '**/node_modules/**',
       '**/*.vue.d.ts',
