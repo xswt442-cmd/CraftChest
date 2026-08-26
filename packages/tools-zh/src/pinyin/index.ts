@@ -6,11 +6,11 @@ export const pinyin = defineTool({
   section: 'zh',
   title: { zh: '拼音标注', en: 'Pinyin' },
   description: {
-    zh: '逐字注音：带调/数字/无声调三种格式，多音字可标全部读音。',
-    en: 'Per-character pinyin with tone marks/numbers/plain formats and polyphone readings.',
+    zh: '逐字注音并导出语义化 HTML ruby，支持三种声调格式与多音字。',
+    en: 'Per-character pinyin with semantic HTML ruby export, tone formats, and polyphones.',
   },
   icon: 'lucide:speech',
-  keywords: ['pinyin', '拼音', '注音', '多音字'],
+  keywords: ['pinyin', '拼音', '注音', '多音字', 'ruby', 'HTML'],
   component: () => import('./Tool.vue').then((m) => m.default),
   order: 20,
 })
