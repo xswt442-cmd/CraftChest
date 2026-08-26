@@ -3,6 +3,7 @@
  * 四个预设定型：字级简繁、台湾词汇、香港变体、繁→简；转换器惰性建单例缓存。
  */
 import OpenCC from 'opencc-js'
+import { diffText, type DiffSegment } from '../shared/text-diff'
 
 export type OpenccPreset = 'cn2t' | 'cn2tw' | 'cn2hk' | 't2cn'
 
@@ -30,4 +31,24 @@ function getConverter(preset: OpenccPreset): (text: string) => string {
 export function convertChinese(text: string, preset: OpenccPreset): string {
   if (text === '') return ''
   return getConverter(preset)(text)
+}
+
+export interface ConversionDiff {
+  segments: DiffSegment[]
+  changed: number
+  inserted: number
+  deleted: number
+}
+
+/** 比较原文与可编辑结果，按 Unicode 字符统计增删。 */
+export function compareChinese(source: string, result: string): ConversionDiff {
+  const segments = diffText(source, result)
+  let inserted = 0
+  let deleted = 0
+  for (const segment of segments) {
+    const length = Array.from(segment.text).length
+    if (segment.type === 'insert') inserted += length
+    if (segment.type === 'delete') deleted += length
+  }
+  return { segments, inserted, deleted, changed: Math.max(inserted, deleted) }
 }

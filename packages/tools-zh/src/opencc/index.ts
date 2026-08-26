@@ -6,11 +6,11 @@ export const opencc = defineTool({
   section: 'zh',
   title: { zh: '简繁转换', en: 'S/T Conversion' },
   description: {
-    zh: '简体↔繁体：字级与台湾/香港词汇级转换，词典本地内嵌。',
-    en: 'Simplified ↔ Traditional conversion with Taiwan/Hong Kong phrase variants.',
+    zh: '简繁与地区词汇转换，支持可编辑结果和逐字符差异视图。',
+    en: 'S/T and regional phrase conversion with editable results and character-level diff.',
   },
   icon: 'lucide:arrow-left-right',
-  keywords: ['opencc', '简繁', '繁體', '转换', 'traditional'],
+  keywords: ['opencc', '简繁', '繁體', '转换', 'traditional', 'diff', '差异'],
   component: () => import('./Tool.vue').then((m) => m.default),
   order: 30,
 })
