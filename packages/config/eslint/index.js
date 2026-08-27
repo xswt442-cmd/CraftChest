@@ -16,6 +16,7 @@ export default [
       '**/.wrangler/**',
       '**/coverage/**',
       '**/node_modules/**',
+      'testplace/repos/**',
       '**/*.vue.d.ts',
     ],
   },
