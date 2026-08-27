@@ -18,7 +18,7 @@
 
 Vue 3 `<script setup>` + TypeScript · Vite · Tailwind CSS v4 · Pinia · vue-router · reka-ui · vue-i18n · vite-plugin-pwa · vitest
 
-pnpm monorepo：`apps/toolbox` + `packages/{toolkit-core, tools-zh, tools-fe, ui, config}`
+pnpm monorepo：`apps/toolbox` + `packages/{toolkit-core, craft-core, tools-zh, tools-fe, ui, config}`。`craft-core` 提供不依赖 Vue/路由的最小 Craft 契约；分享 hash 仅包含版本化配方与显式的非敏感选项，材料和产物只驻留内存。
 
 ## 开发
 

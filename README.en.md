@@ -18,7 +18,7 @@ A fully client-side online toolbox with two sections:
 
 Vue 3 `<script setup>` + TypeScript · Vite · Tailwind CSS v4 · Pinia · vue-router · reka-ui · vue-i18n · vite-plugin-pwa · vitest
 
-pnpm monorepo: `apps/toolbox` + `packages/{toolkit-core, tools-zh, tools-fe, ui, config}`
+pnpm monorepo: `apps/toolbox` + `packages/{toolkit-core, craft-core, tools-zh, tools-fe, ui, config}`. `craft-core` supplies a minimal Craft contract with no Vue or router dependency; share hashes contain only a versioned recipe and explicit non-sensitive options, while materials and artifacts remain in memory.
 
 ## Development
 

@@ -111,6 +111,19 @@ importers:
 
   packages/config: {}
 
+  packages/craft-core:
+    dependencies:
+      '@craftchest/toolkit-core':
+        specifier: workspace:*
+        version: link:../toolkit-core
+    devDependencies:
+      '@craftchest/config':
+        specifier: workspace:*
+        version: link:../config
+      typescript:
+        specifier: ~5.8
+        version: 5.8.3
+
   packages/toolkit-core:
     dependencies:
       lz-string:
