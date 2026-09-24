@@ -1,7 +1,9 @@
 import type { Component } from 'vue'
 import IconActivity from '~icons/lucide/activity'
 import IconAlignLeft from '~icons/lucide/align-left'
+import IconArrowDownRight from '~icons/lucide/arrow-down-right'
 import IconArrowLeftRight from '~icons/lucide/arrow-left-right'
+import IconArrowUpRight from '~icons/lucide/arrow-up-right'
 import IconBanknote from '~icons/lucide/banknote'
 import IconContrast from '~icons/lucide/contrast'
 import IconHash from '~icons/lucide/hash'
@@ -15,6 +17,9 @@ import IconPalette from '~icons/lucide/palette'
 import IconPuzzle from '~icons/lucide/puzzle'
 import IconRegex from '~icons/lucide/regex'
 import IconSearch from '~icons/lucide/search'
+import IconShapes from '~icons/lucide/shapes'
+import IconShieldCheck from '~icons/lucide/shield-check'
+import IconSlidersHorizontal from '~icons/lucide/sliders-horizontal'
 import IconSpeech from '~icons/lucide/speech'
 import IconX from '~icons/lucide/x'
 
@@ -27,6 +32,8 @@ export const toolIcons: Record<string, Component> = {
   'lucide:activity': IconActivity,
   'lucide:align-left': IconAlignLeft,
   'lucide:arrow-left-right': IconArrowLeftRight,
+  'lucide:arrow-down-right': IconArrowDownRight,
+  'lucide:arrow-up-right': IconArrowUpRight,
   'lucide:banknote': IconBanknote,
   'lucide:contrast': IconContrast,
   'lucide:hash': IconHash,
@@ -41,6 +48,9 @@ export const toolIcons: Record<string, Component> = {
   'lucide:regex': IconRegex,
   'lucide:speech': IconSpeech,
   'lucide:search': IconSearch,
+  'lucide:shapes': IconShapes,
+  'lucide:sliders-horizontal': IconSlidersHorizontal,
+  'lucide:shield-check': IconShieldCheck,
   'lucide:x': IconX,
 }
 

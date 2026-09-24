@@ -41,7 +41,7 @@ function applyTheme(): void {
   document.documentElement.style.colorScheme = resolved
   document
     .querySelector<HTMLMetaElement>('meta[name="theme-color"]')
-    ?.setAttribute('content', resolved === 'dark' ? '#161a22' : '#f7f2e9')
+    ?.setAttribute('content', resolved === 'dark' ? '#161a22' : '#f4f6f8')
 }
 
 export function setThemePreference(preference: ThemePreference): void {

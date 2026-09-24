@@ -20,7 +20,7 @@ export default {
     dark: '主题：深色',
   },
   home: {
-    heroTitle: 'CraftChest · 合成箱',
+    heroTitle: 'CraftChest',
     heroSub:
       'Craft 把输入材料做成可直接使用的成果；Chest 收纳可独立使用、也可供 Craft 复用的工具。所有处理都在浏览器本地完成。',
     badge: 'CRAFT 成品工坊 · CHEST 单项工具',

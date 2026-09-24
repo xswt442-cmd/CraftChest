@@ -22,12 +22,12 @@ const toolCode = computed(() => {
 <template>
   <RouterLink
     :to="`/${tool.section}/${tool.id}`"
-    class="group relative flex min-h-40 flex-col gap-4 overflow-hidden rounded-xl border border-workshop-border/90 bg-surface-raised/90 p-5 pl-6 shadow-sm transition-[transform,border-color,box-shadow,background-color] duration-150 hover:-translate-y-0.5 hover:border-primary/30 hover:bg-surface-raised hover:shadow-lg hover:shadow-primary/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+    class="group relative flex min-h-40 flex-col gap-4 overflow-hidden rounded-[1.15rem] border border-workshop-border/90 bg-surface-raised/85 p-5 pl-6 shadow-sm transition-[transform,border-color,box-shadow,background-color] duration-200 hover:-translate-y-1 hover:border-primary/30 hover:bg-surface-raised hover:shadow-xl hover:shadow-slate-900/[0.06] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
     :class="tool.section === 'zh' ? 'section-rail-zh' : 'section-rail-fe'"
   >
-    <div class="flex items-start gap-3">
+    <div class="flex items-start gap-3.5">
       <span
-        class="flex size-11 shrink-0 items-center justify-center rounded-xl transition-colors"
+        class="grid size-11 shrink-0 place-items-center rounded-xl transition-[transform,background-color] duration-200 group-hover:scale-105"
         :class="
           tool.section === 'zh'
             ? 'bg-section-zh-soft text-section-zh'
@@ -38,7 +38,7 @@ const toolCode = computed(() => {
       </span>
       <div class="min-w-0 flex-1">
         <span
-          class="inline-flex rounded bg-surface-muted px-1.5 py-0.5 text-[9px] font-bold tracking-[0.14em] text-muted-foreground uppercase"
+          class="inline-flex rounded-md bg-surface-muted px-2 py-1 font-mono text-[9px] font-semibold tracking-[0.12em] text-muted-foreground"
         >
           {{ toolCode }}
         </span>
@@ -46,7 +46,7 @@ const toolCode = computed(() => {
       </div>
       <AppIcon
         name="lucide:arrow-up-right"
-        class="size-4 text-muted-foreground/45 transition-[color,transform] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary"
+        class="mt-1 size-4 text-muted-foreground/45 transition-[color,transform] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary"
       />
     </div>
     <p class="line-clamp-2 text-sm leading-relaxed text-muted-foreground">
