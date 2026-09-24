@@ -35,30 +35,6 @@ pnpm qa           # 构建产物的 QA 矩阵（需先 pnpm build）
 ## 部署
 
 仓库使用 Cloudflare Workers Static Assets；`wrangler.jsonc` 声明构建产物目录和 SPA 回退，
-不包含 Worker 脚本。当前 Worker `craftchest` 已绑定 `craftchest.xswt.fyi`，最近一次部署为手动发布。
-GitHub Actions 只做代码检查、类型检查、单元测试和构建，不会部署 Worker；Workers Builds 的 Git 自动部署仍需单独配置。
-
-开发与部署使用 Node `>=22.12`；Node 20 已结束官方维护，且当前 Wrangler / workerd
-工具链已要求 Node 22。
-
-本地预览与配置校验：
-
-```sh
-pnpm workers:dev
-pnpm workers:dry-run
-```
-
-配置 Workers Builds 时建议使用：
-
-- Production branch：`main`
-- Build command：`pnpm build`
-- Deploy command：`pnpm exec wrangler deploy`
-- Root directory：`/`（仓库根目录）
-
-Preview command 使用 `pnpm exec wrangler preview`；启用 Worker Previews 前需将 Wrangler
-升级至 `4.135.0` 或更高版本。正式环境继续使用 `pnpm exec wrangler deploy`。
-
-正式环境请设置 `CRAFTCHEST_SITE_URL=https://craftchest.xswt.fyi`，用于生成 `sitemap.xml`。
 
 ## License
 

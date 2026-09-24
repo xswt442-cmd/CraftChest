@@ -34,21 +34,9 @@ pnpm qa           # QA matrix over the built output (run after pnpm build)
 
 ## Deployment
 
-The repository targets Cloudflare Workers Static Assets through `wrangler.jsonc`, without a Worker
-script. The `craftchest` Worker is attached to `craftchest.xswt.fyi` and was most recently deployed
-manually. GitHub Actions runs quality checks only; it does not deploy the Worker. Workers Builds
-Git integration still needs to be configured.
-
-Recommended Workers Builds settings:
-
-- Production branch: `main`
-- Build command: `pnpm build`
-- Deploy command: `pnpm exec wrangler deploy`
-- Root directory: `/` (repository root)
-
-Use `pnpm exec wrangler preview` for branch previews after upgrading Wrangler to `4.135.0` or newer;
-use `pnpm exec wrangler deploy` for production. Set `CRAFTCHEST_SITE_URL` to
-`https://craftchest.xswt.fyi` so the build emits `sitemap.xml` with the canonical domain.
+The app is deployed as Cloudflare Workers Static Assets via `wrangler.jsonc`. GitHub Actions deploys
+to `craftchest.xswt.fyi` after CI passes on `main`; configure repository secrets `CF_TOKEN` and
+`CF_ACCOUNT_ID` to enable it.
 
 ## License
 
