@@ -23,7 +23,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          passed=$(gh run list --workflow ci.yml --commit "$GITHUB_SHA" --json status,conclusion \
+          passed=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow ci.yml --commit "$GITHUB_SHA" --json status,conclusion \
             --jq 'any(.[]; .status == "completed" and .conclusion == "success")')
           if [[ "$passed" != "true" ]]; then
             echo "::error::Deployment requires a successful CI run for commit $GITHUB_SHA."
