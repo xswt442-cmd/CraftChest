@@ -17,6 +17,16 @@ export const PUBLIC_TOOL_ROUTES: readonly PublicToolRoute[] = [
   { section: 'fe', id: 'contrast-checker' },
 ]
 
+export interface PublicCraftRoute {
+  id: string
+}
+
+/** Static mirror of the Craft registry, kept dependency-free for the Vite config. */
+export const PUBLIC_CRAFT_ROUTES: readonly PublicCraftRoute[] = [
+  { id: 'app-icon' },
+  { id: 'web-visual' },
+]
+
 export function parseSiteUrl(rawSiteUrl: string | undefined): URL | null {
   if (!rawSiteUrl) return null
   const siteUrl = new URL(rawSiteUrl)
@@ -35,8 +45,16 @@ function routeUrl(siteUrl: URL, routePath: string): string {
   return new URL(`${basePath}${routePath}`, siteUrl.origin).toString()
 }
 
-export function buildSitemap(siteUrl: URL, tools: readonly PublicToolRoute[]): string {
-  const routes = ['/', ...tools.map((tool) => `/${tool.section}/${tool.id}`)]
+export function buildSitemap(
+  siteUrl: URL,
+  tools: readonly PublicToolRoute[],
+  crafts: readonly PublicCraftRoute[] = PUBLIC_CRAFT_ROUTES,
+): string {
+  const routes = [
+    '/',
+    ...tools.map((tool) => `/${tool.section}/${tool.id}`),
+    ...crafts.map((craft) => `/craft/${craft.id}`),
+  ]
   const entries = routes.map((route) => `  <url><loc>${routeUrl(siteUrl, route)}</loc></url>`)
   return [
     '<?xml version="1.0" encoding="UTF-8"?>',

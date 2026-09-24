@@ -1,6 +1,13 @@
 import { describe, expect, it } from 'vitest'
+import { allCrafts } from './craft-registry'
 import { allTools } from './registry'
-import { buildRobots, buildSitemap, parseSiteUrl, PUBLIC_TOOL_ROUTES } from './seo-assets'
+import {
+  buildRobots,
+  buildSitemap,
+  parseSiteUrl,
+  PUBLIC_CRAFT_ROUTES,
+  PUBLIC_TOOL_ROUTES,
+} from './seo-assets'
 
 describe('static SEO assets', () => {
   it('从注册表生成首页与全部工具的绝对 URL', () => {
@@ -9,7 +16,8 @@ describe('static SEO assets', () => {
     const sitemap = buildSitemap(siteUrl!, PUBLIC_TOOL_ROUTES)
     expect(sitemap).toContain('<loc>https://tools.example.com/</loc>')
     expect(sitemap).toContain('<loc>https://tools.example.com/fe/gradient-gen</loc>')
-    expect(sitemap.match(/<url>/g)).toHaveLength(allTools.length + 1)
+    expect(sitemap).toContain('<loc>https://tools.example.com/craft/web-visual</loc>')
+    expect(sitemap.match(/<url>/g)).toHaveLength(allTools.length + allCrafts.length + 1)
   })
 
   it('支持部署在固定子路径', () => {
@@ -24,6 +32,9 @@ describe('static SEO assets', () => {
     const registered = allTools.map(({ section, id }) => `${section}/${id}`).sort()
     const publicRoutes = PUBLIC_TOOL_ROUTES.map(({ section, id }) => `${section}/${id}`).sort()
     expect(publicRoutes).toEqual(registered)
+    expect(PUBLIC_CRAFT_ROUTES.map(({ id }) => id).sort()).toEqual(
+      allCrafts.map(({ meta }) => meta.id).sort(),
+    )
   })
 
   it('拒绝非 HTTP 协议和带凭据的站点 URL', () => {

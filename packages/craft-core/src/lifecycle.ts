@@ -6,8 +6,8 @@ const TRANSITIONS: Readonly<Record<CraftStatus, readonly CraftStatus[]>> = {
   processing: ['preview-ready', 'partial-success', 'completed', 'failed'],
   'preview-ready': ['idle', 'processing', 'partial-success', 'completed', 'failed'],
   'partial-success': ['idle', 'processing', 'preview-ready', 'completed', 'failed'],
-  completed: ['idle', 'processing'],
-  failed: ['idle', 'input-invalid', 'processing'],
+  completed: ['idle', 'processing', 'preview-ready'],
+  failed: ['idle', 'input-invalid', 'processing', 'preview-ready'],
 }
 
 /** 查询一次状态变化是否属于 Craft 的最小生命周期。 */

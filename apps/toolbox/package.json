@@ -10,6 +10,9 @@
     "check": "vue-tsc --noEmit -p tsconfig.json && vue-tsc --noEmit -p tsconfig.node.json"
   },
   "dependencies": {
+    "@craftchest/craft-core": "workspace:*",
+    "@craftchest/crafts-app-icon": "workspace:*",
+    "@craftchest/crafts-web-visual": "workspace:*",
     "@craftchest/toolkit-core": "workspace:*",
     "@craftchest/tools-fe": "workspace:*",
     "@craftchest/tools-zh": "workspace:*",

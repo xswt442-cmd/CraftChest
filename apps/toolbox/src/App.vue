@@ -47,7 +47,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', handleCommandShortcu
 
 <template>
   <div class="app-canvas min-h-dvh bg-canvas text-foreground">
-    <SidebarNav v-model="navOpen" @command="commandOpen = true" />
+    <SidebarNav v-model:open="navOpen" @command="commandOpen = true" />
     <CommandPalette v-model:open="commandOpen" />
 
     <div class="flex min-h-dvh flex-col md:pl-64">

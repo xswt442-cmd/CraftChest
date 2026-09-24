@@ -47,7 +47,7 @@ export default defineConfig({
         name: 'CraftChest · 合成箱',
         short_name: 'CraftChest',
         description:
-          '纯前端在线工具箱：中文文本工具与前端小玩具。All-in-browser toolbox, no backend.',
+          'Craft 将材料制成可直接使用的成果，Chest 收纳可独立使用和复用的工具。所有处理均在浏览器本地完成。',
         lang: 'zh-CN',
         start_url: '/',
         scope: '/',

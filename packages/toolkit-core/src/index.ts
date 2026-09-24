@@ -45,7 +45,7 @@ export function sortTools(tools: readonly ToolMeta[]): ToolMeta[] {
   return [...tools].sort(byOrderThenId)
 }
 
-/** 按分区分组，各分区内已排序；两个分区键恒存在 */
+/** 按 Chest 工具类别分组，各类别内已排序；zh 与 fe 键始终存在。 */
 export function groupBySection(tools: readonly ToolMeta[]): Record<ToolSection, ToolMeta[]> {
   const grouped: Record<ToolSection, ToolMeta[]> = { zh: [], fe: [] }
   for (const tool of sortTools(tools)) {

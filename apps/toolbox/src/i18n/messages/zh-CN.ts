@@ -1,10 +1,12 @@
 export default {
   app: {
-    tagline: '合成你的小工具箱',
-    description: '纯前端中文文本与前端交互工具箱，无后端、无外部 API。',
+    tagline: 'Craft 把材料做成成品，Chest 提供可独立使用与复用的工具。',
+    description: 'CraftChest：Craft 成品工坊与 Chest 单项工具库存，所有处理均在浏览器本地完成。',
   },
   nav: {
     home: '首页',
+    crafts: '成品工坊',
+    chest: '单项工具',
     sections: {
       zh: '中文工具',
       fe: '前端工具',
@@ -17,15 +19,17 @@ export default {
   },
   home: {
     heroTitle: 'CraftChest · 合成箱',
-    heroSub: '纯前端工具箱：所有计算在浏览器完成，零后端、零外部 API，数据只存本地。',
-    searchPlaceholder: '搜索工具…（标题 / 描述 / 关键词）',
+    heroSub:
+      'Craft 把输入材料做成可直接使用的成果；Chest 收纳可独立使用、也可供 Craft 复用的工具。所有处理都在浏览器本地完成。',
+    badge: 'CRAFT 成品工坊 · CHEST 单项工具',
+    searchPlaceholder: '搜索 Craft 与单项工具…（标题 / 描述 / 关键词）',
     resultsTitle: '搜索结果',
-    noResults: '没有匹配的工具，换个关键词试试？',
-    toolCount: '{count} 个工具',
+    noResults: '没有匹配的 Craft 或工具，换个关键词试试？',
+    itemCount: '{count} 项',
   },
   command: {
-    title: '快速打开工具',
-    description: '搜索全部工具并跳转',
+    title: '快速打开 Craft 与工具',
+    description: '搜索全部 Craft 与单项工具',
     shortcut: '快速打开',
     placeholder: '搜索标题、描述或关键词…',
     empty: '没有匹配的工具',

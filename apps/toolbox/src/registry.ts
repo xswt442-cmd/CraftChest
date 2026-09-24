@@ -1,11 +1,15 @@
 import type { ToolMeta, ToolSection } from '@craftchest/toolkit-core'
-import { assertUniqueToolIds, groupBySection, searchTools, sortTools } from '@craftchest/toolkit-core'
+import {
+  assertUniqueToolIds,
+  groupBySection,
+  searchTools,
+  sortTools,
+} from '@craftchest/toolkit-core'
 import { feTools } from '@craftchest/tools-fe'
 import { zhTools } from '@craftchest/tools-zh'
 
 /**
- * 注册表：app 只做一件事——把集合数组交给这里（SPEC §3）。
- * 路由、侧栏菜单、搜索索引全部由此派生。
+ * 应用将工具集合交给注册表；路由、侧栏菜单与搜索索引均由注册数据派生。
  */
 
 const rawTools = [...zhTools, ...feTools]

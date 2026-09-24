@@ -57,8 +57,8 @@ export default [
     },
   },
   {
-    // SPEC §4：工具视图组件固定命名为 Tool.vue（四件套之一），豁免多词组件名规则
-    files: ['**/tools-*/src/**/Tool.vue'],
+    // Tool.vue 与 Craft.vue 是明确的领域入口文件名，豁免多词组件名规则。
+    files: ['**/tools-*/src/**/Tool.vue', '**/crafts-*/src/Craft.vue'],
     rules: { 'vue/multi-word-component-names': 'off' },
   },
   skipFormatting,

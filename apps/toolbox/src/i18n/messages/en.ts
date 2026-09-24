@@ -1,10 +1,13 @@
 export default {
   app: {
-    tagline: 'Compose your little toolbox',
-    description: 'An all-in-browser toolbox for Chinese text and front-end interactions.',
+    tagline: 'Craft turns inputs into outputs; Chest holds reusable tools.',
+    description:
+      'CraftChest combines ready-to-use Craft recipes with standalone Chest tools. All processing stays in your browser.',
   },
   nav: {
     home: 'Home',
+    crafts: 'Crafts',
+    chest: 'Standalone Tools',
     sections: {
       zh: 'Chinese Tools',
       fe: 'Front-end Tools',
@@ -18,15 +21,16 @@ export default {
   home: {
     heroTitle: 'CraftChest',
     heroSub:
-      'Fully client-side toolbox: every computation runs in your browser — no backend, no external APIs, data stays local.',
-    searchPlaceholder: 'Search tools… (title / description / keywords)',
+      'Crafts turn inputs into ready-to-use outputs. Chest holds standalone tools that Crafts can reuse. Everything runs locally in your browser.',
+    badge: 'CRAFT RECIPES · CHEST TOOLS',
+    searchPlaceholder: 'Search Crafts and tools… (title / description / keywords)',
     resultsTitle: 'Search results',
-    noResults: 'No matching tools — try another keyword?',
-    toolCount: '{count} tools',
+    noResults: 'No matching Craft or tools — try another keyword?',
+    itemCount: '{count} items',
   },
   command: {
-    title: 'Quick open tools',
-    description: 'Search every tool and navigate',
+    title: 'Quick open Crafts and tools',
+    description: 'Search all Crafts and standalone tools',
     shortcut: 'Quick open',
     placeholder: 'Search titles, descriptions, or keywords…',
     empty: 'No matching tools',

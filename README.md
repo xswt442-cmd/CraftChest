@@ -2,15 +2,15 @@
 
 简体中文 | [English](./README.en.md)
 
-纯前端在线工具箱，双分区：
+CraftChest 由成品工坊 Craft 与单项工具库存 Chest 组成。Craft 把输入材料加工成可直接使用的成果；Chest 中的工具可以单独使用，也能作为 Craft 的底层能力。
 
-- **zh · 中文文本工具**：拼音与 Ruby 导出、简繁差异编辑、农历公历互查、人民币大写、中文排版规范化、中文字数统计
-- **fe · 前端小工具**：渐变生成器、Flex/Grid 调试板、缓动曲线、对比度检查
+- **Craft · 成品工坊**：目前提供应用图标工坊与 Web 视觉配方，组合颜色、对比度和渐变并导出可直接使用的文件。
+- **Chest · 单项工具**：中文工具（zh）与前端工具（fe），可独立打开并复用其纯函数能力。
 
 ## 特性
 
 - 所有计算在浏览器内完成，无后端服务，无外部 API 调用
-- 用户正文不持久化、不上传；主题、语言、最近使用和显式分享选项仅保存在浏览器或 URL hash
+- 输入文件与正文只在当前浏览器会话中处理，不上传、不写入分享链接；仅显式选择的非敏感选项可以通过版本化 URL hash 分享
 - 中英双语界面，默认中文
 - 支持 PWA 安装，离线可用
 
@@ -18,7 +18,7 @@
 
 Vue 3 `<script setup>` + TypeScript · Vite · Tailwind CSS v4 · Pinia · vue-router · reka-ui · vue-i18n · vite-plugin-pwa · vitest
 
-pnpm monorepo：`apps/toolbox` + `packages/{toolkit-core, craft-core, tools-zh, tools-fe, ui, config}`。`craft-core` 提供不依赖 Vue/路由的最小 Craft 契约；分享 hash 仅包含版本化配方与显式的非敏感选项，材料和产物只驻留内存。
+pnpm monorepo：`apps/toolbox` + `packages/{toolkit-core, craft-core, crafts-app-icon, crafts-web-visual, tools-zh, tools-fe, ui, config}`。`craft-core` 提供不依赖 Vue/路由的最小 Craft 契约；分享 hash 仅包含版本化配方与显式的非敏感选项，材料和产物只驻留内存。两个 Craft 均在浏览器本地运行，不增加第三方运行时依赖。
 
 ## 开发
 
@@ -34,9 +34,9 @@ pnpm qa           # 构建产物的 QA 矩阵（需先 pnpm build）
 
 ## 部署
 
-仓库部署目标已切换为 Cloudflare Workers Static Assets；`wrangler.jsonc` 仅声明 assets，
-不包含 Worker 脚本。SPA 未命中的路径会回退到 `index.html`；线上切换仍需完成下述 Git 集成
-与独立域名发布步骤。
+仓库使用 Cloudflare Workers Static Assets；`wrangler.jsonc` 声明构建产物目录和 SPA 回退，
+不包含 Worker 脚本。当前 Worker `craftchest` 已绑定 `craftchest.xswt.fyi`，最近一次部署为手动发布。
+GitHub Actions 只做代码检查、类型检查、单元测试和构建，不会部署 Worker；Workers Builds 的 Git 自动部署仍需单独配置。
 
 开发与部署使用 Node `>=22.12`；Node 20 已结束官方维护，且当前 Wrangler / workerd
 工具链已要求 Node 22。
@@ -48,18 +48,17 @@ pnpm workers:dev
 pnpm workers:dry-run
 ```
 
-Cloudflare Workers Builds 的 Git 集成建议配置为：
+配置 Workers Builds 时建议使用：
 
 - Production branch：`main`
 - Build command：`pnpm build`
 - Deploy command：`pnpm exec wrangler deploy`
-- Root directory：仓库根目录
+- Root directory：`/`（仓库根目录）
 
-非生产分支由 Workers Builds 生成预览部署。正式域名切换保持为独立发布步骤：先确认
-Workers 预览 URL、SPA 深链与 PWA 更新均正常，再把现有自定义域名从 Pages 切到 Worker。
+Preview command 使用 `pnpm exec wrangler preview`；启用 Worker Previews 前需将 Wrangler
+升级至 `4.135.0` 或更高版本。正式环境继续使用 `pnpm exec wrangler deploy`。
 
-正式环境请设置 `CRAFTCHEST_SITE_URL` 为站点根 URL，用于生成 `sitemap.xml`；迁移期间仍保留
-`CF_PAGES_URL` 作为 Pages 兼容回退。
+正式环境请设置 `CRAFTCHEST_SITE_URL=https://craftchest.xswt.fyi`，用于生成 `sitemap.xml`。
 
 ## License
 

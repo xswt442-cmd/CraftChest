@@ -1,6 +1,6 @@
 # CraftChest 本地 QA Matrix
 
-零额外依赖，用一个同源页面同时加载首页和全部工具页，自动检查：
+零额外依赖，用一个同源页面同时加载首页、全部 Craft 与 Chest 工具页，自动检查：
 
 - SPA 路由可访问；
 - 页面 title 与 h1 存在；
@@ -18,4 +18,4 @@ pnpm qa # 即 node tests/qa/server.mjs
 
 这个矩阵负责高频 smoke/responsive 检查；涉及剪贴板、离线 Service Worker、键盘焦点顺序或具体表单结果时，仍需针对对应功能做浏览器交互验收。
 
-> 维护约定：新增工具后，同步在 `harness.html` 的 `routes` 列表补一行。
+> 维护约定：新增 Craft 或 Chest 工具后，同步在 `harness.html` 的 `routes` 列表补一行。

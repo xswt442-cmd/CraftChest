@@ -1,7 +1,7 @@
 /**
  * 人民币大写转换 —— 纯函数逻辑层。
  *
- * 约束（SPEC §5）：合同级严谨；全程字符串运算，不经 float；
+ * 全程使用字符串运算，不经浮点数，避免金额转换产生精度误差；
  * 框架无关、无副作用、可独立单测。
  */
 
@@ -20,11 +20,7 @@ export class RmbFormatError extends Error {
   readonly code: RmbErrorCode
 
   constructor(code: RmbErrorCode) {
-    super(
-      code === 'format'
-        ? '无法识别的金额格式'
-        : `整数部分超出 ${MAX_INTEGER_DIGITS} 位上限`,
-    )
+    super(code === 'format' ? '无法识别的金额格式' : `整数部分超出 ${MAX_INTEGER_DIGITS} 位上限`)
     this.name = 'RmbFormatError'
     this.code = code
   }

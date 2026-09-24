@@ -21,6 +21,8 @@ describe('Craft lifecycle', () => {
     ['partial-success', 'completed'],
     ['completed', 'idle'],
     ['failed', 'input-invalid'],
+    ['completed', 'preview-ready'],
+    ['failed', 'preview-ready'],
   ] satisfies readonly [CraftStatus, CraftStatus][])('allows %s -> %s', (from, to) => {
     expect(canTransitionCraftStatus(from, to)).toBe(true)
   })

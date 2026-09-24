@@ -5,6 +5,8 @@
 @source '../../../../packages/ui/src';
 @source '../../../../packages/tools-zh/src';
 @source '../../../../packages/tools-fe/src';
+@source '../../../../packages/crafts-app-icon/src';
+@source '../../../../packages/crafts-web-visual/src';
 
 /* 主题由根元素的 data-theme 控制，避免系统主题和用户选择互相覆盖。 */
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));

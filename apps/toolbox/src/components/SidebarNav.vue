@@ -5,6 +5,7 @@ import AppIcon from './AppIcon.vue'
 import LocaleToggle from './LocaleToggle.vue'
 import ThemeToggle from './ThemeToggle.vue'
 import { sections } from '../registry'
+import { allCrafts } from '../craft-registry'
 
 // 移动端抽屉开关；桌面端常驻（md: 起静态布局）
 const open = defineModel<boolean>('open', { default: false })
@@ -96,35 +97,66 @@ const groups = [
         {{ t('nav.home') }}
       </RouterLink>
 
-      <div v-for="group in groups" :key="group.section">
+      <div>
         <p
           class="flex items-center gap-2 px-3 pb-1.5 text-[10px] font-semibold tracking-[0.14em] text-muted-foreground uppercase"
         >
-          <span
-            class="size-1.5 rounded-full"
-            :class="group.section === 'zh' ? 'bg-section-zh' : 'bg-section-fe'"
-          />
-          <span>{{ group.section.toUpperCase() }}</span>
-          <span class="tracking-normal">·</span>
-          {{ t(`nav.sections.${group.section}`) }}
+          <span class="size-1.5 rounded-full bg-primary" /><span>Craft</span
+          ><span class="tracking-normal">·</span>{{ t('nav.crafts') }}
         </p>
         <ul>
-          <li v-for="tool in sections[group.section]" :key="tool.id">
+          <li v-for="craft in allCrafts" :key="craft.meta.id">
             <RouterLink
-              :to="`/${tool.section}/${tool.id}`"
+              :to="`/craft/${craft.meta.id}`"
               class="flex min-h-9 items-center gap-2.5 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-surface-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [&.router-link-active]:bg-surface-muted [&.router-link-active]:font-medium [&.router-link-active]:text-foreground"
+              ><AppIcon :name="craft.icon" class="size-4 shrink-0 opacity-70" /><span
+                class="truncate"
+                >{{ craft.meta.title[lang] }}</span
+              ></RouterLink
             >
-              <AppIcon :name="tool.icon" class="size-4 shrink-0 opacity-70" />
-              <span class="truncate">{{ tool.title[lang] }}</span>
-            </RouterLink>
-          </li>
-          <li
-            v-if="sections[group.section].length === 0"
-            class="px-3 py-1.5 text-xs text-muted-foreground/45"
-          >
-            ···
           </li>
         </ul>
+      </div>
+
+      <div>
+        <p
+          class="flex items-center gap-2 px-3 pb-1.5 text-[10px] font-semibold tracking-[0.14em] text-muted-foreground uppercase"
+        >
+          <span class="size-1.5 rounded-full bg-surface-muted" />
+          <span>Chest</span>
+          <span class="tracking-normal">·</span>
+          {{ t('nav.chest') }}
+        </p>
+        <div v-for="group in groups" :key="group.section" class="mb-3">
+          <p
+            class="flex items-center gap-2 px-3 pb-1.5 text-[9px] font-semibold tracking-[0.12em] text-muted-foreground uppercase"
+          >
+            <span
+              class="size-1.5 rounded-full"
+              :class="group.section === 'zh' ? 'bg-section-zh' : 'bg-section-fe'"
+            />
+            <span>{{ group.section.toUpperCase() }}</span>
+            <span class="tracking-normal">·</span>
+            {{ t(`nav.sections.${group.section}`) }}
+          </p>
+          <ul>
+            <li v-for="tool in sections[group.section]" :key="tool.id">
+              <RouterLink
+                :to="`/${tool.section}/${tool.id}`"
+                class="flex min-h-9 items-center gap-2.5 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-surface-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [&.router-link-active]:bg-surface-muted [&.router-link-active]:font-medium [&.router-link-active]:text-foreground"
+              >
+                <AppIcon :name="tool.icon" class="size-4 shrink-0 opacity-70" />
+                <span class="truncate">{{ tool.title[lang] }}</span>
+              </RouterLink>
+            </li>
+            <li
+              v-if="sections[group.section].length === 0"
+              class="px-3 py-1.5 text-xs text-muted-foreground/45"
+            >
+              ···
+            </li>
+          </ul>
+        </div>
       </div>
     </nav>
 

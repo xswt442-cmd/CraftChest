@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { UiButton, UiCard, UiTextarea } from '@craftchest/ui'
 import { countChars } from './service'
 
-// 视图层只做交互编排；算法在 service.ts（SPEC §4）
+// 视图层负责交互编排；计数规则位于 service.ts。
 const { t } = useI18n({
   inheritLocale: true,
   messages: {

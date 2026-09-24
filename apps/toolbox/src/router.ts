@@ -3,8 +3,8 @@ import type { RouteLocationNormalized } from 'vue-router'
 import { hasHashState, type ToolSection } from '@craftchest/toolkit-core'
 
 /**
- * 路由表由注册表派生：/zh/:id 与 /fe/:id 两条动态路由承载全部工具页，
- * 工具组件经 defineAsyncComponent 二次懒加载，保持路由级代码分割（SPEC §4）。
+ * /zh/:id 与 /fe/:id 承载 Chest 工具页，/craft/:id 承载成品配方页。
+ * 工具与 Craft 组件按路由懒加载，保持代码分割。
  */
 export const router = createRouter({
   history: createWebHistory(),
@@ -31,6 +31,12 @@ export const router = createRouter({
         section: 'fe' as ToolSection,
         id: String(route.params.id),
       }),
+    },
+    {
+      path: '/craft/:id',
+      name: 'craft',
+      component: () => import('./views/CraftView.vue'),
+      props: (route: RouteLocationNormalized) => ({ id: String(route.params.id) }),
     },
     {
       path: '/:pathMatch(.*)*',

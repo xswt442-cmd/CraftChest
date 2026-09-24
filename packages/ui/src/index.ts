@@ -1,6 +1,6 @@
 /**
  * 共享 UI 组件：reka-ui（headless）二次封装。
- * 封装层即练习目标（SPEC §2）——样式归这里，行为归 reka-ui，业务归工具包。
+ * 样式归本包，基础行为由 reka-ui 提供，具体业务留在对应工具或 Craft 包。
  */
 export { default as UiButton } from './components/UiButton.vue'
 export { default as UiCard } from './components/UiCard.vue'

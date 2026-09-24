@@ -5,6 +5,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { UiCmdPalette, type CmdPaletteGroup, type CmdPaletteItem } from '@craftchest/ui'
 import AppIcon from './AppIcon.vue'
 import { allTools } from '../registry'
+import { allCrafts } from '../craft-registry'
 import { loadRecentToolIds, recordRecentToolId } from '../recent-tools'
 
 const open = defineModel<boolean>('open', { default: false })
@@ -34,6 +35,25 @@ function toItem(tool: (typeof allTools)[number]): CmdPaletteItem {
   }
 }
 
+function craftValue(craft: (typeof allCrafts)[number]): string {
+  return `craft/${craft.meta.id}`
+}
+function toCraftItem(craft: (typeof allCrafts)[number]): CmdPaletteItem {
+  return {
+    value: craftValue(craft),
+    label: craft.meta.title[lang.value],
+    description: craft.meta.description[lang.value],
+    icon: craft.icon,
+    searchText: [
+      craft.meta.title.zh,
+      craft.meta.title.en,
+      craft.meta.description.zh,
+      craft.meta.description.en,
+      ...craft.keywords,
+    ].join(' '),
+  }
+}
+
 const groups = computed<CmdPaletteGroup[]>(() => {
   const recent = recentIds.value.flatMap((id) => {
     const tool = allTools.find((candidate) => toolValue(candidate) === id)
@@ -42,6 +62,11 @@ const groups = computed<CmdPaletteGroup[]>(() => {
   const recentSet = new Set(recent.map((item) => item.value))
   const result: CmdPaletteGroup[] = []
   if (recent.length > 0) result.push({ id: 'recent', label: t('command.recent'), items: recent })
+  result.push({
+    id: 'craft',
+    label: t('nav.crafts'),
+    items: allCrafts.filter((craft) => !recentSet.has(craftValue(craft))).map(toCraftItem),
+  })
   for (const section of ['zh', 'fe'] as const) {
     result.push({
       id: section,
@@ -62,6 +87,13 @@ watch(
       const value = `${section}/${id}`
       if (allTools.some((tool) => toolValue(tool) === value))
         recentIds.value = recordRecentToolId(value)
+    }
+    if (
+      name === 'craft' &&
+      typeof id === 'string' &&
+      allCrafts.some((craft) => craft.meta.id === id)
+    ) {
+      recentIds.value = recordRecentToolId(`craft/${id}`)
     }
   },
   { immediate: true },

@@ -7,7 +7,7 @@ import { isPinyinShareState } from './share-state'
 import type { PinyinFormat } from './service'
 import { toPinyin, toRubyHtml, toRubySegments } from './service'
 
-// 视图层只做交互编排；算法在 service.ts（SPEC §4）
+// 视图层负责交互编排；拼音转换位于 service.ts。
 const { t } = useI18n({
   inheritLocale: true,
   messages: {

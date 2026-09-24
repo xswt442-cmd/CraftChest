@@ -1,5 +1,6 @@
 import type { Locale } from './i18n'
 import { findTool } from './registry'
+import { findCraft } from './craft-registry'
 
 const SITE_NAME = 'CraftChest'
 
@@ -46,6 +47,15 @@ export function resolveDocumentMetadata(
         ...languageMeta,
       }
     }
+  }
+  if (routeName === 'craft' && typeof toolId === 'string') {
+    const craft = findCraft(toolId)
+    if (craft)
+      return {
+        title: `${craft.meta.title[languageKey]} · ${SITE_NAME}`,
+        description: craft.meta.description[languageKey],
+        ...languageMeta,
+      }
   }
 
   return {

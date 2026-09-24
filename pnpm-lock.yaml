@@ -47,6 +47,15 @@ importers:
 
   apps/toolbox:
     dependencies:
+      '@craftchest/craft-core':
+        specifier: workspace:*
+        version: link:../../packages/craft-core
+      '@craftchest/crafts-app-icon':
+        specifier: workspace:*
+        version: link:../../packages/crafts-app-icon
+      '@craftchest/crafts-web-visual':
+        specifier: workspace:*
+        version: link:../../packages/crafts-web-visual
       '@craftchest/toolkit-core':
         specifier: workspace:*
         version: link:../../packages/toolkit-core
@@ -123,6 +132,65 @@ importers:
       typescript:
         specifier: ~5.8
         version: 5.8.3
+
+  packages/crafts-app-icon:
+    dependencies:
+      '@craftchest/craft-core':
+        specifier: workspace:*
+        version: link:../craft-core
+      '@craftchest/toolkit-core':
+        specifier: workspace:*
+        version: link:../toolkit-core
+      '@craftchest/ui':
+        specifier: workspace:*
+        version: link:../ui
+    devDependencies:
+      '@craftchest/config':
+        specifier: workspace:*
+        version: link:../config
+      typescript:
+        specifier: ~5.8
+        version: 5.8.3
+      vue:
+        specifier: ^3.5
+        version: 3.5.41(typescript@5.8.3)
+      vue-i18n:
+        specifier: ^11
+        version: 11.4.8(vue@3.5.41(typescript@5.8.3))
+      vue-tsc:
+        specifier: ^3
+        version: 3.3.11(typescript@5.8.3)
+
+  packages/crafts-web-visual:
+    dependencies:
+      '@craftchest/craft-core':
+        specifier: workspace:*
+        version: link:../craft-core
+      '@craftchest/toolkit-core':
+        specifier: workspace:*
+        version: link:../toolkit-core
+      '@craftchest/tools-fe':
+        specifier: workspace:*
+        version: link:../tools-fe
+      '@craftchest/ui':
+        specifier: workspace:*
+        version: link:../ui
+    devDependencies:
+      '@craftchest/config':
+        specifier: workspace:*
+        version: link:../config
+      typescript:
+        specifier: ~5.8
+        version: 5.8.3
+      vue:
+        specifier: ^3.5
+        version: 3.5.41(typescript@5.8.3)
+      vue-i18n:
+        specifier: ^11
+        version: 11.4.8(vue@3.5.41(typescript@5.8.3))
+      vue-tsc:
+        specifier: ^3
+        version: 3.3.11(typescript@5.8.3)
 
   packages/toolkit-core:
     dependencies:
