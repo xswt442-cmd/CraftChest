@@ -1,0 +1,67 @@
+name: Deployment
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy Worker
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    concurrency:
+      group: worker-deploy-main
+      cancel-in-progress: false
+
+    steps:
+      - name: Checkout deployment commit
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+        with:
+          version: 11.13.0
+          cache: true
+          run_install: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build production assets
+        run: pnpm build
+        env:
+          CRAFTCHEST_SITE_URL: https://craftchest.xswt.fyi
+
+      - name: Check Cloudflare credentials
+        id: cloudflare
+        shell: bash
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_TOKEN }}
+        run: |
+          if [[ -z "$CLOUDFLARE_ACCOUNT_ID" || -z "$CLOUDFLARE_API_TOKEN" ]]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Worker deployment skipped. Configure the CF_ACCOUNT_ID and CF_TOKEN repository secrets to enable it."
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Deploy to Cloudflare Workers
+        if: steps.cloudflare.outputs.configured == 'true'
+        uses: cloudflare/wrangler-action@25853364521e0d392ece9b0c1e97a4b37b638087 # v4
+        with:
+          apiToken: ${{ secrets.CF_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          wranglerVersion: 4.125.0
+
+      - name: Explain skipped deployment
+        if: steps.cloudflare.outputs.configured != 'true'
+        run: echo "Deployment skipped because CF_ACCOUNT_ID and CF_TOKEN repository secrets are not configured."
