@@ -11,8 +11,8 @@ const inputId = useId()
 </script>
 
 <template>
-  <div class="flex flex-col gap-1.5">
-    <Label v-if="label" :for="inputId" class="text-sm font-semibold text-foreground">
+  <div class="flex flex-col gap-2">
+    <Label v-if="label" :for="inputId" class="text-sm font-medium text-foreground">
       {{ label }}
     </Label>
     <input
@@ -20,7 +20,7 @@ const inputId = useId()
       v-model="model"
       type="text"
       :placeholder="placeholder"
-      class="min-h-11 w-full rounded-md border border-workshop-border bg-surface-raised px-3.5 py-2 text-base text-foreground shadow-sm placeholder:text-muted-foreground/65 focus:border-ring focus:ring-2 focus:ring-ring/20 focus:outline-none"
+      class="min-h-11 w-full rounded-lg border border-workshop-border bg-surface-raised px-3.5 py-2 text-base text-foreground shadow-sm transition-[border-color,box-shadow] placeholder:text-muted-foreground/65 focus:border-ring focus:ring-4 focus:ring-ring/15 focus:outline-none"
     />
   </div>
 </template>

@@ -12,7 +12,7 @@ const props = defineProps<{
   id: string
 }>()
 
-const { locale } = useI18n()
+const { locale, t } = useI18n()
 const lang = computed(() => (locale.value === 'en' ? 'en' : 'zh') as 'zh' | 'en')
 
 const tool = computed(() => findTool(props.section, props.id))
@@ -35,30 +35,38 @@ const asyncTool = computed(() =>
 
 <template>
   <NotFoundView v-if="tool === undefined" />
-  <div v-else class="flex flex-col gap-7">
-    <header class="relative flex items-start gap-4 border-b border-workshop-border pb-5">
-      <span
-        class="mt-0.5 flex size-11 shrink-0 items-center justify-center rounded-lg"
-        :class="
-          section === 'zh'
-            ? 'bg-section-zh-soft text-section-zh'
-            : 'bg-section-fe-soft text-section-fe'
-        "
-      >
-        <AppIcon :name="tool.icon" class="size-5" />
-      </span>
-      <div class="min-w-0">
+  <div v-else class="flex flex-col gap-8">
+    <header
+      class="relative flex flex-col gap-5 border-b border-workshop-border/80 pb-6 sm:flex-row sm:items-end sm:justify-between"
+    >
+      <div class="flex items-start gap-4">
         <span
-          class="block text-[10px] font-bold tracking-[0.16em] text-muted-foreground uppercase"
-          >{{ toolCode }}</span
+          class="mt-0.5 flex size-12 shrink-0 items-center justify-center rounded-xl shadow-sm"
+          :class="
+            section === 'zh'
+              ? 'bg-section-zh-soft text-section-zh'
+              : 'bg-section-fe-soft text-section-fe'
+          "
         >
-        <h1 class="mt-0.5 text-2xl font-bold tracking-[-0.02em] text-foreground">
-          {{ tool.title[lang] }}
-        </h1>
-        <p class="mt-1 text-sm leading-relaxed text-muted-foreground">
-          {{ tool.description[lang] }}
-        </p>
+          <AppIcon :name="tool.icon" class="size-6" />
+        </span>
+        <div class="min-w-0">
+          <p class="text-xs font-semibold tracking-wide text-muted-foreground">
+            {{ t(`nav.sections.${section}`) }}
+          </p>
+          <h1 class="mt-1 text-3xl font-bold tracking-[-0.035em] text-foreground md:text-4xl">
+            {{ tool.title[lang] }}
+          </h1>
+          <p class="mt-2 max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
+            {{ tool.description[lang] }}
+          </p>
+        </div>
       </div>
+      <span
+        class="ml-16 inline-flex w-fit shrink-0 rounded-full border border-workshop-border bg-surface/75 px-3 py-1.5 font-mono text-[10px] font-semibold tracking-wide text-muted-foreground sm:ml-0"
+      >
+        {{ toolCode }}
+      </span>
     </header>
 
     <component :is="asyncTool" :key="tool.id" />

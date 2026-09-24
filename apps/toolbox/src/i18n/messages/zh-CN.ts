@@ -5,6 +5,8 @@ export default {
   },
   nav: {
     home: '首页',
+    openMenu: '打开导航菜单',
+    closeMenu: '关闭导航菜单',
     crafts: '成品工坊',
     chest: '单项工具',
     sections: {
@@ -31,6 +33,7 @@ export default {
     title: '快速打开 Craft 与工具',
     description: '搜索全部 Craft 与单项工具',
     shortcut: '快速打开',
+    hint: '也可按 Ctrl K 快速打开工具',
     placeholder: '搜索标题、描述或关键词…',
     empty: '没有匹配的工具',
     recent: '最近使用',

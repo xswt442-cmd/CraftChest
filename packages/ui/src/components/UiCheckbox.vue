@@ -19,7 +19,7 @@ const checkboxId = useId()
       :id="checkboxId"
       v-model="model"
       :disabled="disabled"
-      class="flex size-5 shrink-0 items-center justify-center rounded-sm border border-workshop-border-strong bg-surface-raised text-primary-foreground shadow-sm outline-none data-[state=checked]:border-primary data-[state=checked]:bg-primary focus-visible:ring-2 focus-visible:ring-ring/30 disabled:cursor-not-allowed disabled:opacity-50"
+      class="flex size-5 shrink-0 items-center justify-center rounded-md border border-workshop-border-strong bg-surface-raised text-primary-foreground shadow-sm outline-none transition-colors data-[state=checked]:border-primary data-[state=checked]:bg-primary focus-visible:ring-4 focus-visible:ring-ring/20 disabled:cursor-not-allowed disabled:opacity-50"
     >
       <CheckboxIndicator class="text-sm leading-none" aria-hidden="true">✓</CheckboxIndicator>
     </CheckboxRoot>

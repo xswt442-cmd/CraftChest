@@ -15,6 +15,7 @@ export const PUBLIC_TOOL_ROUTES: readonly PublicToolRoute[] = [
   { section: 'fe', id: 'flex-grid-play' },
   { section: 'fe', id: 'easing-curves' },
   { section: 'fe', id: 'contrast-checker' },
+  { section: 'fe', id: 'regex-playground' },
 ]
 
 export interface PublicCraftRoute {

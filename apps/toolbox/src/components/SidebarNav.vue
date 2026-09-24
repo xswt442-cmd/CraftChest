@@ -44,14 +44,14 @@ const groups = [
   />
 
   <aside
-    class="fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-workshop-border bg-surface/98 transition-transform duration-200 md:translate-x-0"
+    class="fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-workshop-border/80 bg-surface/94 shadow-[0_12px_40px_color-mix(in_oklch,var(--shadow-color),transparent_35%)] backdrop-blur-xl transition-transform duration-200 md:translate-x-0 md:shadow-none"
     :class="open ? 'translate-x-0' : '-translate-x-full'"
     :aria-hidden="!navInteractive"
     :inert="!navInteractive"
   >
-    <div class="flex h-16 items-center gap-3 border-b border-workshop-border px-4">
+    <div class="flex h-[4.25rem] items-center gap-3 border-b border-workshop-border/80 px-4">
       <span
-        class="flex size-9 items-center justify-center rounded-md bg-primary text-primary-foreground shadow-sm"
+        class="flex size-10 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm shadow-primary/20"
         aria-hidden="true"
       >
         <AppIcon name="lucide:package-open" class="size-5" />
@@ -68,7 +68,7 @@ const groups = [
       <button
         type="button"
         class="ml-auto cursor-pointer rounded-md p-2 text-muted-foreground hover:bg-surface-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring md:hidden"
-        :aria-label="t('nav.home')"
+        :aria-label="t('nav.closeMenu')"
         @click="open = false"
       >
         <AppIcon name="lucide:x" class="size-5" />
@@ -78,7 +78,7 @@ const groups = [
     <nav class="flex-1 space-y-5 overflow-y-auto px-3 py-4">
       <button
         type="button"
-        class="flex min-h-10 w-full cursor-pointer items-center gap-2.5 rounded-md border border-workshop-border bg-surface-raised px-3 py-2 text-sm text-muted-foreground shadow-sm transition-colors hover:border-workshop-border-strong hover:bg-primary-soft hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        class="flex min-h-11 w-full cursor-pointer items-center gap-2.5 rounded-lg border border-workshop-border/90 bg-surface-raised px-3.5 py-2 text-sm text-muted-foreground shadow-sm transition-[border-color,background-color,color,box-shadow] hover:border-primary/35 hover:bg-primary-soft/70 hover:text-foreground hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
         @click="emit('command')"
       >
         <AppIcon name="lucide:search" class="size-4" />
@@ -91,7 +91,7 @@ const groups = [
 
       <RouterLink
         to="/"
-        class="flex min-h-10 items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-surface-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [&.router-link-exact-active]:bg-primary-soft [&.router-link-exact-active]:text-foreground"
+        class="flex min-h-10 items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-surface-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [&.router-link-exact-active]:bg-primary-soft [&.router-link-exact-active]:text-primary"
       >
         <AppIcon name="lucide:house" class="size-4" />
         {{ t('nav.home') }}
@@ -99,7 +99,7 @@ const groups = [
 
       <div>
         <p
-          class="flex items-center gap-2 px-3 pb-1.5 text-[10px] font-semibold tracking-[0.14em] text-muted-foreground uppercase"
+          class="flex items-center gap-2 px-3 pb-2 text-[10px] font-semibold tracking-[0.12em] text-muted-foreground uppercase"
         >
           <span class="size-1.5 rounded-full bg-primary" /><span>Craft</span
           ><span class="tracking-normal">·</span>{{ t('nav.crafts') }}
@@ -108,7 +108,7 @@ const groups = [
           <li v-for="craft in allCrafts" :key="craft.meta.id">
             <RouterLink
               :to="`/craft/${craft.meta.id}`"
-              class="flex min-h-9 items-center gap-2.5 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-surface-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [&.router-link-active]:bg-surface-muted [&.router-link-active]:font-medium [&.router-link-active]:text-foreground"
+              class="flex min-h-10 items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-surface-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [&.router-link-active]:bg-primary-soft/75 [&.router-link-active]:font-medium [&.router-link-active]:text-primary"
               ><AppIcon :name="craft.icon" class="size-4 shrink-0 opacity-70" /><span
                 class="truncate"
                 >{{ craft.meta.title[lang] }}</span
@@ -120,7 +120,7 @@ const groups = [
 
       <div>
         <p
-          class="flex items-center gap-2 px-3 pb-1.5 text-[10px] font-semibold tracking-[0.14em] text-muted-foreground uppercase"
+          class="flex items-center gap-2 px-3 pb-2 text-[10px] font-semibold tracking-[0.12em] text-muted-foreground uppercase"
         >
           <span class="size-1.5 rounded-full bg-surface-muted" />
           <span>Chest</span>
@@ -129,7 +129,7 @@ const groups = [
         </p>
         <div v-for="group in groups" :key="group.section" class="mb-3">
           <p
-            class="flex items-center gap-2 px-3 pb-1.5 text-[9px] font-semibold tracking-[0.12em] text-muted-foreground uppercase"
+            class="flex items-center gap-2 px-3 pb-1.5 text-[9px] font-semibold tracking-[0.1em] text-muted-foreground uppercase"
           >
             <span
               class="size-1.5 rounded-full"
@@ -143,7 +143,7 @@ const groups = [
             <li v-for="tool in sections[group.section]" :key="tool.id">
               <RouterLink
                 :to="`/${tool.section}/${tool.id}`"
-                class="flex min-h-9 items-center gap-2.5 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-surface-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [&.router-link-active]:bg-surface-muted [&.router-link-active]:font-medium [&.router-link-active]:text-foreground"
+                class="flex min-h-9 items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-surface-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [&.router-link-active]:bg-primary-soft/75 [&.router-link-active]:font-medium [&.router-link-active]:text-primary"
               >
                 <AppIcon :name="tool.icon" class="size-4 shrink-0 opacity-70" />
                 <span class="truncate">{{ tool.title[lang] }}</span>
@@ -160,7 +160,9 @@ const groups = [
       </div>
     </nav>
 
-    <div class="flex items-center justify-between border-t border-workshop-border px-3 py-3">
+    <div
+      class="flex items-center justify-between border-t border-workshop-border/80 bg-surface/70 px-3 py-3"
+    >
       <div class="flex items-center gap-1">
         <ThemeToggle />
         <LocaleToggle />

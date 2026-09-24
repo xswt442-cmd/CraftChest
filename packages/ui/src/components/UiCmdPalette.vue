@@ -44,10 +44,10 @@ function selectValue(value: unknown): void {
   <DialogRoot v-model:open="open">
     <DialogPortal>
       <DialogOverlay
-        class="fixed inset-0 z-70 bg-black/55 backdrop-blur-[2px] data-[state=open]:animate-in"
+        class="fixed inset-0 z-70 bg-black/40 backdrop-blur-sm data-[state=open]:animate-in"
       />
       <DialogContent
-        class="workshop-shadow fixed top-[12vh] left-1/2 z-80 flex max-h-[76vh] w-[calc(100%-2rem)] max-w-2xl -translate-x-1/2 flex-col overflow-hidden rounded-lg border border-workshop-border bg-surface-raised outline-none"
+        class="workshop-shadow fixed top-[10vh] left-1/2 z-80 flex max-h-[78vh] w-[calc(100%-2rem)] max-w-2xl -translate-x-1/2 flex-col overflow-hidden rounded-2xl border border-workshop-border bg-surface-raised/98 outline-none"
         @open-auto-focus.prevent
       >
         <DialogTitle class="sr-only">{{ title }}</DialogTitle>
@@ -59,27 +59,27 @@ function selectValue(value: unknown): void {
           open-on-focus
           @update:model-value="selectValue"
         >
-          <div class="flex items-center gap-3 border-b border-workshop-border px-4">
-            <span aria-hidden="true" class="text-lg text-muted-foreground">⌕</span>
+          <div class="flex items-center gap-3 border-b border-workshop-border/80 px-5">
+            <span aria-hidden="true" class="text-lg text-primary">⌕</span>
             <ComboboxInput
               :auto-focus="true"
               :placeholder="placeholder"
-              class="h-14 min-w-0 flex-1 bg-transparent text-base text-foreground outline-none placeholder:text-muted-foreground/65"
+              class="h-16 min-w-0 flex-1 bg-transparent text-base text-foreground outline-none placeholder:text-muted-foreground/65"
             />
             <kbd
-              class="rounded border border-workshop-border bg-surface-muted px-1.5 py-0.5 text-[10px] text-muted-foreground"
+              class="rounded-md border border-workshop-border bg-surface-muted px-1.5 py-0.5 text-[10px] text-muted-foreground"
               >Esc</kbd
             >
           </div>
 
           <ComboboxContent force-mount class="min-h-0 flex-1">
-            <ComboboxViewport class="max-h-[56vh] p-2">
+            <ComboboxViewport class="max-h-[58vh] p-2.5">
               <ComboboxEmpty class="px-4 py-12 text-center text-sm text-muted-foreground">{{
                 emptyText
               }}</ComboboxEmpty>
               <ComboboxGroup v-for="group in groups" :key="group.id">
                 <ComboboxLabel
-                  class="px-2 pt-3 pb-1.5 text-[10px] font-bold tracking-[0.14em] text-muted-foreground uppercase"
+                  class="px-2 pt-3 pb-1.5 text-[10px] font-semibold tracking-[0.08em] text-muted-foreground uppercase"
                   >{{ group.label }}</ComboboxLabel
                 >
                 <ComboboxItem
@@ -87,7 +87,7 @@ function selectValue(value: unknown): void {
                   :key="item.value"
                   :value="item.value"
                   :text-value="item.searchText"
-                  class="group flex cursor-default items-center gap-3 rounded-md px-3 py-2.5 text-sm text-foreground outline-none data-[highlighted]:bg-primary-soft data-[highlighted]:text-foreground"
+                  class="group flex cursor-default items-center gap-3 rounded-lg px-3 py-3 text-sm text-foreground outline-none data-[highlighted]:bg-primary-soft/75 data-[highlighted]:text-foreground"
                 >
                   <slot name="item" :item="item">
                     <span class="min-w-0 flex-1">
@@ -111,7 +111,7 @@ function selectValue(value: unknown): void {
         </ComboboxRoot>
 
         <footer
-          class="flex items-center gap-4 border-t border-workshop-border px-4 py-2 text-[11px] text-muted-foreground"
+          class="flex items-center gap-4 border-t border-workshop-border/80 bg-surface-muted/50 px-5 py-2.5 text-[11px] text-muted-foreground"
         >
           <span><kbd>↑↓</kbd> {{ selectHint }}</span>
           <span><kbd>Esc</kbd> {{ closeHint }}</span>

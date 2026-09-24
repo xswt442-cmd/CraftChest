@@ -53,19 +53,19 @@ onBeforeUnmount(() => window.removeEventListener('keydown', handleCommandShortcu
     <div class="flex min-h-dvh flex-col md:pl-64">
       <!-- 移动端顶栏 -->
       <header
-        class="sticky top-0 z-30 flex h-13 items-center gap-3 border-b border-workshop-border bg-surface/92 px-4 backdrop-blur-md md:hidden"
+        class="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-workshop-border/80 bg-surface/90 px-4 backdrop-blur-xl md:hidden"
       >
         <button
           type="button"
-          class="cursor-pointer rounded-md p-2 text-muted-foreground hover:bg-surface-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-          aria-label="Menu"
+          class="cursor-pointer rounded-lg p-2 text-muted-foreground transition-colors hover:bg-surface-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          :aria-label="t('nav.openMenu')"
           @click="navOpen = true"
         >
           <AppIcon name="lucide:menu" class="size-5" />
         </button>
         <span class="flex items-center gap-2 text-base font-semibold tracking-tight">
           <span
-            class="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground"
+            class="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm shadow-primary/20"
           >
             <AppIcon name="lucide:package-open" class="size-4" />
           </span>
@@ -73,7 +73,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', handleCommandShortcu
         </span>
         <button
           type="button"
-          class="ml-auto cursor-pointer rounded-md p-2 text-muted-foreground hover:bg-surface-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          class="ml-auto cursor-pointer rounded-lg p-2 text-muted-foreground transition-colors hover:bg-surface-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           :aria-label="t('command.title')"
           @click="commandOpen = true"
         >
@@ -83,7 +83,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', handleCommandShortcu
         <LocaleToggle />
       </header>
 
-      <main class="mx-auto w-full max-w-6xl flex-1 px-4 py-6 md:px-8 md:py-10 lg:px-10">
+      <main class="mx-auto w-full max-w-7xl flex-1 px-4 py-6 md:px-8 md:py-9 lg:px-10 lg:py-11">
         <RouterView />
       </main>
       <footer

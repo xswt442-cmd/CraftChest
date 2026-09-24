@@ -16,6 +16,7 @@ describe('static SEO assets', () => {
     const sitemap = buildSitemap(siteUrl!, PUBLIC_TOOL_ROUTES)
     expect(sitemap).toContain('<loc>https://tools.example.com/</loc>')
     expect(sitemap).toContain('<loc>https://tools.example.com/fe/gradient-gen</loc>')
+    expect(sitemap).toContain('<loc>https://tools.example.com/fe/regex-playground</loc>')
     expect(sitemap).toContain('<loc>https://tools.example.com/craft/web-visual</loc>')
     expect(sitemap.match(/<url>/g)).toHaveLength(allTools.length + allCrafts.length + 1)
   })

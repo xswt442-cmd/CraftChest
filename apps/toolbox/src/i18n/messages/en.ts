@@ -6,6 +6,8 @@ export default {
   },
   nav: {
     home: 'Home',
+    openMenu: 'Open navigation menu',
+    closeMenu: 'Close navigation menu',
     crafts: 'Crafts',
     chest: 'Standalone Tools',
     sections: {
@@ -32,6 +34,7 @@ export default {
     title: 'Quick open Crafts and tools',
     description: 'Search all Crafts and standalone tools',
     shortcut: 'Quick open',
+    hint: 'Press Ctrl K to open any tool',
     placeholder: 'Search titles, descriptions, or keywords…',
     empty: 'No matching tools',
     recent: 'Recently used',

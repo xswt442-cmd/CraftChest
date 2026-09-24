@@ -1,6 +1,6 @@
 <template>
   <div
-    class="animate-pulse space-y-3 rounded-lg border border-workshop-border bg-surface-raised p-6"
+    class="animate-pulse space-y-4 rounded-xl border border-workshop-border bg-surface-raised/90 p-6 shadow-sm"
     aria-hidden="true"
   >
     <div class="h-4 w-1/3 rounded bg-surface-muted" />
