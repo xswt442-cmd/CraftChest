@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { writeClipboardText } from '@craftchest/toolkit-core'
 import { UiButton, UiCard, UiTextField } from '@craftchest/ui'
 import { RmbFormatError, toRmbUppercase } from './service'
 
@@ -55,12 +56,7 @@ let copyTimer: ReturnType<typeof setTimeout> | undefined
 
 async function copyResult(): Promise<void> {
   if (!result.value?.ok) return
-  try {
-    await navigator.clipboard.writeText(result.value.text)
-    copyState.value = 'copied'
-  } catch {
-    copyState.value = 'failed'
-  }
+  copyState.value = (await writeClipboardText(result.value.text)) ? 'copied' : 'failed'
   clearTimeout(copyTimer)
   copyTimer = setTimeout(() => (copyState.value = 'idle'), 1500)
 }

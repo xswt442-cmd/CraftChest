@@ -14,9 +14,9 @@
     "check": "vue-tsc --noEmit"
   },
   "dependencies": {
+    "@craftchest/color-core": "workspace:*",
     "@craftchest/craft-core": "workspace:*",
     "@craftchest/toolkit-core": "workspace:*",
-    "@craftchest/tools-fe": "workspace:*",
     "@craftchest/ui": "workspace:*"
   },
   "peerDependencies": {

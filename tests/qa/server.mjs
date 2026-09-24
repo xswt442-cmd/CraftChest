@@ -9,6 +9,9 @@ const here = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(here, '../..')
 const dist = path.join(root, 'apps/toolbox/dist')
 const harness = path.join(here, 'harness.html')
+const routeCatalog = JSON.parse(
+  await readFile(path.join(root, 'apps/toolbox/route-catalog.json'), 'utf8'),
+)
 const port = Number(process.env.CRAFTCHEST_QA_PORT || 4174)
 
 const mime = new Map([
@@ -43,6 +46,20 @@ const server = createServer(async (request, response) => {
   if (url.pathname === '/__qa' || url.pathname === '/__qa/') {
     response.setHeader('content-type', 'text/html; charset=utf-8')
     response.end(await readFile(harness))
+    return
+  }
+  if (url.pathname === '/__qa/routes.json') {
+    const routes = [
+      { label: '首页', path: '/' },
+      ...routeCatalog.crafts.map(({ id, label }) => ({ label, path: `/craft/${id}` })),
+      ...routeCatalog.tools.map(({ section, id, label }) => ({
+        label,
+        path: `/${section}/${id}`,
+      })),
+    ]
+    response.setHeader('content-type', 'application/json; charset=utf-8')
+    response.setHeader('cache-control', 'no-store')
+    response.end(JSON.stringify(routes))
     return
   }
 

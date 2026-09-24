@@ -17,7 +17,6 @@
     "@craftchest/tools-fe": "workspace:*",
     "@craftchest/tools-zh": "workspace:*",
     "@craftchest/ui": "workspace:*",
-    "pinia": "^3",
     "vue": "^3.5",
     "vue-i18n": "^11",
     "vue-router": "^4.5",

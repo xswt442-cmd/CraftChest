@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { writeClipboardText } from '@craftchest/toolkit-core'
 import { UiButton, UiCard, UiTextarea } from '@craftchest/ui'
 import { countChars } from './service'
 
@@ -70,12 +71,7 @@ const copyState = ref<'idle' | 'copied' | 'failed'>('idle')
 let copyTimer: ReturnType<typeof setTimeout> | undefined
 
 async function copySummary(): Promise<void> {
-  try {
-    await navigator.clipboard.writeText(summary.value)
-    copyState.value = 'copied'
-  } catch {
-    copyState.value = 'failed'
-  }
+  copyState.value = (await writeClipboardText(summary.value)) ? 'copied' : 'failed'
   clearTimeout(copyTimer)
   copyTimer = setTimeout(() => (copyState.value = 'idle'), 1500)
 }

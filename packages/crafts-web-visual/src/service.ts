@@ -2,8 +2,8 @@ import {
   normalizeHex,
   rateContrast,
   suggestColor,
-} from '@craftchest/tools-fe/contrast-checker/service'
-import { buildGradient, type GradientKind } from '@craftchest/tools-fe/gradient-gen/service'
+} from '@craftchest/color-core/contrast'
+import { buildGradient, type GradientKind } from '@craftchest/color-core/gradient'
 
 export const COLOR_SHADES = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950] as const
 export type ColorShade = (typeof COLOR_SHADES)[number]

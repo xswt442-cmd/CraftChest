@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { writeClipboardText } from '@craftchest/toolkit-core'
 import { UiButton, UiCard, UiTextarea } from '@craftchest/ui'
 import type { OpenccPreset } from './service'
 import { compareChinese, convertChinese } from './service'
@@ -85,12 +86,7 @@ let copyTimer: ReturnType<typeof setTimeout> | undefined
 
 async function copyResult(): Promise<void> {
   if (output.value === '') return
-  try {
-    await navigator.clipboard.writeText(output.value)
-    copyState.value = 'copied'
-  } catch {
-    copyState.value = 'failed'
-  }
+  copyState.value = (await writeClipboardText(output.value)) ? 'copied' : 'failed'
   clearTimeout(copyTimer)
   copyTimer = setTimeout(() => (copyState.value = 'idle'), 1500)
 }

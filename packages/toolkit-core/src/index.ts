@@ -1,6 +1,7 @@
 import type { Component } from 'vue'
 
 export { buildHashStateUrl, decodeHashState, encodeHashState, hasHashState } from './hash-state'
+export { writeClipboardText } from './clipboard'
 export { useHashShareState } from './use-hash-share-state'
 export type { HashShareController, HashShareOptions, HashShareStatus } from './use-hash-share-state'
 

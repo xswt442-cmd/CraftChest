@@ -6,7 +6,7 @@ import {
   rateContrast,
   relativeLuminance,
   suggestColor,
-} from './service'
+} from './contrast'
 
 describe('contrast checker service', () => {
   it('规范化三位与六位 hex', () => {

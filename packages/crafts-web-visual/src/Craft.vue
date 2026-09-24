@@ -2,8 +2,9 @@
 import { computed, onMounted, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { decodeCraftShareHash, encodeCraftShareHash } from '@craftchest/craft-core'
+import { writeClipboardText } from '@craftchest/toolkit-core'
 import { createZip } from '@craftchest/toolkit-core/zip'
-import { normalizeHex } from '@craftchest/tools-fe/contrast-checker/service'
+import { normalizeHex } from '@craftchest/color-core/contrast'
 import { UiButton, UiCard } from '@craftchest/ui'
 import { webVisualCraft } from './meta'
 import { isWebVisualShareOptions, toWebVisualShareOptions } from './share-state'
@@ -194,12 +195,7 @@ async function downloadBundle(): Promise<void> {
 }
 
 async function copyOutput(id: string, content: string): Promise<void> {
-  try {
-    await navigator.clipboard.writeText(content)
-    copiedFile.value = id
-  } catch {
-    copiedFile.value = 'failed'
-  }
+  copiedFile.value = (await writeClipboardText(content)) ? id : 'failed'
   setTimeout(() => (copiedFile.value = ''), 1500)
 }
 
@@ -209,12 +205,7 @@ async function copyShare(): Promise<void> {
   const url = new URL(window.location.href)
   url.hash = hash.slice(1)
   window.history.replaceState(window.history.state, '', url)
-  try {
-    await navigator.clipboard.writeText(url.toString())
-    shareStatus.value = 'copied'
-  } catch {
-    shareStatus.value = 'failed'
-  }
+  shareStatus.value = (await writeClipboardText(url.toString())) ? 'copied' : 'failed'
 }
 
 onMounted(() => {

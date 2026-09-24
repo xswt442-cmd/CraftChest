@@ -1,4 +1,5 @@
 import { onBeforeUnmount, onMounted, ref, type Ref } from 'vue'
+import { writeClipboardText } from './clipboard'
 import { buildHashStateUrl, decodeHashState, hasHashState } from './hash-state'
 
 export type HashShareStatus = 'idle' | 'copied' | 'failed' | 'invalid'
@@ -44,12 +45,7 @@ export function useHashShareState<T>(options: HashShareOptions<T>): HashShareCon
 
     const url = buildHashStateUrl(window.location.href, shared)
     window.history.replaceState(window.history.state, '', url)
-    try {
-      await navigator.clipboard.writeText(url)
-      status.value = 'copied'
-    } catch {
-      status.value = 'failed'
-    }
+    status.value = (await writeClipboardText(url)) ? 'copied' : 'failed'
     clearTimeout(resetTimer)
     resetTimer = setTimeout(() => (status.value = 'idle'), RESET_DELAY_MS)
   }

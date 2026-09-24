@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { writeClipboardText } from '@craftchest/toolkit-core'
 import {
   decodeCraftShareHash,
   encodeCraftShareHash,
@@ -361,12 +362,7 @@ async function copyShare(): Promise<void> {
   const url = new URL(window.location.href)
   url.hash = hash.slice(1)
   window.history.replaceState(window.history.state, '', url)
-  try {
-    await navigator.clipboard.writeText(url.toString())
-    shareStatus.value = 'copied'
-  } catch {
-    shareStatus.value = 'failed'
-  }
+  shareStatus.value = (await writeClipboardText(url.toString())) ? 'copied' : 'failed'
 }
 
 watch(

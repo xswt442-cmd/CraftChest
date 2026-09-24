@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { writeClipboardText } from '@craftchest/toolkit-core'
 import { UiButton, UiCard, UiTextarea } from '@craftchest/ui'
 import {
   REGEX_FLAG_OPTIONS,
@@ -399,12 +400,7 @@ async function copyText(text: string, target: 'pattern' | 'replacement'): Promis
   const timer = target === 'pattern' ? copyTimer : replacementCopyTimer
   if (timer !== undefined) clearTimeout(timer)
 
-  try {
-    await navigator.clipboard.writeText(text)
-    state.value = 'copied'
-  } catch {
-    state.value = 'failed'
-  }
+  state.value = (await writeClipboardText(text)) ? 'copied' : 'failed'
 
   const nextTimer = setTimeout(() => (state.value = 'idle'), 1800)
   if (target === 'pattern') copyTimer = nextTimer

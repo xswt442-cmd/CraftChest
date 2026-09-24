@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useHashShareState } from '@craftchest/toolkit-core'
+import { useHashShareState, writeClipboardText } from '@craftchest/toolkit-core'
 import { UiButton, UiCard, UiSelect, type UiSelectOption } from '@craftchest/ui'
 import { isGradientShareState, toGradientShareState } from './share-state'
 import { buildGradient, toBackgroundDeclaration, type GradientKind } from './service'
@@ -93,12 +93,7 @@ const { status: shareState, copyUrl: shareGradient } = useHashShareState({
 })
 
 async function copyCss(): Promise<void> {
-  try {
-    await navigator.clipboard.writeText(declaration.value)
-    copyState.value = 'copied'
-  } catch {
-    copyState.value = 'failed'
-  }
+  copyState.value = (await writeClipboardText(declaration.value)) ? 'copied' : 'failed'
   setTimeout(() => (copyState.value = 'idle'), 1500)
 }
 </script>

@@ -2,23 +2,42 @@
 
 [简体中文](./README.md) | English
 
-CraftChest has two connected parts: Craft turns inputs into ready-to-use outputs, while Chest holds standalone tools that Crafts can reuse.
+CraftChest has two parts: Craft turns inputs into ready-to-use outputs, while Chest provides standalone tools that Crafts can reuse.
 
-- **Craft · finished outputs**: the App Icon Workshop and Web Visual Recipe turn images and colors into ready-to-use files.
-- **Chest · standalone tools**: Chinese tools (zh) and front-end tools (fe), each usable on its own and reusable through its pure service functions.
+## Craft and Chest
+
+**Craft · finished outputs**
+
+- App Icon Workshop: generate favicons, app icons, a manifest, and a ZIP archive.
+- Web Visual Recipe: generate color ramps, contrast guidance, CSS gradients, and design tokens.
+
+**Chest · standalone tools**
+
+- Chinese tools (zh) and front-end tools (fe), each usable on its own.
+- Pure service functions can be reused by other Crafts.
 
 ## Features
 
-- All computations run in the browser — no backend services, no external API calls
-- Files and user text stay in the current browser session and are never uploaded or placed in share links; only explicitly selected, non-sensitive options can be shared in versioned URL hashes
-- Bilingual UI (Chinese / English), Chinese by default
-- Installable PWA, works offline
+- All computation runs in the browser, with no backend service or external API calls.
+- Input files and text stay in the current browser session; they are never uploaded or added to share links.
+- Share links contain only explicitly selected, non-sensitive options in versioned URL hashes.
+- Bilingual interface with Chinese as the default; installable PWA with offline support.
 
-## Tech Stack
+## Tech stack
 
-Vue 3 `<script setup>` + TypeScript · Vite · Tailwind CSS v4 · Pinia · vue-router · reka-ui · vue-i18n · vite-plugin-pwa · vitest
+- **Frontend:** Vue 3 `<script setup>`, TypeScript, and Vite.
+- **UI:** Tailwind CSS v4, reka-ui, vue-router, and vue-i18n.
+- **Offline support and validation:** vite-plugin-pwa and Vitest.
 
-pnpm monorepo: `apps/toolbox` + `packages/{toolkit-core, craft-core, crafts-app-icon, crafts-web-visual, tools-zh, tools-fe, ui, config}`. `craft-core` supplies a minimal Craft contract with no Vue or router dependency; share hashes contain only a versioned recipe and explicit non-sensitive options, while materials and artifacts remain in memory. Both Crafts run in the browser with no added third-party runtime dependency.
+## Repository structure
+
+- `apps/toolbox`: Vue single-page app, page routes, and global layout.
+- `packages/tools-zh` and `packages/tools-fe`: Chest tools grouped by category.
+- `packages/crafts-app-icon` and `packages/crafts-web-visual`: standalone Craft features.
+- `packages/toolkit-core`, `packages/craft-core`, and `packages/color-core`: tool state, the Craft contract, and shared color algorithms.
+- `packages/ui` and `packages/config`: shared UI components and engineering configuration.
+
+Craft materials and generated artifacts stay in memory. Both Crafts run locally in the browser and add no third-party runtime dependencies.
 
 ## Development
 
@@ -26,17 +45,28 @@ Requires Node.js ≥ 22.12 and pnpm 11.
 
 ```sh
 pnpm install
-pnpm dev          # local dev server
-pnpm build        # production build
-pnpm lint && pnpm check && pnpm test   # lint / type-check / unit tests
-pnpm qa           # QA matrix over the built output (run after pnpm build)
+pnpm dev
+pnpm build
+pnpm lint && pnpm check && pnpm test
 ```
+
+After building, run the local QA matrix to check routes, page headings, and horizontal overflow:
+
+```sh
+pnpm qa
+```
+
+The matrix reads its route list from [`apps/toolbox/route-catalog.json`](./apps/toolbox/route-catalog.json).
 
 ## Deployment
 
-The app is deployed as Cloudflare Workers Static Assets via `wrangler.jsonc`. GitHub Actions deploys
-to `craftchest.xswt.fyi` after CI passes on `main`; configure repository secrets `CF_TOKEN` and
-`CF_ACCOUNT_ID` to enable it.
+The app is deployed as Cloudflare Workers Static Assets. Build output and SPA fallback are configured in [`wrangler.jsonc`](./wrangler.jsonc).
+
+To deploy:
+
+1. Confirm CI passed for the `main` commit you want to deploy.
+2. Manually run the `Deployment` workflow in GitHub Actions and select the `main` branch.
+3. The workflow checks the CI result for that same commit. Deployment requires the `CF_TOKEN` and `CF_ACCOUNT_ID` repository secrets.
 
 ## License
 

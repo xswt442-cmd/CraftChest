@@ -1,6 +1,6 @@
 import { isCraftShareOptions, type CraftShareOptions } from '@craftchest/craft-core'
-import type { GradientKind } from '@craftchest/tools-fe/gradient-gen/service'
-import { normalizeHex } from '@craftchest/tools-fe/contrast-checker/service'
+import type { GradientKind } from '@craftchest/color-core/gradient'
+import { normalizeHex } from '@craftchest/color-core/contrast'
 import type { WebVisualOptions } from './service'
 
 export type WebVisualShareOptions = WebVisualOptions & CraftShareOptions

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { contrastRatio, normalizeHex } from '@craftchest/tools-fe/contrast-checker/service'
-import { buildGradient } from '@craftchest/tools-fe/gradient-gen/service'
+import { contrastRatio, normalizeHex } from '@craftchest/color-core/contrast'
+import { buildGradient } from '@craftchest/color-core/gradient'
 import { COLOR_SHADES, createColorPalette, createWebVisualBundle } from './service'
 
 describe('web visual recipe service', () => {

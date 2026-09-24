@@ -1,0 +1,19 @@
+{
+  "tools": [
+    { "section": "zh", "id": "rmb-uppercase", "label": "人民币大写" },
+    { "section": "zh", "id": "pinyin", "label": "拼音标注" },
+    { "section": "zh", "id": "opencc", "label": "简繁转换" },
+    { "section": "zh", "id": "lunar-calendar", "label": "农历公历互查" },
+    { "section": "zh", "id": "pangu-spacing", "label": "盘古之白" },
+    { "section": "zh", "id": "zh-char-count", "label": "中文字数统计" },
+    { "section": "fe", "id": "gradient-gen", "label": "渐变生成器" },
+    { "section": "fe", "id": "flex-grid-play", "label": "Flex / Grid" },
+    { "section": "fe", "id": "easing-curves", "label": "缓动曲线" },
+    { "section": "fe", "id": "contrast-checker", "label": "对比度检查" },
+    { "section": "fe", "id": "regex-playground", "label": "正则表达式工作台" }
+  ],
+  "crafts": [
+    { "id": "app-icon", "label": "应用图标工坊" },
+    { "id": "web-visual", "label": "Web 视觉配方" }
+  ]
+}

@@ -112,94 +112,87 @@
     </header>
     <main id="matrix"></main>
     <script>
-      const routes = [
-        ['首页', '/'],
-        ['应用图标工坊', '/craft/app-icon'],
-        ['Web 视觉配方', '/craft/web-visual'],
-        ['人民币大写', '/zh/rmb-uppercase'],
-        ['拼音标注', '/zh/pinyin'],
-        ['简繁转换', '/zh/opencc'],
-        ['农历公历互查', '/zh/lunar-calendar'],
-        ['盘古之白', '/zh/pangu-spacing'],
-        ['中文字数统计', '/zh/zh-char-count'],
-        ['渐变生成器', '/fe/gradient-gen'],
-        ['Flex / Grid', '/fe/flex-grid-play'],
-        ['缓动曲线', '/fe/easing-curves'],
-        ['对比度检查', '/fe/contrast-checker'],
-        ['正则表达式工作台', '/fe/regex-playground'],
-      ]
-      const matrix = document.querySelector('#matrix')
-      const summary = document.querySelector('#summary')
-      const theme = document.querySelector('#theme')
-      const savedTheme = localStorage.getItem('craftchest.theme')
-      theme.value = savedTheme === 'dark' ? 'dark' : 'light'
-      localStorage.setItem('craftchest.theme', theme.value)
+      ;(async () => {
+        const routeResponse = await fetch('/__qa/routes.json', { cache: 'no-store' })
+        if (!routeResponse.ok) throw new Error('无法读取 QA 路由清单')
+        const routes = await routeResponse.json()
+        const matrix = document.querySelector('#matrix')
+        const summary = document.querySelector('#summary')
+        const theme = document.querySelector('#theme')
+        const savedTheme = localStorage.getItem('craftchest.theme')
+        theme.value = savedTheme === 'dark' ? 'dark' : 'light'
+        localStorage.setItem('craftchest.theme', theme.value)
 
-      function updateSummary() {
-        const statuses = [...document.querySelectorAll('[data-status]')]
-        const pass = statuses.filter((node) => node.dataset.status === 'pass').length
-        const fail = statuses.filter((node) => node.dataset.status === 'fail').length
-        summary.textContent = `${pass}/${routes.length} PASS · ${fail} FAIL`
-        summary.className = fail ? 'fail' : pass === routes.length ? 'pass' : 'wait'
-      }
-
-      function inspect(frame, status, attempt = 0) {
-        try {
-          const page = frame.contentDocument
-          const heading = page.querySelector('h1')?.textContent?.trim()
-          if (!heading && attempt < 30) {
-            setTimeout(() => inspect(frame, status, attempt + 1), 100)
-            return
-          }
-          const overflow = page.documentElement.scrollWidth > page.documentElement.clientWidth + 1
-          const ok = Boolean(page.title && heading) && !overflow
-          status.dataset.status = ok ? 'pass' : 'fail'
-          status.className = ok ? 'pass' : 'fail'
-          status.textContent = ok
-            ? `PASS · ${heading}`
-            : `FAIL · title=${Boolean(page.title)} h1=${Boolean(heading)} overflow=${overflow}`
-        } catch (error) {
-          status.dataset.status = 'fail'
-          status.className = 'fail'
-          status.textContent = `FAIL · ${error.message}`
+        function updateSummary() {
+          const statuses = [...document.querySelectorAll('[data-status]')]
+          const pass = statuses.filter((node) => node.dataset.status === 'pass').length
+          const fail = statuses.filter((node) => node.dataset.status === 'fail').length
+          summary.textContent = `${pass}/${routes.length} PASS · ${fail} FAIL`
+          summary.className = fail ? 'fail' : pass === routes.length ? 'pass' : 'wait'
         }
-        updateSummary()
-      }
 
-      for (const [label, route] of routes) {
-        const article = document.createElement('article')
-        const bar = document.createElement('div')
-        const title = document.createElement('b')
-        const status = document.createElement('span')
-        const frame = document.createElement('iframe')
-        title.textContent = label
-        status.textContent = 'WAIT'
-        status.className = 'wait'
-        status.dataset.status = 'wait'
-        frame.src = `${route}${route.includes('?') ? '&' : '?'}qa=${Date.now()}`
-        frame.title = `${label} QA`
-        frame.addEventListener('load', () => setTimeout(() => inspect(frame, status), 100))
-        bar.append(title, status)
-        article.append(bar, frame)
-        matrix.append(article)
-      }
+        function inspect(frame, status, attempt = 0) {
+          try {
+            const page = frame.contentDocument
+            const heading = page.querySelector('h1')?.textContent?.trim()
+            if (!heading && attempt < 30) {
+              setTimeout(() => inspect(frame, status, attempt + 1), 100)
+              return
+            }
+            const overflow = page.documentElement.scrollWidth > page.documentElement.clientWidth + 1
+            const ok = Boolean(page.title && heading) && !overflow
+            status.dataset.status = ok ? 'pass' : 'fail'
+            status.className = ok ? 'pass' : 'fail'
+            status.textContent = ok
+              ? `PASS · ${heading}`
+              : `FAIL · title=${Boolean(page.title)} h1=${Boolean(heading)} overflow=${overflow}`
+          } catch (error) {
+            status.dataset.status = 'fail'
+            status.className = 'fail'
+            status.textContent = `FAIL · ${error.message}`
+          }
+          updateSummary()
+        }
 
-      document.querySelector('#width').addEventListener('change', (event) => {
-        document.body.style.setProperty('--frame-width', `${event.target.value}px`)
-        document
-          .querySelectorAll('iframe')
-          .forEach((frame) => frame.dispatchEvent(new Event('load')))
-      })
-      theme.addEventListener('change', (event) => {
-        localStorage.setItem('craftchest.theme', event.target.value)
-        document
-          .querySelectorAll('iframe')
-          .forEach((frame) => frame.contentWindow.location.reload())
-      })
-      document.querySelector('#reload').addEventListener('click', () => {
-        document
-          .querySelectorAll('iframe')
-          .forEach((frame) => frame.contentWindow.location.reload())
+        for (const { label, path: route } of routes) {
+          const article = document.createElement('article')
+          const bar = document.createElement('div')
+          const title = document.createElement('b')
+          const status = document.createElement('span')
+          const frame = document.createElement('iframe')
+          title.textContent = label
+          status.textContent = 'WAIT'
+          status.className = 'wait'
+          status.dataset.status = 'wait'
+          frame.src = `${route}${route.includes('?') ? '&' : '?'}qa=${Date.now()}`
+          frame.title = `${label} QA`
+          frame.addEventListener('load', () => setTimeout(() => inspect(frame, status), 100))
+          bar.append(title, status)
+          article.append(bar, frame)
+          matrix.append(article)
+        }
+
+        document.querySelector('#width').addEventListener('change', (event) => {
+          document.body.style.setProperty('--frame-width', `${event.target.value}px`)
+          document
+            .querySelectorAll('iframe')
+            .forEach((frame) => frame.dispatchEvent(new Event('load')))
+        })
+        theme.addEventListener('change', (event) => {
+          localStorage.setItem('craftchest.theme', event.target.value)
+          document
+            .querySelectorAll('iframe')
+            .forEach((frame) => frame.contentWindow.location.reload())
+        })
+        document.querySelector('#reload').addEventListener('click', () => {
+          document
+            .querySelectorAll('iframe')
+            .forEach((frame) => frame.contentWindow.location.reload())
+        })
+      })().catch((error) => {
+        const summary = document.querySelector('#summary')
+        summary.textContent = error.message
+        summary.className = 'fail'
       })
     </script>
   </body>

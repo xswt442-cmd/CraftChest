@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { buildGradient, toBackgroundDeclaration, type GradientOptions } from './service'
+import { buildGradient, toBackgroundDeclaration, type GradientOptions } from './gradient'
 
 const base: GradientOptions = {
   kind: 'linear',

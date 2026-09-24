@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useHashShareState } from '@craftchest/toolkit-core'
+import { useHashShareState, writeClipboardText } from '@craftchest/toolkit-core'
 import { UiButton, UiCard, UiCheckbox, UiTextarea } from '@craftchest/ui'
 import { isPinyinShareState } from './share-state'
 import type { PinyinFormat } from './service'
@@ -96,12 +96,7 @@ const copyTimers: Partial<Record<CopyTarget, ReturnType<typeof setTimeout>>> = {
 async function copyResult(target: CopyTarget): Promise<void> {
   const value = target === 'text' ? output.value : rubyHtml.value
   if (value === '') return
-  try {
-    await navigator.clipboard.writeText(value)
-    copyState[target] = 'copied'
-  } catch {
-    copyState[target] = 'failed'
-  }
+  copyState[target] = (await writeClipboardText(value)) ? 'copied' : 'failed'
   clearTimeout(copyTimers[target])
   copyTimers[target] = setTimeout(() => (copyState[target] = 'idle'), 1500)
 }

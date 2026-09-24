@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useHashShareState } from '@craftchest/toolkit-core'
+import { useHashShareState, writeClipboardText } from '@craftchest/toolkit-core'
 import { UiButton, UiCard } from '@craftchest/ui'
 import { isEasingShareState, toEasingShareState } from './share-state'
 import { EASING_PRESETS, toCubicBezier, toSvgPath, type BezierCurve } from './service'
@@ -76,7 +76,7 @@ function replay(): void {
 }
 
 async function copyCss(): Promise<void> {
-  await navigator.clipboard.writeText(`transition-timing-function: ${cssValue.value};`)
+  if (!(await writeClipboardText(`transition-timing-function: ${cssValue.value};`))) return
   copied.value = true
   setTimeout(() => (copied.value = false), 1500)
 }

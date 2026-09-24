@@ -1,0 +1,20 @@
+{
+  "name": "@craftchest/color-core",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./contrast": "./src/contrast.ts",
+    "./gradient": "./src/gradient.ts"
+  },
+  "scripts": {
+    "check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@craftchest/config": "workspace:*",
+    "typescript": "~5.8"
+  }
+}

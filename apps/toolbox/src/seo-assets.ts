@@ -1,32 +1,26 @@
+import routeCatalog from '../route-catalog.json' with { type: 'json' }
+
 export interface PublicToolRoute {
   id: string
   section: 'zh' | 'fe'
 }
 
-/** Node 构建配置不能导入含 Vue loader 的运行时注册表；单测负责防止此镜像漂移。 */
-export const PUBLIC_TOOL_ROUTES: readonly PublicToolRoute[] = [
-  { section: 'zh', id: 'rmb-uppercase' },
-  { section: 'zh', id: 'pinyin' },
-  { section: 'zh', id: 'opencc' },
-  { section: 'zh', id: 'lunar-calendar' },
-  { section: 'zh', id: 'pangu-spacing' },
-  { section: 'zh', id: 'zh-char-count' },
-  { section: 'fe', id: 'gradient-gen' },
-  { section: 'fe', id: 'flex-grid-play' },
-  { section: 'fe', id: 'easing-curves' },
-  { section: 'fe', id: 'contrast-checker' },
-  { section: 'fe', id: 'regex-playground' },
-]
+/** Shared by sitemap generation and the local QA matrix; registry parity is checked in tests. */
+export const PUBLIC_TOOL_ROUTES: readonly PublicToolRoute[] = routeCatalog.tools.map(
+  ({ section, id }) => {
+    if (section !== 'zh' && section !== 'fe') {
+      throw new Error(`无效工具路由类别：${section}`)
+    }
+    return { section, id }
+  },
+)
 
 export interface PublicCraftRoute {
   id: string
 }
 
-/** Static mirror of the Craft registry, kept dependency-free for the Vite config. */
-export const PUBLIC_CRAFT_ROUTES: readonly PublicCraftRoute[] = [
-  { id: 'app-icon' },
-  { id: 'web-visual' },
-]
+/** Shared by sitemap generation and the local QA matrix; registry parity is checked in tests. */
+export const PUBLIC_CRAFT_ROUTES: readonly PublicCraftRoute[] = routeCatalog.crafts
 
 export function parseSiteUrl(rawSiteUrl: string | undefined): URL | null {
   if (!rawSiteUrl) return null
