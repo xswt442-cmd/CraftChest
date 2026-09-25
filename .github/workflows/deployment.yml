@@ -11,6 +11,9 @@ jobs:
   deploy:
     name: Deploy Worker
     if: github.ref == 'refs/heads/main'
+    environment:
+      name: production
+      url: https://craftchest.xswt.fyi
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     concurrency:

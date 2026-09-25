@@ -2,6 +2,10 @@
 
 简体中文 | [English](./README.en.md)
 
+[![CI](https://github.com/xswt442-cmd/CraftChest/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/xswt442-cmd/CraftChest/actions/workflows/ci.yml)
+[![Deployment](https://github.com/xswt442-cmd/CraftChest/actions/workflows/deployment.yml/badge.svg?branch=main)](https://github.com/xswt442-cmd/CraftChest/actions/workflows/deployment.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
+
 CraftChest 由两部分组成：Craft 把材料加工成可直接使用的成果，Chest 提供可单独使用、也可被 Craft 复用的工具。
 
 ## Craft 与 Chest

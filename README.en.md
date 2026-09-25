@@ -2,6 +2,10 @@
 
 [简体中文](./README.md) | English
 
+[![CI](https://github.com/xswt442-cmd/CraftChest/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/xswt442-cmd/CraftChest/actions/workflows/ci.yml)
+[![Deployment](https://github.com/xswt442-cmd/CraftChest/actions/workflows/deployment.yml/badge.svg?branch=main)](https://github.com/xswt442-cmd/CraftChest/actions/workflows/deployment.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
+
 CraftChest has two parts: Craft turns inputs into ready-to-use outputs, while Chest provides standalone tools that Crafts can reuse.
 
 ## Craft and Chest
